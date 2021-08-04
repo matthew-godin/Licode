@@ -198,7 +198,9 @@ To run all the migrations and update the database accordingly, to the following:
 python migrations/migrations.py migrate
 ```
 
-For more information about the migrations utility, visit: https://github.com/matthew-godin/migrations
+For more information about the migrations utility, visit:
+
+https://github.com/matthew-godin/migrations
 
 ## Important Notes About Deno
 
