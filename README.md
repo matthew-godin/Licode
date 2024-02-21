@@ -1,4 +1,4 @@
-# licode
+# Licode
 
 **Available on https://matthew-godin.com/licode/**
 
