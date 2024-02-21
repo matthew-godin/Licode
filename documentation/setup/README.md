@@ -1,7 +1,5 @@
 # Setup
 
-The setup assumes you clone the server repository in your home folder ($HOME or ~ on Linux).
-
 ## 1. Database Installation
 
 ```bash
