@@ -411,17 +411,17 @@ router
         if (!context.request.hasBody) {
             context.throw(Status.BadRequest, "Bad Request");
         }
-        const body = context.request.body();
+        const body = context.request.body;
         let helloWorld: Partial<HelloWorld> | undefined;
-        if (body.type === "json") {
-            helloWorld = await body.value;
-        } else if (body.type === "form") {
+        if (body.type() === "json") {
+            helloWorld = await body.json();
+        } else if (body.type() === "form") {
             helloWorld = {};
-            for (const [key, value] of await body.value) {
+            for (const [key, value] of await body.form()) {
                 helloWorld[key as keyof HelloWorld] = value;
             }
-        } else if (body.type === "form-data") {
-            const formData = await body.value.read();
+        } else if (body.type() === "form-data") {
+            const formData = await body.formData();
             helloWorld = formData.fields;
         }
         if (helloWorld) {
@@ -444,10 +444,10 @@ router
             if (!context.request.hasBody) {
                 context.throw(Status.BadRequest, "Bad Request");
             }
-            const body = context.request.body();
+            const body = context.request.body;
             let user: Partial<User> | undefined;
-            if (body.type === "json") {
-                user = await body.value;
+            if (body.type() === "json") {
+                user = await body.json();
             }
             if (user) {
                 context.assert(
@@ -533,10 +533,10 @@ router
             if (!context.request.hasBody) {
                 context.throw(Status.BadRequest, "Bad Request");
             }
-            const body = context.request.body();
+            const body = context.request.body;
             let user: Partial<User> | undefined;
-            if (body.type === "json") {
-                user = await body.value;
+            if (body.type() === "json") {
+                user = await body.json();
             }
             if (user) {
                 context.assert(
@@ -776,10 +776,10 @@ router
                 if (!context.request.hasBody) {
                     context.throw(Status.BadRequest, "Bad Request");
                 }
-                const body = context.request.body();
+                const body = context.request.body;
                 let code: Partial<CodeSubmission> | undefined;
-                if (body.type === "json") {
-                    code = await body.value;
+                if (body.type() === "json") {
+                    code = await body.json();
                 }
                 if (code) {
                     context.assert(typeof code?.value === "string", Status.BadRequest);
