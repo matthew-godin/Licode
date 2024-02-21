@@ -63,7 +63,14 @@ export DENO_INSTALL="/$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 ```
 
-Start the server with the following command.
+Add the following two lines to ~/.profile.
+
+```bash
+export DENO_DIR="$HOME/licode/packages"
+export LICODE_PORT=3000
+```
+
+Start the REST API server with the following command.
 
 ```bash
 sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts
@@ -75,180 +82,62 @@ In production, use the following command.
 sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts -p &
 ```
 
-## Websocket Server Installation
+## 3. Websocket Server Installation
 
 Download the Go archive at https://go.dev/dl/.
 
-This is probably the best resource, you may have to set GOROOT and/or GOPATH if you
-deviate from the install instructions
-
-https://go.dev/doc/install
-
-You also have to install github.com/gorilla/websocket.
-I used go get github.com/gorilla/websocket which is deprecated,
-maybe try go install instead.
-
-
-### Server Installation and Execution
-
-#### Cloning the Repository
-
 ```bash
-git clone git@github.com:matthew-godin/licode.git
+rm -rf /usr/local/go
+tar -C /usr/local -xzf go1.22.0.linux-amd64.tar.gz
+cd goServer
+go install github.com/gorilla/websocket@latest
 ```
 
-#### Building the Front-End Application
+Start the Websocket server with the following command.
 
-Make sure you have Node.js and npm installed as React needs them. This seems to take a long time on the server,
-try building on your machine and copying the build/ directory onto the server.
-
-```bash
-cd licode/react-app
-npm run build
-```
-
-#### Setting the Environment Variables
-
-```bash
-export DENO_DIR="$HOME/licode/packages"
-export LICODE_PORT=3000
-```
-
-Add the above two lines to ~/.profile (Linux) if you want these environment variables to still be there when you reboot your system (recommended).
-
-Packages will be saved in the licode repository by setting DENO_DIR with the above value. The packages are what we import using URLs at the top of our TypeScript files. For now, our server will be accessed from port 3000. The LICODE_PORT environment variable is what holds the port our server can be accessed from.
-
-#### Setting up the Sandbox
-
-```bash
-sudo docker load < py-sandbox.tar
-```
-
-#### Setting Deno to the Right Version
-
-```bash
-deno version --upgrade 1.20.3
-```
-
-#### Running the Server (on development machine)
-
-#### Running the GO Server (on development machine)
-
-(in /goServer)
 ```bash
 go run server.go
 ```
 
-#### Running the Server (on the server)
-```bash
-sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts
-```
-
-If you go to localhost:3000 on a web browser, you should see our React application.
-
-## Useful Things to Know
-
-### How to Reload Packages
-
-All the packages used by our Deno server were saved in the _packages_ folder the first time we ran "deno run ...".
-To reload the packages, run the following.
+In production, use the following command.
 
 ```bash
-sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts
+go run server.go &
 ```
 
-### How to Not Have to Restart the Server Each Time a Change Is Made
-
-#### Installing Denon
+## 4. Code Execution Sandbox Installation
 
 ```bash
-deno install -qAf --unstable https://deno.land/x/denon/denon.ts
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo docker load < py-sandbox.tar
 ```
 
-#### Starting the Server Such That It Doesn’t Have to Be Restarted Each Time a Change Is Made
+## 5. Front-End Application Installation
 
 ```bash
-sudo -E $DENO_INSTALL/bin/denon run --allow-all mod.ts
+sudo apt update
+sudo apt install nodejs
+udo apt install npm
 ```
 
-### How to Quickly Test the Frontend Application Without a Backend
+On development machine, start the front-end application with the following command.
 
 ```bash
-cd licode/react-app
-npm start
+npm run start
 ```
 
-### Using the Docker Sandbox
-
-#### Accessing the Sandbox
+In production, run the following command and copy the contents of **build/** to the appropriate location.
 
 ```bash
-sudo docker run -it py-sandbox
-cd home/TestEnvironment
+npm run build
 ```
-
-#### Saving an Image of the Sandbox
-
-```bash
-sudo docker ps -a
-```
-
-Take note of the most recent Docker instance hash.
-
-```bash
-sudo docker commit <most-recent-hash> py-sandbox
-sudo docker save py-sandbox > py-sandbox.tar
-```
-
-#### Terminating a Sandbox Instance
-
-```bash
-sudo docker ps -a
-```
-
-Take note of the most recent Docker instance hash.
-
-```bash
-sudo docker kill <most-recent-hahs>
-```
-
-## Security
-
-### Password Encryption
-
-As done with other aspects of the application, we opt for state-of-the-art technologies when it comes to password encryption. As seen in **ECE 458: Computer Security**, MD5 is 100% insecure, SHA-1 is now considered breakable, and SHA-2 is what most applications are currently using. There's also SHA-3 which was released in 2015 and hasn't been used by many companies yet. However, it's definitely more secure than SHA-2 and that's why we should use it. More specifically, we should use SHA3-512, which has 256 bits security against collision attacks (considered military grade). SHA-3 is also much more secure than SHA-2 when it comes to length extension attacks. Most websites use scrypt or bcrypt to store their passwords which doesn't hold to the best security standards and isn't even approved by NIST.
-
-#### User Registration
-
-We generate a random salt. We then save: _Hash_(_password_ || _salt_) and _salt_.
-
-#### User Authentication
-
-We perform Hash(_password_ || _salt_) and compare it with the saved hash. If the two hashes match, the user logs in succesfully.
-
-
-## Database Management
-
-### Database Migrations
-
-We use a simple Python script called migrations.py. To add or remove database tables or columns, we create a migration file and run it using migrations.py.
-
-Create a new migration file by running the following.
-
-```bash
-python migrations/migrations.py make <migration-name>
-```
-
-Edit the migration file that just got created (should be printed by the migrations utility).
-
-To run all migration files and update the database accordingly, run the following.
-
-```bash
-sudo apt install libpq-dev python3-dev
-pip install psycopg2
-python migrations/migrations.py migrate
-```
-
-For more information about migrations.py, visit:
-
-https://github.com/matthew-godin/migrations
