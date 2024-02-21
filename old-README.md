@@ -1,11 +1,42 @@
-# Setup
+# Licode
 
-The setup assumes you clone the server repository in your home folder ($HOME or ~ on Linux).
+**Available on https://matthew-godin.com/licode/**
 
-## 1. Database Installation
+**2023 version that works with 2023 technologies (e.g. Postgres 14, Deno 1.38.4, etc.)**
+
+Licode is a confrontational coding platform.
+
+## Technologies
+
+### Back End
+
+The back-end Deno server uses Oak. Deno is a modern and nascent equivalent of Node.js that uses TypeScript, is more secure and offers other new features. Oak is to Deno what Express is to Node.js. Actually, Koa is a recent successor of Express for Node.js and Oak could be as seen as what Koa is to Node.js for Deno. The Deno backend server will be used for one time HTTPS requests.
+
+A Go server will be used for realtime WebSocket interactions between the client and the server.
+
+### Front End
+
+The front-end application uses React. Deno along with Oak make that React web application available through an HTTPS request.
+
+### Database
+
+The database is a Postgres one. A migrations.py script made by us is used to add or remove tables and columns. Deno Postgres is used to read or write data to the database.
+
+## Setup
+
+This setup assumes you clone the server repository in your home folder ($HOME or ~ on Linux).
+
+### Installing Postgres
+
+#### Linux (Ubuntu)
 
 ```bash
 sudo apt install postgresql
+```
+
+To test that Postgres was installed successfully and create the licode database and user, do the following.
+
+```bash
 sudo -u postgres psql
 CREATE USER licode WITH PASSWORD 'edocil';
 CREATE DATABASE licode;
@@ -15,7 +46,7 @@ ALTER USER postgres with password 'my-password';
 sudo systemctl restart postgresql
 ```
 
-On development environment only, install pgAdmin, a GUI tool for Postgres.
+We then install pgAdmin, the best GUI tool to manage a Postgres database (only on development machine, not on server)
 
 ```bash
 sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
@@ -23,12 +54,62 @@ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_
 sudo apt install pgadmin4
 ```
 
-Open pgAdmin (by searching it in your programs and starting it). It will ask you to set a master password. Set it to _edocil_ for now.
+### Windows
+
+Download the installer for the latest version of PostgreSQL from https://www.enterprisedb.com/downloads/postgres-postgresql-downloads. It will take a few minutes to download.
+
+Open the installer file and in "Setup - PostgreSQL" click Next.
+
+In "Installation Directory" Specify the Installation Directory or keep it as default and click Next.
+
+In "Select Components" you can unselect Stack Builder since it is not needed, but make sure that PostgreSQL Server, pgAdmin 4 and Command Line Tools are selected. Click next.
+
+In "Data Directory" Select the directory for PostgreSQL to store your databaces or keep it as default and click Next.
+
+In "Password" Enter the password for the database super user, also known as "postgres". Make sure you don't forget the password because it is not easy to reset. Click Next.
+
+In "Port" Use the default Port and click Next.
+
+In "Advanced Options" Use the default Locale and click Next.
+
+In "Pre Installation Summary" make sure that all the information makes sense and click next.
+
+In "Ready to Install" click next.
+
+In "Installing" the installation will run through, and if it finishes successfully you should be able to click next.
+
+In "Completing the PostgreSQL Setup Wizard" click Finish.
+
+Once the installation is complete, set up the environment variable by doing the following:
+
+Go to "This PC", right click and select "Properties", then select "Advanced System Settings" and then select "Environment Variables...".
+
+Under System variables, double click on the variable named "Path". Use "New" to create the following two entries: %INSTALL_DIR%\bin and %INSTALL_DIR%\lib where %INSTALL_DIR% is your installation directory, "C:\Program Files\PostgreSQL\14" by default.
+
+To test that Postgres was installed successfully and create the licode database user, first run a PowerShell terminal as administrator (Search for PowerShell in the search bar, right click and select "run as administrator"). Then do the following:
+
+```bash
+psql -u postgres
+CREATE USER licode WITH PASSWORD 'edocil';
+CREATE DATABASE licode;
+GRANT ALL PRIVILEGES ON DATABASE licode to licode;
+ALTER USER postgres with password 'my-password';
+\q
+Restart-Service -Name postgresql-x64-14
+```
+
+If the "Restart-Service -Name postgresql-x64-14" command fails, then check the name of the service running postgres by running "Get-Service"
+
+#### On Development Machine
+Open pgAdmin (by searching it in your programs and starting it). It will ask you to set a master password. Let's set it to _edocil_ for now (simply licode spelled backwards).
 
 Click on **Add New Server** at the center of the pgAdmin window. In the new window, set **Name** to _pgServer1_. Switch to the **Connection** tab. Set **Host name/address** to _localhost_, **Username** to _licode_, and **Password** to _edocil_. Leave the remaining fields with their default values. Press **Save**. You should now have **pgServer1** under **Servers**, **Databases**, **Login/Group Roles**, and **Tablespaces** under **pgServer1**, and **licode** and **postgres** under **Databases** on the left panel.
 
-Do the following equivalent steps in production.
+Using pgAdmin to add or remove columns and tables in our database is ill-advised as it prevents us from restoring a previous version of our database.
 
+For this reason, we need something similar to Laravel Migrations. We will use our own migrations frameowrk, i.e., a simple Python script called migrations.py.
+
+#### On Server
 ```bash
 sudo -u postgres psql
 CREATE EXTENSION postgres_fdw;
@@ -38,7 +119,8 @@ CREATE USER MAPPING FOR licode SERVER pgServer1 OPTIONS (user 'licode', password
 sudo systemctl restart postgresql
 ```
 
-Edit */etc/postgresql/12/main/pg_hba.conf* and replace the first line with the second one below.
+#### Development and Server
+We then need to replace the first line below with the second one below in */etc/postgresql/12/main/pg_hba.conf*.
 
 ```bash
 local   all             postgres                                peer
@@ -48,36 +130,45 @@ local   all             postgres                                peer
 local   all             postgres                                md5
 ```
 
-Lastly, update the database to the latest schema.
+This will let us execute SQL scripts to modify the database, which will let us use migrations.py.
 
-## 2. REST API Server Installation
+### On Server, run these before continuing:
+```bash
+sudo apt update
+sudo apt install unzip
+sudo apt install npm
+npm install -g n
+sudo n install stable
+sudo n                  (use arrow keys to select the version)
+source $HOME/.bashrc
+ssh-keygen              (just hit enter to accept all defaults)
+```
+Add the key to a github account with access to this repo
+
+### Installing Deno
+
+#### Linux and Mac
 
 ```bash
 curl -fsSL https://deno.land/x/install/install.sh | sh
 ```
 
-Add the following two lines to ~/.bashrc.
+Add the following two lines to ~/.bashrc (on Linux).
 
 ```bash
 export DENO_INSTALL="/$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 ```
 
-Start the server with the following command.
+#### Windows
 
-```bash
-sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts
+```powershell
+iwr https://deno.land/x/install/install.ps1 -useb | iex
 ```
 
-In production, use the following command.
+### Installing Go
 
-```bash
-sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts -p &
-```
-
-## Websocket Server Installation
-
-Download the Go archive at https://go.dev/dl/.
+Install version go1.18
 
 This is probably the best resource, you may have to set GOROOT and/or GOPATH if you
 deviate from the install instructions
@@ -118,6 +209,26 @@ Add the above two lines to ~/.profile (Linux) if you want these environment vari
 
 Packages will be saved in the licode repository by setting DENO_DIR with the above value. The packages are what we import using URLs at the top of our TypeScript files. For now, our server will be accessed from port 3000. The LICODE_PORT environment variable is what holds the port our server can be accessed from.
 
+#### Performing the Database Migrations
+
+##### Linux
+
+```bash
+cd ..
+sudo apt install libpq-dev python3-dev
+pip install psycopg2
+python migrations/migrations.py migrate
+```
+
+#### Windows
+On Powershell:
+
+```bash
+cd ..
+pip install psycopg2
+python migrations/migrations.py migrate
+```
+
 #### Setting up the Sandbox
 
 ```bash
@@ -131,6 +242,10 @@ deno version --upgrade 1.20.3
 ```
 
 #### Running the Server (on development machine)
+
+```bash
+sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts
+```
 
 #### Running the GO Server (on development machine)
 
@@ -252,3 +367,35 @@ python migrations/migrations.py migrate
 For more information about migrations.py, visit:
 
 https://github.com/matthew-godin/migrations
+
+## Important Notes About Deno
+
+### Unstable SSL/TLS Support
+
+As Deno is a recent back-end framework, not everything is stable or well supported. SSL/TLS support, i.e., what makes handling HTTPS requests possible, is not well supported yet and requires the _--unstable_ flag when running Deno and it usually doesn't work very well.
+TODO (Is this still an issue, I think Nginx fixed it)
+
+
+### The Ubuntu Server
+
+The Ubuntu server; runs the deno server, runs the go server and may run another server for sandboxing.
+
+To manage the server you can ssh in with ssh -i keyfile.pem ubuntu@licode.io. 
+
+You will need to add your ip to the white list on AWS
+
+EC2 -> Instances -> Click the instance -> Security -> Click the security group -> 
+Edit the rule for ssh.) 
+
+You will also need the key file. AWS only allows one download, so ask me
+for it then store it somewhere.
+
+It uses Nginx to forward requests from default ports and with given protocols to the ports that the deno
+and go servers expect. This is managed from /etc/nginx/sites-available/default. This is where TLS is handled,
+i.e. that file specifies our certificate. I used certbot from Let's Encrypt to generate the certificate.
+
+The deno server is run as a systemd service. The unit file for this service is found /etc/systemd/system/licode.server.service.
+It specifies the same environment variables specified above, and runs as root in the ~/licode directory. It runs on start up and will restart
+if it crashes.
+
+The go server(s) will be the same
