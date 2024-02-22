@@ -1,4 +1,4 @@
-# Miscellaneous Information
+# Miscellaneous
 
 ## 1. Database
 
