@@ -1,8 +1,8 @@
 # Setup
 
-## [1. Database Installation](https://github.com/matthew-godin/Licode/tree/master/doc/setup/database)
+## 1. Database Installation
 
-https://github.com/matthew-godin/Licode/tree/master/doc/setup/database
+**[Database Installation](https://github.com/matthew-godin/Licode/tree/master/doc/setup/database)**
 
 ## 2. REST API Server Installation
 
