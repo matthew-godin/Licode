@@ -1,6 +1,6 @@
 # Miscellaneous Information
 
-## 1. Database
+## Database
 
 ### Create a migration File to Update the Database Schema
 
@@ -16,7 +16,7 @@ Perform all changes to the database schema by running the following command.
 python migrations/migrations.py migrate
 ```
 
-## 2. REST API Server
+## REST API Server
 
 ### Reload Packages
 
@@ -43,7 +43,7 @@ The hash formula is the following.
 
 _Hash_(_password_ || _salt_)
 
-## 3. Code Execution Sandbox
+## Code Execution Sandbox
 
 ### Access the Code Execution Sandbox
 
