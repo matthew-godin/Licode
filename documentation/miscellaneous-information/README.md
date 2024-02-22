@@ -1,6 +1,6 @@
 # Miscellaneous Information
 
-## Database
+## 1. Database
 
 ### Create a migration File to Update the Database Schema
 
@@ -16,7 +16,7 @@ Perform all changes to the database schema by running the following command.
 python migrations/migrations.py migrate
 ```
 
-## REST API Server
+## 2. REST API Server
 
 ### Reload Packages
 
