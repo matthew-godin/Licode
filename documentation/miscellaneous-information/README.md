@@ -21,6 +21,7 @@ python migrations/migrations.py migrate
 ### Reload Packages
 
 ```bash
+rm -rf packages
 sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts
 ```
 
@@ -43,7 +44,15 @@ The hash formula is the following.
 
 _Hash_(_password_ || _salt_)
 
-## Code Execution Sandbox
+## 3. Websocket Server
+
+### Reload Packages
+
+```bash
+go install https://github.com/gorilla/websocket@latest
+```
+
+## 4. Code Execution Sandbox
 
 ### Access the Code Execution Sandbox
 
@@ -65,4 +74,14 @@ sudo docker save py-sandbox > py-sandbox.tar
 ```bash
 sudo docker ps -a
 sudo docker kill <most-recent-hahs>
+```
+
+## 5. Front-End Application
+
+### Reload Packages
+
+```bash
+rm -rf node_modules
+rm package-lock.json
+npm install
 ```
