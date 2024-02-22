@@ -10,11 +10,7 @@
 
 ## 3. Websocket Server
 
-### Reload Packages
-
-```bash
-go install https://github.com/gorilla/websocket@latest
-```
+### [Websocket Server](https://github.com/matthew-godin/Licode/tree/master/doc/miscellaneous/websocket-server)
 
 ## 4. Code Execution Sandbox
 
