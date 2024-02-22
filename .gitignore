@@ -1,19 +1,18 @@
 .vscode/*
 
-# react-app
-/react-app/.pnp
-/react-app/.pnp.js
-/react-app/coverage
-/react-app/build
-/react-app/.DS_Store
-/react-app/.env.local
-/react-app/.env.development.local
-/react-app/.env.test.local
-/react-app/.env.production.local
-/react-app/npm-debug.log*
-/react-app/yarn-debug.log*
-/react-app/yarn-error.log*
-/react-app/node_modules/.cache
+/front-end-application/.pnp
+/front-end-application/.pnp.js
+/front-end-application/coverage
+/front-end-application/build
+/front-end-application/.DS_Store
+/front-end-application/.env.local
+/front-end-application/.env.development.local
+/front-end-application/.env.test.local
+/front-end-application/.env.production.local
+/front-end-application/npm-debug.log*
+/front-end-application/yarn-debug.log*
+/front-end-application/yarn-error.log*
+/front-end-application/node_modules/.cache
 
 /packages/gen/*
 
