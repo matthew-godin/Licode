@@ -3,5 +3,5 @@
 ## Reload Packages
 
 ```bash
-go install https://github.com/gorilla/websocket@latest
+go get -u all
 ```
