@@ -1,6 +1,6 @@
 # Setup
 
-## 1. Database Installation
+## 1. [Database Installation](https://github.com/matthew-godin/Licode/tree/master/doc/setup/database)
 
 https://github.com/matthew-godin/Licode/tree/master/doc/setup/database
 
