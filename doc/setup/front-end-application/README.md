@@ -1,0 +1,19 @@
+# Front-End Application Installation
+
+```bash
+sudo apt update
+sudo apt install nodejs
+udo apt install npm
+```
+
+On development machine, start the front-end application with the following command.
+
+```bash
+npm run start
+```
+
+In production, run the following command and copy the contents of **build/** to the appropriate location.
+
+```bash
+npm run build
+```
