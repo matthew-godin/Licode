@@ -1,20 +1,20 @@
 .vscode/*
 
-/front-end-application/.pnp
-/front-end-application/.pnp.js
-/front-end-application/coverage
-/front-end-application/build
-/front-end-application/.DS_Store
-/front-end-application/.env.local
-/front-end-application/.env.development.local
-/front-end-application/.env.test.local
-/front-end-application/.env.production.local
-/front-end-application/npm-debug.log*
-/front-end-application/yarn-debug.log*
-/front-end-application/yarn-error.log*
-/front-end-application/node_modules/.cache
+/src/front-end-application/.pnp
+/src/front-end-application/.pnp.js
+/src/front-end-application/coverage
+/src/front-end-application/build
+/src/front-end-application/.DS_Store
+/src/front-end-application/.env.local
+/src/front-end-application/.env.development.local
+/src/front-end-application/.env.test.local
+/src/front-end-application/.env.production.local
+/src/front-end-application/npm-debug.log*
+/src/front-end-application/yarn-debug.log*
+/src/front-end-application/yarn-error.log*
+/src/front-end-application/node_modules/.cache
 
-/packages/gen/*
+/src/rest-api-server/packages/gen/*
 
 /sandbox/*
 
