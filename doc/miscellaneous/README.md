@@ -18,10 +18,4 @@
 
 ## 5. Front-End Application
 
-### Reload Packages
-
-```bash
-rm -rf node_modules
-rm package-lock.json
-npm install
-```
+### [Front-End Application](https://github.com/matthew-godin/Licode/tree/master/doc/miscellaneous/front-end-application)
