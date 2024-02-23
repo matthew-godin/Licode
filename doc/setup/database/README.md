@@ -45,3 +45,9 @@ local   all             postgres                                md5
 ```
 
 Lastly, update the database to the latest schema.
+
+```bash
+sudo apt install libpq-dev python3-dev
+pip install psycopg2
+python migrations/migrations.py migrate
+```
