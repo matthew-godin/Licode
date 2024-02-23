@@ -22,6 +22,12 @@ sudo docker ps -a
 sudo docker kill <most-recent-hahs>
 ```
 
+## List All Docker Instances
+
+```bash
+sudo docker ps -a
+```
+
 ## List All Docker Images
 
 ```bash
