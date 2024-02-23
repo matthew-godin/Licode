@@ -16,4 +16,4 @@ python migrations/migrations.py migrate
 
 For more information about migrations.py, visit:
 
-**[migrations](https://github.com/matthew-godin/migrations)https://github.com/matthew-godin/migrations**
+**[migrations](https://github.com/matthew-godin/migrations)**
