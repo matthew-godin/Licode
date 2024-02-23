@@ -1,6 +1,6 @@
 # Database
 
-## Create a migration File to Update the Database Schema
+## Create a Migration File to Update the Database Schema
 
 ```bash
 python migrations/migrations.py make <migration-name>
@@ -13,3 +13,7 @@ Perform all changes to the database schema by running the following command.
 ```bash
 python migrations/migrations.py migrate
 ```
+
+For more information about migrations.py, visit:
+
+https://github.com/matthew-godin/migrations
