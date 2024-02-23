@@ -15,7 +15,7 @@ Add the following two lines to ~/.profile.
 
 ```bash
 export DENO_DIR="$HOME/licode/packages"
-export LICODE_PORT=3000
+export LICODE_PORT=81
 ```
 
 Start the REST API server with the following command.
