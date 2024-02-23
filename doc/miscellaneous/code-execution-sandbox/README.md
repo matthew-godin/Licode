@@ -21,3 +21,9 @@ sudo docker save py-sandbox > py-sandbox.tar
 sudo docker ps -a
 sudo docker kill <most-recent-hahs>
 ```
+
+## List All Docker Images
+
+```bash
+sudo docker images
+```
