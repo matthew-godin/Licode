@@ -19,7 +19,7 @@ sudo docker save py-sandbox > py-sandbox.tar
 
 ```bash
 sudo docker ps -a
-sudo docker kill <most-recent-hahs>
+sudo docker kill <most-recent-hash>
 ```
 
 ## Remove All Exited Instances
