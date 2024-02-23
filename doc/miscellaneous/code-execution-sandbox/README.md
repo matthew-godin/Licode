@@ -4,7 +4,7 @@
 
 ```bash
 sudo docker run -it py-sandbox
-cd home/TestEnvironment
+cd home/pysandbox/TestEnvironment
 ```
 
 ## Save an Image of the Code Execution Sandbox
