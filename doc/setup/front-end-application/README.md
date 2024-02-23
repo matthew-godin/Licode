@@ -3,7 +3,7 @@
 ```bash
 sudo apt update
 sudo apt install nodejs
-udo apt install npm
+sudo apt install npm
 ```
 
 On development machine, start the front-end application with the following command.
