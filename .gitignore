@@ -16,6 +16,6 @@
 
 /src/rest-api-server/packages/gen/*
 
-/sandbox/*
+src/rest-api-server/sandbox/*
 
 py-sandbox.tar
