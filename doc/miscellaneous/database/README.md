@@ -14,6 +14,6 @@ Perform all changes to the database schema by running the following command.
 python migrations/migrations.py migrate
 ```
 
-For more information about migrations.py, visit:
+For more information about the migrations script, visit the following link.
 
 **[migrations](https://github.com/matthew-godin/migrations)**
