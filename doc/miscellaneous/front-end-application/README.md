@@ -8,7 +8,7 @@ rm package-lock.json
 npm install
 ```
 
-## Refresh Nginx Front End
+## Reload Nginx Front End
 
 ```bash
 ./update.sh
