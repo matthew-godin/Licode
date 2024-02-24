@@ -12,7 +12,8 @@
 /src/front-end-application/npm-debug.log*
 /src/front-end-application/yarn-debug.log*
 /src/front-end-application/yarn-error.log*
-/src/front-end-application/node_modules/.cache
+/src/front-end-application/node_modules
+/src/front-end-application/package-lock.json
 
 /src/rest-api-server/packages/gen/*
 
