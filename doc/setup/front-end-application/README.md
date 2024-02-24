@@ -4,9 +4,8 @@
 sudo apt update
 sudo apt install nodejs
 sudo apt install npm
-npm install
-npm run build
 ```
+
 Run the following commands to install Nginx.
 
 ```bash
@@ -15,7 +14,12 @@ sudo apt install nginx
 sudo rm /var/www/html/index.html
 sudo rm /var/www/html/index.nginx-debian.html
 sudo mkdir /var/www/html/licode
-sudo cp -r build/* /var/www/html/licode
+```
+
+Run the following commands to build the front end and send it to Nginx.
+
+```bash
+./update.sh i
 ```
 
 Replace the contents of __/etc/nginx/sites-enabled/default__ with the following.
