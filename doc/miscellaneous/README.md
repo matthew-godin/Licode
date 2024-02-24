@@ -8,9 +8,9 @@
 
 ### [REST API Server](https://github.com/matthew-godin/Licode/tree/master/doc/miscellaneous/rest-api-server)
 
-## 3. Websocket Server
+## 3. WebSocket Server
 
-### [Websocket Server](https://github.com/matthew-godin/Licode/tree/master/doc/miscellaneous/websocket-server)
+### [WebSocket Server](https://github.com/matthew-godin/Licode/tree/master/doc/miscellaneous/websocket-server)
 
 ## 4. Code Execution Sandbox
 
