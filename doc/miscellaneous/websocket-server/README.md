@@ -1,4 +1,4 @@
-# Websocket Server
+# WebSocket Server
 
 ## Reload Packages
 
