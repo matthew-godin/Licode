@@ -1,5 +1,7 @@
 # Front-End Application Installation
 
+Run the following commands to install Node.js and npm.
+
 ```bash
 sudo apt update
 sudo apt install nodejs
