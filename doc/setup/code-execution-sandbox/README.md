@@ -16,7 +16,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-Run the below command from the dockerfile folder to build the code execution sandbox Docker image.
+Run the following command from the dockerfile folder to build the code execution sandbox Docker image.
 
 ```bash
 sudo docker build -t py-sandbox .
