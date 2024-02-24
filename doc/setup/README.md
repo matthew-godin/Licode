@@ -8,9 +8,9 @@
 
 ### [REST API Server Installation](https://github.com/matthew-godin/Licode/tree/master/doc/setup/rest-api-server)
 
-## 3. Websocket Server Installation
+## 3. WebSocket Server Installation
 
-### [Websocket Server Installation](https://github.com/matthew-godin/Licode/tree/master/doc/setup/websocket-server)
+### [WebSocket Server Installation](https://github.com/matthew-godin/Licode/tree/master/doc/setup/websocket-server)
 
 ## 4. Code Execution Sandbox Installation
 
