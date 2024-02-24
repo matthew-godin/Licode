@@ -1,5 +1,7 @@
 # Code Execution Sandbox Installation
 
+Run the following commands to install Docker.
+
 ```bash
 sudo apt-get update
 sudo apt-get install ca-certificates curl
@@ -14,7 +16,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-Run the below command from the dockerfile folder.
+Run the below command from the dockerfile folder to build the code execution sandbox Docker image.
 
 ```bash
 sudo docker build -t py-sandbox .
