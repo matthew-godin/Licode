@@ -1,5 +1,7 @@
 # REST API Server Installation
 
+Run the following command to install Deno.
+
 ```bash
 curl -fsSL https://deno.land/x/install/install.sh | sh
 ```
