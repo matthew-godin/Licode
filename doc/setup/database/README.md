@@ -1,6 +1,6 @@
 # Database Installation
 
-Install PostgreSQL.
+Start by installing PostgreSQL.
 
 ```bash
 sudo apt install postgresql
