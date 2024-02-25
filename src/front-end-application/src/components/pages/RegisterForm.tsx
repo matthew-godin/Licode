@@ -11,9 +11,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import InfoIcon from '@mui/icons-material/Info'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import FormErrorMessage from "./common/FormErrorMessage";
+import FormErrorMessage from "../common/FormErrorMessage";
 import { MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH, NUM_PASSWORD_SOFT_REQS, validateEmail,
-    validatePassword, validateUsername } from './common/Validation';
+    validatePassword, validateUsername } from '../common/Validation';
 import { IconButton, InputAdornment } from '@mui/material';
 import { RemoveRedEye, VisibilityOff } from '@mui/icons-material';
 
