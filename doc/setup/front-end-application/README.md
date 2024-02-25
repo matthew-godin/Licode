@@ -21,7 +21,7 @@ sudo mkdir /var/www/html/licode
 Run the following commands to build the front end and send it to Nginx.
 
 ```bash
-./update.sh i
+sudo ./update.sh i
 ```
 
 Replace the contents of __/etc/nginx/sites-enabled/default__ with the following.
