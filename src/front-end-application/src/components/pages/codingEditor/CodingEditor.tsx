@@ -1,234 +1,29 @@
 import * as React from "react";
-import { Box, Typography, Grid, Button, IconButton, TextField } from '@mui/material';
-import { ButtonProps } from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
+import { Box, Typography, Grid, IconButton } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import editorTheme from '../themes/EditorTheme';
+import editorTheme from '../../themes/EditorTheme';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
 import SpeedIcon from '@mui/icons-material/Speed';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Navigate } from "react-router-dom";
-import { MatchmakingData, QuestionData, TestCasesPassed } from "../common/interfaces/MatchmakingData";
+import { MatchmakingData, QuestionData, TestCasesPassed } from "../../common/interfaces/MatchmakingInterfaces";
 import AceEditor from "react-ace";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import * as RWS from 'reconnecting-websocket';
-
-//Add imports for modes to be supported
-//import "ace-builds/src-noconflict/mode-java";
+import { SERVERMSGTYPE, BEHAVIOUR, INFORMATION, FIELDUPDATE, CLIENTMSGTYPE } from "../../../enums/WebSocketServerEnums";
+import { ServerMsg, BehaviourData, InformationData, FieldUpdateData } from "../../common/interfaces/WebSocketServerInterfaces";
+import CodeSubmission from "../../common/interfaces/CodeSubmission";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
-
-interface CodeSubmission {
-    value: string;
-    input: string;
-}
-
-const defaultSignature: string = 'def makeSum(nums, target):\n    ',
-    defaultInput: string = '[2,7,11,15]\n9';
-
-/*
-SERVER replies with Msg as json
-Message Types:
-	Behaviour
-		TypeSlow		- tell player to type slow
-		Peek			- tell player to stop peeking
-	Information
-		Connection		- tell player if connection succeed
-		Error			- give player an error message
-		Loss			- inform player their opponent has won
-		QuestionNum		- inform player their opponent is on a new question
-	FieldUpdate
-		Code			- give player their opponent's code editor input
-		Input			- etc.
-		Output
-		StandardOutput
-*/
-
-/*
-CLIENT sends message type and args i.e. <MsgType> <args[1]> <args[2]> ...
-Message Types:
-	ConnectionRequest		- indicates player wants to join the game with sid args[1]
-	StartPeeking			- player using peek wildcard
-	SlowOpponent			- player using typing speed wildcard
-	Skip					- player is skipping a test case
-	GiveFieldUpdate			- player is sending a field update (code, input, ...)
-		same subtypes as SERVER FieldUpdate
-	GiveQuestionNum			- indicates the player is now solving question args[1]
-	Win						- the player has solved the final question
-*/
-
-//Server message top level types
-enum SERVERMSGTYPE {
-	Behaviour   = 0,
-	Information = 1,
-	FieldUpdate = 2,
-}
-
-//Behaviour subtypes
-enum BEHAVIOUR {
-	TypeSlow = 0,
-	Peek     = 1,
-}
-
-//Information subtypes
-enum INFORMATION {
-	Connection  = 0,
-	Error       = 1,
-	Loss        = 2,
-	QuestionNum = 3,
-}
-
-//FieldUpdate subtypes
-enum FIELDUPDATE {
-	Code           = 0,
-	Input          = 1,
-	Output         = 2,
-	StandardOutput = 3,
-    StandardError  = 4,
-    TestCases      = 5,
-}
-
-//client messages
-enum CLIENTMSGTYPE {
-	ConnectionRequest       = 0,
-	StartPeeking            = 1,
-	SlowOpponent            = 2,
-	Skip                    = 3,
-	GiveFieldUpdate         = 4,
-	GiveQuestionNum         = 5,
-	Win                     = 6,
-}
-
-
-interface ServerMsg {
-    Type: number,
-    Data: any,
-}
-
-interface BehaviourData {
-	Type: number,
-	Start: boolean, 
-}
-
-interface InformationData {
-	Type: number,
-	Info: string,
-}
-
-interface FieldUpdateData {
-	Type: number,
-	NewValue: string,
-}
-
-export interface CodingEditorProps {}
-
-export interface CodingEditorState {
-    username: string,
-    eloRating: number,
-    opponentUsername: string,
-    opponentEloRating: number,
-    loaded: boolean,
-    testCasesPassed: boolean[],
-    code: string,
-    rightEditorCode: string,
-    socket:  ReconnectingWebSocket | null,
-    sid: string,
-    typingSlow: boolean,
-    canTypeAt: Date | null, //used to type slow
-    sendingCodeUpdates: boolean,
-    firstMsg: boolean,
-    peeking: boolean,
-    skipping: boolean,
-    lost: boolean,
-
-    input: string,
-    standardOutput: string,
-    standardError: string,
-    output: string,
-    questionNum: number,
-
-    rightInput: string,
-    rightOutput: string,
-    rightStandardOutput: string,
-    rightStandardError: string,
-    rightTestCasesPassed: boolean[],
-    opponentQuestionNum: number,
-
-    questionLines: string[],
-
-    ringClass: string,
-}
-
-export interface QuestionLineProps {
-    question: string,
-}
-
-const MAX_TYPING_SPEED = 1.5 //characters per second, this is roughly half the average typing speed
-
-function QuestionLine(props: QuestionLineProps) {
-    let questionSplits = props.question.split('$');
-    let highlight: boolean = true;
-    let typographies = [];
-    if (questionSplits.length > 0) {
-        typographies.push(React.createElement(Typography, { variant: 'problemDescription' }, questionSplits[0]));
-    }
-    for (let i = 1; i < questionSplits.length; ++i) {
-        if (highlight) {
-            typographies.push(React.createElement(Typography, { variant: 'problemHighlightedWord' }, '\u00A0' + questionSplits[i]));
-        } else {
-            typographies.push(React.createElement(Typography, { variant: 'problemDescription' }, '\u00A0' + questionSplits[i]));
-        }
-        highlight = !highlight;
-    }
-    //return React.createElement('div', {}, ...typographies);
-    return React.createElement('div', {}, ...typographies);
-}
-
-export interface PlayerInformationProps {
-    username: string,
-    eloRating: number,
-    loaded: boolean,
-}
-
-function PlayerInformation(props: PlayerInformationProps) {
-    const loaded: boolean = props.loaded;
-    if (loaded) {
-        return <Typography variant="aboveEditor" sx={{ m: 0, p: 0 }}>{props.username}: Rank {props.eloRating}</Typography>;
-    } else {
-        return <Typography variant="aboveEditor" sx={{ m: 0, p: 0, display: "none" }} />;
-    }
-}
-
-const EditorTextField = styled(TextField)({
-    '& .MuiInputBase-input': {
-        fontSize: 16,
-        padding: '2px',
-    }
-});
-
-const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
-    color: theme.palette.getContrastText('#268acd'),
-    backgroundColor: '#268acd',
-    '&:hover': {
-      backgroundColor: '#1468ab',
-    },
-}));
-
-export interface TestCaseIndicatorProps {
-    passed: boolean,
-}
-
-function TestCaseIndicator(props: TestCaseIndicatorProps) {
-    const passed: boolean = props.passed;
-    if (passed) {
-        return <CheckIcon sx={{ fontSize: 60, color: 'primary.checkmark' }} />;
-    } else {
-        return <CloseIcon sx={{ fontSize: 60, color: 'primary.cross' }} />;
-    }
-}
+import { MAX_TYPING_SPEED } from "../../../constants/WebSocketServerConstants";
+import QuestionLine from "./questionLine/QuestionLine";
+import PlayerInformation from "./playerInformation/PlayerInformation";
+import EditorTextField from "./editorTexField/EditorTextField";
+import ColorButton from "./colorButton/ColorButton";
+import TestCaseIndicator from "./testCaseIndicator/TestCaseIndicator";
+import CodingEditorProps from "./CodingEditorProps";
+import CodingEditorState from "./CodingEditorState";
 
 class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState> {
     constructor(props: CodingEditorProps) {
@@ -262,8 +57,8 @@ class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState>
             peeking: false,
             lost: false,
             skipping: false,
-            code: 'aaqdqd',
-            input: defaultInput,
+            code: '',
+            input: '',
             standardOutput: '',
             standardError: '',
             output: '',

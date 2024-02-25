@@ -1,4 +1,3 @@
-
 export interface PlayerData {
     username: string,
     eloRating: number,
