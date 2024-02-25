@@ -35,7 +35,7 @@ interface User {
 }
 
 export interface LoginFormProps {
-    setToken: Function
+    fetchUser: Function
 }
 
 export interface LoginFormState {
@@ -69,7 +69,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
             if (res.text) {
                 this.setState({ errorMessage: res.text });
             } else {
-                this.props.setToken();
+                this.props.fetchUser();
             }
         } catch (err) {
             console.log(err);

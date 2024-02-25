@@ -38,7 +38,7 @@ interface HelloWorld {
     text: string;
 }
 
-interface User {
+interface AuthUser {
     email: { value: string };
     username: { value: string };
     password: { value: string };
@@ -445,7 +445,7 @@ router
                 context.throw(Status.BadRequest, "Bad Request");
             }
             const body = context.request.body;
-            let user: Partial<User> | undefined;
+            let user: Partial<AuthUser> | undefined;
             if (body.type() === "json") {
                 user = await body.json();
             }
@@ -534,7 +534,7 @@ router
                 context.throw(Status.BadRequest, "Bad Request");
             }
             const body = context.request.body;
-            let user: Partial<User> | undefined;
+            let user: Partial<AuthUser> | undefined;
             if (body.type() === "json") {
                 user = await body.json();
             }
@@ -572,10 +572,9 @@ router
                                 + (emailResult.rows[0][2] as Uint8Array)[i].toString(16);
                         }
                         if (hashedPasswordHexString === serverHashedPasswordHexString) {
-                            let foundUser: User = {
+                            let foundUser = {
                                 email: { value: emailResult.rows[0][0] as string },
                                 username: { value: emailResult.rows[0][1] as string },
-                                password: { value: '' },
                             }
                             let sid = await nanoid(40);
                             sids[sid] = foundUser.username.value;
@@ -605,10 +604,9 @@ router
                             + (usernameResult.rows[0][2] as Uint8Array)[i].toString(16);
                     }
                     if (hashedPasswordHexString === serverHashedPasswordHexString) {
-                        let foundUser: User = {
+                        let foundUser = {
                             email: { value: usernameResult.rows[0][0] as string },
-                            username: { value: usernameResult.rows[0][1] as string },
-                            password: { value: '' },
+                            username: { value: usernameResult.rows[0][1] as string }
                         }
                         let sid = await nanoid(40);
                         sids[sid] = foundUser.username.value;
@@ -636,20 +634,22 @@ router
                     await client.connect();
                     const usernameResult = await client.queryArray("select email, username, num_wins, num_losses, elo_rating from users where username='"
                         + username + "'");
-                    let foundUser: User = {
-                        email: { value: usernameResult.rows[0][0] as string },
-                        username: { value: usernameResult.rows[0][1] as string },
-                        password: { value: '' },
-                    }
                     context.response.body = {
-                        user: foundUser,
-                        numWins: usernameResult.rows[0][2] as number,
-                        numLosses: usernameResult.rows[0][3] as number,
-                        eloRating: usernameResult.rows[0][4] as number,
+                        user: {
+                            email: usernameResult.rows[0][0] as string,
+                            username: usernameResult.rows[0][1] as string,
+                            numWins: usernameResult.rows[0][2] as number,
+                            numLosses: usernameResult.rows[0][3] as number,
+                            eloRating: usernameResult.rows[0][4] as number
+                        }
                     };
                     await client.end();
+                    context.response.type = "json";
+                    return;
                 }
             }
+            context.response.body = {};
+            context.response.type = "json";
         } catch (err) {
             console.log(err);
         }

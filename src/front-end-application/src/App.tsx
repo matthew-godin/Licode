@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/home";
 import LoginForm from "./components/loginForm";
@@ -15,29 +15,31 @@ import { createBrowserHistory } from 'history';
 export const history = createBrowserHistory();
 
 function App() {
-    const [token, setToken] = useState(localStorage.getItem('token') === '1');
-    const getToken = useCallback(() => {
-        setToken(true);
-        localStorage.setItem('token', '1');
-    }, []);
-    const giveToken = useCallback(() => {
-        setToken(false);
-        localStorage.setItem('token', '0');
+    const [user, setUser] = useState(undefined);
+
+    const fetchUser = () => {
+        fetch('/api/user').then(response => response.json()).then((json) => {
+            setUser(json.user);
+        });
+    };
+
+    useEffect(() => {
+        fetchUser();
     }, []);
 
-    if (!token) {
+    if (!user) {
         return (
             <React.Fragment>
                 <main className="container">
                     <Routes>
-                        <Route path="/test" element={<Dashboard setToken={giveToken}/>}/>
+                        <Route path="/test" element={<Dashboard fetchUser={fetchUser} />}/>
                         <Route path="/dashboard" element={<HomeRedirect />} />
                         <Route path="/waitlist" element={<HomeRedirect />} />
                         <Route path="/editor" element={<HomeRedirect />} />
                         <Route path="/victory" element={<HomeRedirect />} />
                         <Route path="/defeat" element={<HomeRedirect />} />
-                        <Route path="/register" element={<RegisterForm setToken={getToken} />} />
-                        <Route path="/signin" element={<LoginForm setToken={getToken} />} />
+                        <Route path="/register" element={<RegisterForm fetchUser={fetchUser} />} />
+                        <Route path="/signin" element={<LoginForm fetchUser={fetchUser} />} />
                         <Route path="/" element={<Home />} />
                     </Routes>
                 </main>
@@ -49,7 +51,7 @@ function App() {
         <React.Fragment>
             <main className="container">
                 <Routes>
-                <Route path="/dashboard" element={<Dashboard setToken={giveToken} />} />
+                <Route path="/dashboard" element={<Dashboard user={user} fetchUser={fetchUser} />} />
                         <Route path="/waitlist" element={<WaitList />} />
                         <Route path="/editor" element={<CodingEditor />} />
                         <Route path="/register" element={<DashboardRedirect />} />

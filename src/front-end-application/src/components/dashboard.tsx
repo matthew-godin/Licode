@@ -3,33 +3,32 @@ import { Box, Button, Typography, Grid, Stack, Table, Paper, TableContainer, Tab
 import Image from '../images/BlueBackground.png';
 
 interface User {
-    email: { value: string };
-    username: { value: string };
-    password: { value: string };
+    email: string;
+    username: string;
+    numWins: number;
+    numLosses: number;
+    eloRating: number;
 }
 
 export interface DashboardProps {
-    setToken: Function
+    user?: User,
+    fetchUser: Function
 }
 
-export interface DashboardState {
-    user: User,
-    numWins: number,
-    numLosses: number,
-    eloRating: number,
-    loaded: boolean,
-}
+export interface DashboardState { }
 
 
 
 export interface WinLossProps {
-    numWins: number,
-    numLosses: number,
-    eloRating: number,
-    loaded: boolean,
+    numWins?: number,
+    numLosses?: number,
+    eloRating?: number
 }
 
-function computeWinRate(numWins: number, numLosses: number) {
+function computeWinRate(numWins?: number, numLosses?: number) {
+    if (!numWins || !numLosses) {
+        return '0%';
+    }
     let numGames = numWins + numLosses;
     if (numGames > 0) {
         return (numWins / numGames * 100).toFixed(2).toString() + '%';
@@ -39,54 +38,30 @@ function computeWinRate(numWins: number, numLosses: number) {
 }
 
 function WinLossTable(props: WinLossProps) {
-    const loaded: boolean = props.loaded;
-    if (loaded) {
-        return (
-            <TableContainer component={Paper}>
-                <Table>                          
-                    <TableBody>
-                        <TableRow>
-                            <TableCell sx={{fontSize: 24}}>Rating: </TableCell>
-                            <TableCell sx={{fontSize: 24}}>{props.eloRating}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell sx={{fontSize: 24}}>Number of Wins: </TableCell>
-                            <TableCell sx={{fontSize: 24}}>{props.numWins}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell sx={{fontSize: 24}}>Number of Losses: </TableCell>
-                            <TableCell sx={{fontSize: 24}}>{props.numLosses}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell sx={{fontSize: 24}}>Winrate: </TableCell>
-                            <TableCell sx={{fontSize: 24}}>{computeWinRate(props.numWins, props.numLosses)}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        );
-    } else {
-        return (
-            <TableContainer component={Paper}>
-                <Table>                          
-                    <TableBody>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell />
-                        </TableRow>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell />
-                        </TableRow>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell />
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        );
-    }
+    return (
+        <TableContainer component={Paper}>
+            <Table>                          
+                <TableBody>
+                    <TableRow>
+                        <TableCell sx={{fontSize: 24}}>Rating: </TableCell>
+                        <TableCell sx={{fontSize: 24}}>{props.eloRating}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell sx={{fontSize: 24}}>Number of Wins: </TableCell>
+                        <TableCell sx={{fontSize: 24}}>{props.numWins}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell sx={{fontSize: 24}}>Number of Losses: </TableCell>
+                        <TableCell sx={{fontSize: 24}}>{props.numLosses}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell sx={{fontSize: 24}}>Winrate: </TableCell>
+                        <TableCell sx={{fontSize: 24}}>{computeWinRate(props.numWins, props.numLosses)}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
 }
 
 class Dashboard extends React.Component<DashboardProps, DashboardState> {
@@ -95,32 +70,26 @@ class Dashboard extends React.Component<DashboardProps, DashboardState> {
         this.handleLogout = this.handleLogout.bind(this);
         this.state = {
             user: {
-                email: { value: '' },
-                username: { value: '' },
-                password: { value: '' },
-            },
-            numWins: 500,
-            numLosses: 500,
-            eloRating: 5000,
-            loaded: false,
+                email: '',
+                username: '',
+                numWins: 500,
+                numLosses: 500,
+                eloRating: 5000
+            }
         }
     }
 
     componentDidMount() {
         fetch('/api/user').then(response => response.json()).then((json) => {
             this.setState({
-                user: json.user,
-                numWins: json.numWins,
-                numLosses: json.numLosses,
-                eloRating: json.eloRating,
-                loaded: true,
+                user: json.user
             });
         })
     }
 
     async handleLogout () {
         await fetch('/api/logout');
-        this.props.setToken();
+        this.props.fetchUser();
     };
 
     render() {
@@ -132,7 +101,7 @@ class Dashboard extends React.Component<DashboardProps, DashboardState> {
                     flexDirection="column"
                 >
                     <Typography sx={{ position: 'fixed', left: 30, top: 30, fontSize: 56, color: 'white' }}>
-                        Welcome, {this.state.user.username.value}
+                        Welcome, {this.props.user?.username}
                     </Typography>
                     <Box
                         display="flex"
@@ -151,7 +120,7 @@ class Dashboard extends React.Component<DashboardProps, DashboardState> {
                             >
                                 STATS
                             </Typography>
-                            <WinLossTable loaded={this.state.loaded} numWins={this.state.numWins} numLosses={this.state.numLosses} eloRating={this.state.eloRating} />
+                            <WinLossTable numWins={this.props.user?.numWins} numLosses={this.props.user?.numLosses} eloRating={this.props.user?.eloRating} />
                             <Button 
                                 fullWidth variant="contained"
                                 href="/licode/waitlist"
