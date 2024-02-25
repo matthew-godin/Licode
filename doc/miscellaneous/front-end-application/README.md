@@ -11,5 +11,5 @@ npm install
 ## Reload Nginx Front End
 
 ```bash
-./update.sh
+sudo ./update.sh
 ```
