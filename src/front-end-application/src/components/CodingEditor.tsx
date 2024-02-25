@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SpeedIcon from '@mui/icons-material/Speed';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Navigate } from "react-router-dom";
-import { MatchmakingData, QuestionData, TestCasesPassed } from "./common/interfaces/matchmakingData";
+import { MatchmakingData, QuestionData, TestCasesPassed } from "./common/interfaces/MatchmakingData";
 import AceEditor from "react-ace";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import * as RWS from 'reconnecting-websocket';

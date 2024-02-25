@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import WaitList from "./waitList";
-import Dashboard, { User } from "./dashboard";
-import DashboardRedirect from "./dashboardRedirect";
-import VictoryScreen from "./victoryScreen";
-import DefeatScreen from "./defeatScreen";
-import CodingEditor from "./codingEditor";
+import Waitlist from "./Waitlist";
+import Dashboard, { User } from "./Dashboard";
+import DashboardRedirect from "./DashboardRedirect";
+import VictoryScreen from "./VictoryScreen";
+import DefeatScreen from "./DefeatScreen";
+import CodingEditor from "./CodingEditor";
 
 export interface UserSiteProps {
     user?: User,
@@ -18,7 +18,7 @@ function UserSite(props: UserSiteProps) {
             <main className="container">
                 <Routes>
                     <Route path="/dashboard" element={<Dashboard user={props.user} fetchUser={props.fetchUser} />} />
-                    <Route path="/waitlist" element={<WaitList />} />
+                    <Route path="/waitlist" element={<Waitlist />} />
                     <Route path="/editor" element={<CodingEditor />} />
                     <Route path="/victory" element={<VictoryScreen />} />
                     <Route path="/defeat" element={<DefeatScreen />} />

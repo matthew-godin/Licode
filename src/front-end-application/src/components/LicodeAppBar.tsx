@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Box, Link, Typography } from '@mui/material';
-import AppBar from "./common/appBar";
-import Toolbar from "./common/toolBar";
-import LCButton from "./common/lcButton";
+import AppBar from "./common/AppBar";
+import Toolbar from "./common/Toolbar";
+import LCButton from "./common/LicodeButton";
 import { ThemeProvider } from '@mui/material/styles';
 import editorTheme from './themes/editorTheme';
 
@@ -26,12 +26,12 @@ function Greeting(props: GreetingProps) {
     }
 }
 
-export interface AppAppBarProps {
+export interface LicodeAppBarProps {
     hasToken: boolean;
     username: string;
 }
 
-function AppAppBar(props: AppAppBarProps) {
+function LicodeAppBar(props: LicodeAppBarProps) {
     if (props.hasToken) {
         return (
             <ThemeProvider theme={editorTheme}>
@@ -78,4 +78,4 @@ function AppAppBar(props: AppAppBarProps) {
     }
 }
 
-export default AppAppBar;
+export default LicodeAppBar;

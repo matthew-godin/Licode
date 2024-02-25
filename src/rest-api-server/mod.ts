@@ -6,10 +6,9 @@ import {
     send,
 } from "https://deno.land/x/oak/mod.ts";
 
-import { MatchmakingData } from "../front-end-application/src/components/common/interfaces/matchmakingData.ts";
-import { QuestionData } from "../front-end-application/src/components/common/interfaces/matchmakingData.ts";
-import { TestCasesPassed } from "../front-end-application/src/components/common/interfaces/matchmakingData.ts";
-import * as Validation from "../front-end-application/src/components/common/validation.ts";
+import { MatchmakingData } from "../front-end-application/src/components/common/interfaces/MatchmakingData.ts";
+import { QuestionData, TestCasesPassed } from "../front-end-application/src/components/common/interfaces/MatchmakingData.ts";
+import * as Validation from "../front-end-application/src/components/common/Validation.ts";
 
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import { crypto } from "https://deno.land/std@0.132.0/crypto/mod.ts";

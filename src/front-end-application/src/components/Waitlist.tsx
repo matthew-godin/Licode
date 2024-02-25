@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 
-const WaitList = () => {
+const Waitlist = () => {
     const navigate = useNavigate();
     useEffect(() => {
         fetch('/api/matchmaking').then(response => response.json()).then((json) => { navigate('/editor'); });
@@ -20,4 +20,4 @@ const WaitList = () => {
     );
 }
 
-export default WaitList;
+export default Waitlist;

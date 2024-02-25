@@ -1,6 +1,6 @@
 import * as React from "react";
 import {  Button, Typography, Grid  } from "@mui/material"
-import AppAppBar from "./appAppBar";
+import LicodeAppBar from "./LicodeAppBar";
 import ProductHero from "./ProductHero";
 import { ThemeProvider } from '@mui/material/styles';
 import editorTheme from './themes/editorTheme';
@@ -15,7 +15,7 @@ class Home extends React.Component<HomeProps, HomeState> {
     return (
       <ThemeProvider theme={editorTheme}>
         <React.Fragment>
-          <AppAppBar hasToken={false} username=""/>
+          <LicodeAppBar hasToken={false} username=""/>
           <ProductHero />
         </React.Fragment>
       </ThemeProvider>
