@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./Home";
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
-import HomeRedirect from "./HomeRedirect";
+import Home from "../pages/Home";
+import LoginForm from "../pages/LoginForm";
+import RegisterForm from "../pages/RegisterForm";
+import HomeRedirect from "../redirects/HomeRedirect";
 
 export interface PublicSiteProps {
     fetchUser: Function

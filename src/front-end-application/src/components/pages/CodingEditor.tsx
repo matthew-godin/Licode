@@ -3,14 +3,14 @@ import { Box, Typography, Grid, Button, IconButton, TextField } from '@mui/mater
 import { ButtonProps } from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
-import editorTheme from './themes/editorTheme';
+import editorTheme from '../themes/EditorTheme';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import SpeedIcon from '@mui/icons-material/Speed';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Navigate } from "react-router-dom";
-import { MatchmakingData, QuestionData, TestCasesPassed } from "./common/interfaces/MatchmakingData";
+import { MatchmakingData, QuestionData, TestCasesPassed } from "../common/interfaces/MatchmakingData";
 import AceEditor from "react-ace";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import * as RWS from 'reconnecting-websocket';

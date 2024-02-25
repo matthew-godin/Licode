@@ -1,9 +1,9 @@
 import * as React from "react";
 import {  Button, Typography, Grid  } from "@mui/material"
-import LicodeAppBar from "./LicodeAppBar";
-import ProductHero from "./ProductHero";
+import LicodeAppBar from "../common/LicodeAppBar";
+import ProductHero from "../common/ProductHero";
 import { ThemeProvider } from '@mui/material/styles';
-import editorTheme from './themes/editorTheme';
+import editorTheme from '../themes/EditorTheme';
 
 export interface HomeProps {}
 

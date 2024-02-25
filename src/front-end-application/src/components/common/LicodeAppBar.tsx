@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Box, Link, Typography } from '@mui/material';
-import AppBar from "./common/AppBar";
-import Toolbar from "./common/Toolbar";
-import LCButton from "./common/LicodeButton";
+import AppBar from "./AppBar";
+import Toolbar from "./Toolbar";
+import LCButton from "./LicodeButton";
 import { ThemeProvider } from '@mui/material/styles';
-import editorTheme from './themes/editorTheme';
+import editorTheme from '../themes/EditorTheme';
 
 const rightLink = {
   fontSize: 16,

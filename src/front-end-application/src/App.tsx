@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import UserSite from "./components/UserSite";
-import PublicSite from "./components/PublicSite";
+import UserSite from "./components/sites/UserSite";
+import PublicSite from "./components/sites/PublicSite";
 import { createBrowserHistory } from 'history';
 
 export const history = createBrowserHistory();

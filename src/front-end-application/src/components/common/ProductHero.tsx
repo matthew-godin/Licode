@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Typography } from '@mui/material';
 import ProductHeroLayout from './ProductHeroLayout';
-import backgroundImage from '../images/CodeEditorPreview.png';
+import backgroundImage from '../../images/CodeEditorPreview.png';
 
 export default function ProductHero() {
   return (

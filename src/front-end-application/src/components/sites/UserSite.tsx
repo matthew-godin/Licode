@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Waitlist from "./Waitlist";
-import Dashboard, { User } from "./Dashboard";
-import DashboardRedirect from "./DashboardRedirect";
-import VictoryScreen from "./VictoryScreen";
-import DefeatScreen from "./DefeatScreen";
-import CodingEditor from "./CodingEditor";
+import Waitlist from "../pages/Waitlist";
+import Dashboard, { User } from "../pages/Dashboard";
+import DashboardRedirect from "../redirects/DashboardRedirect";
+import VictoryScreen from "../pages/VictoryScreen";
+import DefeatScreen from "../pages/DefeatScreen";
+import CodingEditor from "../pages/CodingEditor";
 
 export interface UserSiteProps {
     user?: User,
