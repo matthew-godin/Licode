@@ -2,7 +2,7 @@ import * as React from "react";
 import { Box, Button, Typography, Grid, Stack, Table, Paper, TableContainer, TableBody, TableRow, TableCell } from "@mui/material"
 import Image from '../images/BlueBackground.png';
 
-interface User {
+export interface User {
     email: string;
     username: string;
     numWins: number;
