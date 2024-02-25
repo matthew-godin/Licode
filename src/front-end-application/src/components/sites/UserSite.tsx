@@ -5,7 +5,7 @@ import Dashboard, { User } from "../pages/Dashboard";
 import DashboardRedirect from "../redirects/DashboardRedirect";
 import VictoryScreen from "../pages/VictoryScreen";
 import DefeatScreen from "../pages/DefeatScreen";
-import CodingEditor from "../pages/CodingEditor";
+import CodingEditor from "../pages/codingEditor/CodingEditor";
 
 export interface UserSiteProps {
     user?: User,
