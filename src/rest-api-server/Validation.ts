@@ -1,7 +1,7 @@
-import { MIN_PASSWORD_LENGTH, MIN_USERNAME_LENGTH, MAX_PASSWORD_LENGTH, MAX_USERNAME_LENGTH } from "../constants/Lengths";
-import { NUM_PASSWORD_SOFT_REQS } from "../constants/NumReqs";
-import { INVALID_EMAIL_MESSAGE } from "../constants/Messages";
-import { ALLOWED_DOMAIN_EXTENSIONS } from "../constants/AllowedDomainExtensions";
+import { MIN_PASSWORD_LENGTH, MIN_USERNAME_LENGTH, MAX_PASSWORD_LENGTH, MAX_USERNAME_LENGTH } from "./constants/Lengths.ts";
+import { NUM_PASSWORD_SOFT_REQS } from "./constants/NumReqs.ts";
+import { INVALID_EMAIL_MESSAGE } from "./constants/Messages.ts";
+import { ALLOWED_DOMAIN_EXTENSIONS } from "./constants/AllowedDomainExtensions.ts";
 
 export function validatePassword(password: string, annoying: boolean) : string {
     if (!annoying && password.length === 0) {

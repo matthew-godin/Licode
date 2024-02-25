@@ -8,7 +8,7 @@ import {
 
 import { MatchmakingData } from "../front-end-application/src/components/common/interfaces/MatchmakingData.ts";
 import { QuestionData, TestCasesPassed } from "../front-end-application/src/components/common/interfaces/MatchmakingData.ts";
-import * as Validation from "../front-end-application/src/components/common/Validation.ts";
+import { validateEmail, validatePassword, validateUsername } from "./Validation.ts";
 
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import { crypto } from "https://deno.land/std@0.132.0/crypto/mod.ts";
@@ -459,17 +459,17 @@ router
                 var password : string = user?.password?.value ?? "";
                 var email : string = user?.email?.value ?? "";
                 var username : string = user?.username?.value ?? "";
-                var validationMessage = Validation.validateUsername(username, true);
+                var validationMessage = validateUsername(username, true);
                 if (validationMessage !== "") {
                     context.response.body = { text: validationMessage };
                     return;
                 }
-                validationMessage = Validation.validateEmail(email, true);
+                validationMessage = validateEmail(email, true);
                 if (validationMessage !== "") {
                     context.response.body = { text: validationMessage };
                     return;
                 }
-                validationMessage = Validation.validatePassword(password, true);
+                validationMessage = validatePassword(password, true);
                 if (validationMessage !== "") {
                     context.response.body = { text: validationMessage };
                     return;
