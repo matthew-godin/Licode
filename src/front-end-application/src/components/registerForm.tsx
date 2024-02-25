@@ -41,7 +41,7 @@ interface User {
 const theme = createTheme();
 
 export interface RegisterFormProps {
-    setToken: Function
+    fetchUser: Function
 }
 
 export interface RegisterFormState {
@@ -92,7 +92,7 @@ class RegisterForm extends React.Component<RegisterFormProps, RegisterFormState>
                 if (res.text) {
                     this.setState({ errorMessage: res.text });
                 } else {
-                    this.props.setToken();
+                    this.props.fetchUser();
                 }
             } catch (err) {
                 console.log(err);
