@@ -3,22 +3,14 @@ import { Box, Grid } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import editorTheme from '../../themes/EditorTheme';
 import { Navigate } from "react-router-dom";
-import MatchmakingData from '../../common/interfaces/matchmaking/MatchmakingData';
 import QuestionData from "../../common/interfaces/matchmaking/QuestionData";
 import TestCasesPassed from "../../common/interfaces/matchmaking/TestCasesPassed";
-import ReconnectingWebSocket from 'reconnecting-websocket';
-import * as RWS from 'reconnecting-websocket';
-import { SERVERMSGTYPE, BEHAVIOUR, INFORMATION, FIELDUPDATE, CLIENTMSGTYPE } from "../../../enums/WebSocketServerEnums";
-import ServerMsg from "../../common/interfaces/webSocketServer/ServerMsg";
-import BehaviourData from "../../common/interfaces/webSocketServer/BehaviourData";
-import InformationData from "../../common/interfaces/webSocketServer/InformationData";
-import FieldUpdateData from "../../common/interfaces/webSocketServer/FieldUpdateData";
 import CodeSubmission from "../../common/interfaces/CodeSubmission";
 import { MAX_TYPING_SPEED } from "../../../constants/WebSocketServerConstants";
 import QuestionStatement from "./questionStatement/QuestionStatement";
 import EditorsSection from "./editorsSection/EditorsSection";
 import CodingEditorProps from "./CodingEditorProps";
-import CodingEditorState from "./CodingEditorState";
+import CodingEditorState, { defaultState } from "./CodingEditorState";
 import EditorData from "../../common/interfaces/codingEditor/EditorData";
 import TopSectionData from "../../common/interfaces/codingEditor/TopSectionData";
 import EditorSectionData from "../../common/interfaces/codingEditor/EditorSectionData";
@@ -26,6 +18,8 @@ import InputOutputSectionData from "../../common/interfaces/codingEditor/InputOu
 import WebSocketServerMethods from "../../common/interfaces/codingEditor/WebSocketServerMethods";
 import EditorFlags from "../../common/interfaces/codingEditor/EditorFlags";
 import RunButton from "./runButton/RunButton";
+import initializeCodingEditor from "./methods/InitializeCodingEditor";
+import { FIELDUPDATE, CLIENTMSGTYPE } from "../../../enums/WebSocketServerEnums";
 
 class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState> {
     constructor(props: CodingEditorProps) {
@@ -40,200 +34,12 @@ class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState>
         this.playerWon = this.playerWon.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
-        this.sendInititalUpdates = this.sendInititalUpdates.bind(this)
-        this.state = {
-            username: '',
-            eloRating: 5000,
-            opponentUsername: '',
-            opponentEloRating: 5000,
-            loaded: false,
-            testCasesPassed: [false, false, false, false, false, false, false, false, false, false, false],
-            rightEditorCode: '',
-            socket: null,
-            sid: '',
-            typingSlow: false,
-            canTypeAt: null,
-            sendingCodeUpdates: false,
-            firstMsg: true,
-            peeking: false,
-            lost: false,
-            skipping: false,
-            code: '',
-            input: '',
-            standardOutput: '',
-            standardError: '',
-            output: '',
-            rightInput: '',
-            rightStandardOutput: '',
-            rightStandardError: '',
-            rightOutput: '',
-            rightTestCasesPassed: [false, false, false, false, false, false, false, false, false, false, false],
-            questionNum: 1,
-            opponentQuestionNum: 1,
-            questionLines: ['', '', ''],
-            ringClass: 'ds-dual-ring hide-ring',
-        }
+        this.sendInititalUpdates = this.sendInititalUpdates.bind(this);
+        this.state = defaultState;
     }
 
     async componentDidMount() {
-        console.log("Attempting Connection...");
-        const data: MatchmakingData = await fetch('/api/opponent').then(response => response.json());
-        const questionData: QuestionData = await fetch('/api/question').then(response => response.json());
-        let initialQuestionLines = questionData.question.split(';');
-        for (let i = 0; i < 3 - initialQuestionLines.length; ++i) {
-            initialQuestionLines.push('');
-        }
-        let inputLines = questionData.default_custom_input.split(';');
-        let initialInput = '';
-        if (inputLines.length > 0) {
-            initialInput += inputLines[0];
-        }
-        for (let i = 1; i < inputLines.length; ++i) {
-            initialInput += '\n' + inputLines[i];
-        }
-        const wsEndpoint : string = await fetch("/api/wildcardEndpoint").then(response => response.json()).then(jsn => jsn.endpoint);
-        this.setState({
-            username: data.you.username,
-            eloRating: data.you.eloRating,
-            opponentUsername: data.opponent.username,
-            opponentEloRating: data.opponent.eloRating,
-            sid: data.you.sid,
-            socket: new ReconnectingWebSocket(wsEndpoint),
-            loaded: true,
-            questionLines: initialQuestionLines,
-            code: questionData.function_signature + '\n    ',
-            input: initialInput,
-        });
-
-        if(this.state.socket == null) return;
-        this.state.socket.addEventListener('open', (event: RWS.Event) => {
-            console.log(`Successfully Connected with sid: ${this.state.sid}`);
-            this.state.socket?.send(`${CLIENTMSGTYPE.ConnectionRequest} ${this.state.sid}`);
-        });
-        
-        this.state.socket.addEventListener('close', (event: RWS.CloseEvent) => {
-            console.log("Client Closed!")
-            this.state.socket?.send(`${CLIENTMSGTYPE.ConnectionRequest} ${this.state.sid}`);
-            //sock.send("Client Closed!")
-            //probably need some reconnect scheme
-            //may need to make a helper for all writing to
-            //server to detect disconnects
-        });
-        
-        this.state.socket.addEventListener('message', (event: RWS.Event) => {
-            console.log(event)
-            const myMsg = (event as any)?.data
-            const msgObj: ServerMsg = JSON.parse(myMsg)
-            console.log(msgObj)
-            switch(msgObj.Type) {
-                case SERVERMSGTYPE.Behaviour:
-                    const behaviourData: BehaviourData = msgObj.Data
-                    switch(behaviourData.Type) {
-                        case BEHAVIOUR.TypeSlow:
-                            this.setState({canTypeAt: null, typingSlow: behaviourData.Start})
-                            break;
-                        case BEHAVIOUR.Peek:
-                            //stop peaking
-                            //behaviourData.Start should always be false, the server
-                            //only asks us to stop peeking
-                            this.setState({
-                                peeking: false
-                            })
-                            break;
-                        default:
-                            //error?
-                            break;
-                    }
-                    break;
-                case SERVERMSGTYPE.Information:
-                    const infoData: InformationData = msgObj.Data
-                    switch(infoData.Type) {
-                        case INFORMATION.Connection:
-                            if(infoData.Info === "") {
-                                console.log("Registered!")
-                                this.sendInititalUpdates()
-                            } else {
-                                console.log("Registration Failed! " + infoData.Info)
-                            }
-                            break;
-                        case INFORMATION.Error:
-                            console.log("Error: " + infoData.Info)
-                            break;
-                        case INFORMATION.Loss:
-                            console.log("YOU LOSE!!!")
-                            this.setState({
-                                lost: true
-                            })
-                            break;
-                        case INFORMATION.QuestionNum:
-                            this.setState({
-                                opponentQuestionNum: parseInt(infoData.Info)
-                            })
-                            break;
-                        default:
-                            //error?
-                            break;
-                    }
-                    break;
-                case SERVERMSGTYPE.FieldUpdate:
-                    const fieldData: FieldUpdateData = msgObj.Data
-                    switch(fieldData.Type) {
-                        case FIELDUPDATE.Code:
-                            //receiving a code update
-                            console.log("code update")
-                            this.setState({
-                                rightEditorCode: fieldData.NewValue
-                            })
-                            break;
-                        case FIELDUPDATE.Input:
-                            this.setState({
-                                rightInput: fieldData.NewValue
-                            })
-                            break;
-                        case FIELDUPDATE.Output:
-                            this.setState({
-                                rightOutput: fieldData.NewValue
-                            })
-                            break;
-                        case FIELDUPDATE.StandardOutput:
-                            this.setState({
-                                rightStandardOutput: fieldData.NewValue
-                            })
-                            break;
-                        case FIELDUPDATE.StandardError:
-                            this.setState({
-                                rightStandardError: fieldData.NewValue
-                            })
-                            break;
-                        case FIELDUPDATE.TestCases:
-                            let newTestCases: boolean[] = fieldData.NewValue.split(" ").map((str: string) => str === "1")
-                            // if(newTestCases.reduce((count: number, passed: boolean, idx: number) => {
-                            //     return passed ? (count + 1) : count
-                            // }, 0) === 11){
-                            //     newTestCases = [false, false, false, false, false, false, false, false, false, false, false]
-                            // }
-                            this.setState({
-                                rightTestCasesPassed: newTestCases
-                            })
-                            break;
-                        default:
-                            //error?
-                            break;                                                                                            
-                    }
-                    break;
-                default:
-                    //error?
-                    break
-            }
-        });
-
-        this.state.socket.addEventListener('error', (event: RWS.Event) => {
-            console.log("Socket Error: ")
-            console.log(event);
-        });
-
-        //attach a keydown listener to the left code editor
-        document.getElementsByClassName("ace_editor")[0].addEventListener("keydown", this.handleInputKeyDown)
+        initializeCodingEditor(this);
     }
 
     async handleRun () {
