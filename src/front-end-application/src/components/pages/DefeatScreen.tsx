@@ -1,13 +1,10 @@
 import * as React from "react";
 import { createTheme, Box, Button, Stack, Paper, IconButton, } from "@mui/material"
-import CancelIcon from '@mui/icons-material/Cancel';
-import Image from '../images/defeat_background.png';
-//import Image from '../images/BlueBackground.png';
 
 
-export interface DefeatScreenProps {}
+export interface DefeatScreenProps { }
 
-export interface DefeatScreenState {}
+export interface DefeatScreenState { }
 
 const styles = {
     paperContainer: {
@@ -48,54 +45,6 @@ class DefeatScreen extends React.Component<DefeatScreenProps, DefeatScreenState>
                     </Stack>
                 </Box>
             </Paper>
-
-            /*<Paper style={styles.paperContainer}
-            >
-                <Box
-                    height="96vh" 
-                    display="flex" 
-                    flexDirection="column"
-                >
-                    <AppBar position="static">
-                        <Toolbar>
-                            <Greeting loaded={this.state.loaded} username={this.state.user.username.value} />
-                            <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-                                licode
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <Box
-                        display="flex"
-                        alignItems="center" 
-                        justifyContent="center"
-                        minHeight="80vh"
-                    >
-                        <Stack
-                            spacing={2}
-                            sx={{ bgcolor:'background.paper', border:5, p:2, borderColor: 'primary.main'}} 
-                        >
-                            <Typography
-                                align='center'
-                                variant='h6'
-                                color="common.white"
-                                sx={{bgcolor:'text.disabled', borderRadius:1, p:1}}
-                            >
-                                STATS
-                            </Typography>
-                            <WinLossTable loaded={this.state.loaded} numWins={this.state.numWins} numLosses={this.state.numLosses} />
-                            <Button 
-                                fullWidth variant="contained"
-                                href="/licode/editor"                                           
-                            >
-                                PLAY 
-                            </Button>
-                            <Button variant="contained" onClick={this.handleLogout}>
-                                LOGOUT
-                            </Button>
-                        </Stack>
-                    </Box>
-                </Box>
-            </Paper>*/
         );
     }
 }

@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Box, Button, Stack, Paper, Typography } from "@mui/material"
-import User from "../common/interfaces/User";
+import { Box, Button, Stack, Paper, Typography } from "@mui/material";
 
 
 export interface VictoryScreenProps { }
