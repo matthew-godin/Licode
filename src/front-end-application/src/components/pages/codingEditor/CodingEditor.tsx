@@ -1,27 +1,19 @@
 import * as React from "react";
-import { Box, Typography, Grid, IconButton } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import editorTheme from '../../themes/EditorTheme';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import SpeedIcon from '@mui/icons-material/Speed';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Navigate } from "react-router-dom";
-import { MatchmakingData, QuestionData, TestCasesPassed } from "../../common/interfaces/MatchmakingInterfaces";
-import AceEditor from "react-ace";
+import { MatchmakingData } from '../../common/interfaces/MatchmakingInterfaces';
+import { QuestionData, TestCasesPassed } from "../../common/interfaces/MatchmakingInterfaces";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import * as RWS from 'reconnecting-websocket';
 import { SERVERMSGTYPE, BEHAVIOUR, INFORMATION, FIELDUPDATE, CLIENTMSGTYPE } from "../../../enums/WebSocketServerEnums";
 import { ServerMsg, BehaviourData, InformationData, FieldUpdateData } from "../../common/interfaces/WebSocketServerInterfaces";
 import CodeSubmission from "../../common/interfaces/CodeSubmission";
-import "ace-builds/src-noconflict/mode-python";
-import "ace-builds/src-noconflict/theme-github";
-import "ace-builds/src-noconflict/ext-language_tools";
 import { MAX_TYPING_SPEED } from "../../../constants/WebSocketServerConstants";
-import QuestionLine from "./questionLine/QuestionLine";
-import PlayerInformation from "./playerInformation/PlayerInformation";
-import EditorTextField from "./editorTexField/EditorTextField";
 import ColorButton from "./colorButton/ColorButton";
-import TestCaseIndicator from "./testCaseIndicator/TestCaseIndicator";
+import QuestionStatement from "./questionStatement/QuestionStatement";
+import EditorsSection from "./editorsSection/EditorsSection";
 import CodingEditorProps from "./CodingEditorProps";
 import CodingEditorState from "./CodingEditorState";
 
@@ -30,13 +22,12 @@ class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState>
         super(props);
         this.handleRun = this.handleRun.bind(this);
         this.handleCodeChange = this.handleCodeChange.bind(this);
-        this.peekOpponent = this.peekOpponent.bind(this)
-        this.slowOpponent = this.slowOpponent.bind(this)
-        this.skipTestCase = this.skipTestCase.bind(this)
-        this.opponentEditorChange = this.opponentEditorChange.bind(this)
-        this.processOpponentField = this.processOpponentField.bind(this)
-        this.sendCodeUpdate = this.sendCodeUpdate.bind(this)
-        this.playerWon = this.playerWon.bind(this)
+        this.peekOpponent = this.peekOpponent.bind(this);
+        this.slowOpponent = this.slowOpponent.bind(this);
+        this.skipTestCase = this.skipTestCase.bind(this);
+        this.opponentEditorChange = this.opponentEditorChange.bind(this);
+        this.sendCodeUpdate = this.sendCodeUpdate.bind(this);
+        this.playerWon = this.playerWon.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
         this.sendInititalUpdates = this.sendInititalUpdates.bind(this)
@@ -346,18 +337,6 @@ class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState>
         this.sendFieldUpdate(FIELDUPDATE.TestCases, this.stringifyBoolArray(newTestCasesPassed));
     }
 
-    processOpponentField (field: string) : string {
-        var r = 0
-        var randomChars : string = "#!$*?~"
-        var ret = field.replace(/[^\s]/g, (substr: string, ..._args: any[]) : string => {
-            const oldR = r
-            r = (r + 1) % randomChars.length
-            return randomChars[oldR]
-        })  
-
-        return ret
-    }  
-
     sendFieldUpdate(type: number, newValue: string) {
         this.state.socket?.send(CLIENTMSGTYPE.GiveFieldUpdate.toString() + " " + type.toString() + " " + newValue)
     }
@@ -443,300 +422,16 @@ class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState>
             <ThemeProvider theme={editorTheme}>
                 <Box sx={{ display: 'flex', height: '100%', bgcolor: 'primary.main', m: 0, p: 0 }}>
                     <Grid container direction="column">
-                        <Grid container item mt={1}>
-                            <Grid item xs={1} />
-                            <Grid container direction="column" item xs={10}>
-                                <Grid item mt={2}>
-                                    <QuestionLine question={this.state.questionLines[0]} />
-                                </Grid>
-                                <Grid item mt={1.5}>
-                                    <QuestionLine question={this.state.questionLines[1]} />
-                                </Grid>
-                                <Grid item mt={1.5}>
-                                    <QuestionLine question={this.state.questionLines[2]} />
-                                </Grid>
-                            </Grid>
-                            <Grid item xs ={1} />
-                        </Grid>
-                        <Grid container item mt={0.5}>
-                            <Grid item xs={0.75} />
-                            <Grid container direction="column" item xs={5}>
-                                <Grid container item mt={2}>
-                                    <Grid item xs={0.5} />
-                                    <Grid container direction="column" item xs={11}>
-                                        <Grid item>
-                                            <PlayerInformation loaded={this.state.loaded} username="You" eloRating={this.state.eloRating} />
-                                        </Grid>
-                                        <Grid container>
-                                            <Grid item xs="auto">
-                                                <IconButton color="button" onClick={this.skipTestCase}>
-                                                    <CheckCircleIcon sx={{ fontSize: 32 }} />
-                                                </IconButton>
-                                            </Grid>
-                                            <Grid item xs="auto">
-                                                <IconButton color="button" onClick={this.slowOpponent}>
-                                                    <SpeedIcon sx={{ fontSize: 32 }} />
-                                                </IconButton>
-                                            </Grid>
-                                            <Grid item xs="auto">
-                                                <IconButton color="button" onClick={this.peekOpponent}>
-                                                    <RemoveRedEyeIcon sx={{ fontSize: 32 }} />
-                                                </IconButton>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item>
-                                            <Typography variant="aboveEditor" sx={{ m: 0, p: 0 }}>
-                                                Question {this.state.questionNum}/3
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={0.5} />
-                                </Grid>
-                                <Grid item mt={1}>
-                                    <AceEditor
-                                        mode="python"
-                                        theme="github"
-                                        name="filled-multiline-static"
-                                        fontSize={14}
-                                        value={this.state.code}
-                                        onChange={this.handleCodeChange}
-                                        setOptions={{
-                                            enableBasicAutocompletion: true,
-                                            enableLiveAutocompletion: true,
-                                            enableSnippets: true
-                                        }}
-                                        editorProps={{ $blockScrolling: true}}
-                                    />
-                                </Grid>
-                                <Grid item container mt={1} alignItems="center">
-                                    <Grid item container xs={2} direction="column" alignItems="center">
-                                        <Grid item >
-                                            <Typography variant="inputOutput" sx={{ m: 0, p: 0 }}>
-                                                Input
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={10}>
-                                        <EditorTextField id="filled-multiline-static" multiline fullWidth rows={2} variant="filled"
-                                            value={this.state.input} onChange={this.handleInputChange} />
-                                    </Grid>
-                                </Grid>
-                                <Grid item container mt={1} alignItems="center">
-                                    <Grid item container xs={2} direction="column" alignItems="center">
-                                        <Grid item >
-                                            <Typography variant="inputOutput" sx={{ m: 0, p: 0 }}>
-                                                Standard Output
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={10}>
-                                        <EditorTextField id="filled-multiline-static" multiline fullWidth rows={2} variant="filled"
-                                            InputProps={{ readOnly: true }} value={this.state.standardOutput} />
-                                        <span style={{color: "red"}}>{this.state.standardError}</span>
-                                    </Grid>
-                                </Grid>
-                                <Grid item container mt={1} alignItems="center">
-                                    <Grid item container xs={2} direction="column" alignItems="center">
-                                        <Grid item >
-                                            <Typography variant="inputOutput" sx={{ m: 0, p: 0 }}>
-                                                Output
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={10}>
-                                        <EditorTextField id="filled-multiline-static" multiline fullWidth rows={2} variant="filled"
-                                            InputProps={{ readOnly: true }} value={this.state.output} />
-                                    </Grid>
-                                </Grid>
-                                <Grid container item mt={2}>
-                                    <Grid item xs={0.5} />
-                                    <Grid container direction="column" item xs={11}>
-                                        <Grid item>
-                                            <Typography variant="aboveEditor" sx={{ m: 0, p: 0 }}>
-                                                Test Cases
-                                            </Typography>
-                                        </Grid>
-                                        <Grid container item>
-                                            <Grid item xs={0.5} />
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[0]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[1]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[2]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[3]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[4]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[5]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[6]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[7]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[8]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[9]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.testCasesPassed[10]} />
-                                            </Grid>
-                                            <Grid item xs={0.5} />
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={0.5} />
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={0.5} />
-                            <Grid container direction="column" item xs={5}>
-                                <Grid container item mt={2}>
-                                    <Grid item xs={0.5} />
-                                    <Grid container direction="column" item xs={11}>
-                                        <Grid item>
-                                            <PlayerInformation loaded={this.state.loaded} username={this.state.opponentUsername}
-                                                eloRating={this.state.opponentEloRating} />
-                                        </Grid>
-                                        <Grid container sx={{ visibility: 'hidden' }}>
-                                            <Grid item xs="auto">
-                                                <IconButton color="button">
-                                                    <CheckCircleIcon sx={{ fontSize: 32 }} />
-                                                </IconButton>
-                                            </Grid>
-                                            <Grid item xs="auto">
-                                                <IconButton color="button">
-                                                    <SpeedIcon sx={{ fontSize: 32 }} />
-                                                </IconButton>
-                                            </Grid>
-                                            <Grid item xs="auto">
-                                                <IconButton color="button">
-                                                    <RemoveRedEyeIcon sx={{ fontSize: 32 }} />
-                                                </IconButton>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item>
-                                            <Typography variant="aboveEditor" sx={{ m: 0, p: 0 }}>
-                                                Question {this.state.opponentQuestionNum}/3
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={0.5} />
-                                </Grid>
-                                <Grid item mt={1}>
-                                    <AceEditor
-                                        mode="text"
-                                        theme="github"
-                                        name="filled-multiline-static"
-                                        fontSize={14}
-                                        readOnly={true}
-                                        highlightActiveLine={false}
-                                        value = {this.state.peeking? this.state.rightEditorCode : this.processOpponentField(this.state.rightEditorCode)}
-                                        editorProps={{ $blockScrolling: true }}
-                                    />
-                                </Grid>
-                                <Grid item container mt={1} alignItems="center">
-                                    <Grid item container xs={2} direction="column" alignItems="center">
-                                        <Grid item >
-                                            <Typography variant="inputOutput" sx={{ m: 0, p: 0 }}>
-                                                Input
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={10}>
-                                        <EditorTextField id="filled-multiline-static" multiline fullWidth rows={2} variant="filled"
-                                            value={this.state.peeking ? this.state.rightInput : this.processOpponentField(this.state.rightInput)}
-                                            InputProps={{ readOnly: true }} />
-                                    </Grid>
-                                </Grid>
-                                <Grid item container mt={1} alignItems="center">
-                                    <Grid item container xs={2} direction="column" alignItems="center">
-                                        <Grid item >
-                                            <Typography variant="inputOutput" sx={{ m: 0, p: 0 }}>
-                                                Standard Output
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={10}>
-                                        <EditorTextField id="filled-multiline-static" multiline fullWidth rows={2} variant="filled"
-                                            value={this.state.peeking ? this.state.rightStandardOutput : this.processOpponentField(this.state.rightStandardOutput)}
-                                            InputProps={{ readOnly: true }} />
-                                        <span style={{color: "red"}}>{this.state.rightStandardError}</span>
-                                    </Grid>
-                                </Grid>
-                                <Grid item container mt={1} alignItems="center">
-                                    <Grid item container xs={2} direction="column" alignItems="center">
-                                        <Grid item >
-                                            <Typography variant="inputOutput" sx={{ m: 0, p: 0 }}>
-                                                Output
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={10}>
-                                        <EditorTextField id="filled-multiline-static" multiline fullWidth rows={2} variant="filled"
-                                            value={this.state.peeking ? this.state.rightOutput : this.processOpponentField(this.state.rightOutput)}
-                                            InputProps={{ readOnly: true }} />
-                                    </Grid>
-                                </Grid>
-                                <Grid container item mt={2}>
-                                    <Grid item xs={0.5} />
-                                    <Grid container direction="column" item xs={11}>
-                                        <Grid item>
-                                            <Typography variant="aboveEditor" sx={{ m: 0, p: 0 }}>
-                                                Test Cases
-                                            </Typography>
-                                        </Grid>
-                                        <Grid container item>
-                                            <Grid item xs={0.5} />
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[0]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[1]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[2]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[3]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[4]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[5]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[6]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[7]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[8]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[9]} />
-                                            </Grid>
-                                            <Grid item xs={1}>
-                                                <TestCaseIndicator passed={this.state.rightTestCasesPassed[10]} />
-                                            </Grid>
-                                            <Grid item xs={0.5} />
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item xs={0.5} />
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={0.75} />
-                        </Grid>
+                        <QuestionStatement questionLines={this.state.questionLines} />
+                        <EditorsSection eloRating={this.state.eloRating} opponentUsername={this.state.opponentUsername}
+                            opponentEloRating={this.state.opponentEloRating} skipTestCase={this.skipTestCase} slowOpponent={this.slowOpponent}
+                            loaded={this.state.loaded} peekOpponent={this.peekOpponent} questionNum={this.state.questionNum} code={this.state.code}
+                            handleCodeChange={this.handleCodeChange} input={this.state.input} handleInputChange={this.handleInputChange}
+                            standardOutput={this.state.standardOutput} standardError={this.state.standardError} output={this.state.output}
+                            testCasesPassed={this.state.testCasesPassed} opponentQuestionNum={this.state.opponentQuestionNum}
+                            peeking={this.state.peeking} rightEditorCode={this.state.rightEditorCode} rightInput={this.state.rightInput}
+                            rightOutput={this.state.rightOutput} rightStandardOutput={this.state.rightStandardOutput}
+                            rightStandardError={this.state.rightStandardError} rightTestCasesPassed={this.state.rightTestCasesPassed} />
                         <Grid container item mt={1.5}>
                             <Grid item xs={0.5} />
                             <Grid item xs={1.5}>

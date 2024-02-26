@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
+import User from '../common/interfaces/User';
 
-const Waitlist = () => {
+export interface WaitlistProps {
+    user?: User
+}
+
+const Waitlist = (props: WaitlistProps) => {
+    console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
     const navigate = useNavigate();
     useEffect(() => {
         fetch('/api/matchmaking').then(response => response.json()).then((json) => { navigate('/editor'); });

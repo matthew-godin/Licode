@@ -1,14 +1,6 @@
 import * as React from "react";
-import { Box, Button, Typography, Grid, Stack, Table, Paper, TableContainer, TableBody, TableRow, TableCell } from "@mui/material"
-import Image from '../images/BlueBackground.png';
-
-export interface User {
-    email: string;
-    username: string;
-    numWins: number;
-    numLosses: number;
-    eloRating: number;
-}
+import { Box, Button, Typography, Stack, Table, Paper, TableContainer, TableBody, TableRow, TableCell } from "@mui/material"
+import User from "../common/interfaces/User";
 
 export interface DashboardProps {
     user?: User,
@@ -68,23 +60,6 @@ class Dashboard extends React.Component<DashboardProps, DashboardState> {
     constructor(props: DashboardProps) {
         super(props);
         this.handleLogout = this.handleLogout.bind(this);
-        this.state = {
-            user: {
-                email: '',
-                username: '',
-                numWins: 500,
-                numLosses: 500,
-                eloRating: 5000
-            }
-        }
-    }
-
-    componentDidMount() {
-        fetch('/api/user').then(response => response.json()).then((json) => {
-            this.setState({
-                user: json.user
-            });
-        })
     }
 
     async handleLogout () {

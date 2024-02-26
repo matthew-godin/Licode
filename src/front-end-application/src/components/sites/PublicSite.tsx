@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import LoginForm from "../pages/LoginForm";
 import RegisterForm from "../pages/RegisterForm";
-import HomeRedirect from "../redirects/HomeRedirect";
+import LoginRedirect from "../redirects/LoginRedirect";
 
 export interface PublicSiteProps {
     fetchUser: Function
@@ -14,11 +14,11 @@ function PublicSite(props: PublicSiteProps) {
         <React.Fragment>
             <main className="container">
                 <Routes>
-                    <Route path="/dashboard" element={<HomeRedirect />} />
-                    <Route path="/waitlist" element={<HomeRedirect />} />
-                    <Route path="/editor" element={<HomeRedirect />} />
-                    <Route path="/victory" element={<HomeRedirect />} />
-                    <Route path="/defeat" element={<HomeRedirect />} />
+                    <Route path="/dashboard" element={<LoginRedirect />} />
+                    <Route path="/waitlist" element={<LoginRedirect />} />
+                    <Route path="/editor" element={<LoginRedirect />} />
+                    <Route path="/victory" element={<LoginRedirect />} />
+                    <Route path="/defeat" element={<LoginRedirect />} />
                     <Route path="/register" element={<RegisterForm fetchUser={props.fetchUser} />} />
                     <Route path="/signin" element={<LoginForm fetchUser={props.fetchUser} />} />
                     <Route path="/" element={<Home />} />
