@@ -6,8 +6,9 @@ import {
     send,
 } from "https://deno.land/x/oak/mod.ts";
 
-import { MatchmakingData } from "../front-end-application/src/components/common/interfaces/MatchmakingInterfaces.ts";
-import { QuestionData, TestCasesPassed } from "../front-end-application/src/components/common/interfaces/MatchmakingInterfaces.ts";
+import MatchmakingData from "./interfaces/MatchmakingData.ts";
+import QuestionData from "./interfaces/QuestionData.ts";
+import TestCasesPassed from "./interfaces/TestCasesPassed.ts";
 import { validateEmail, validatePassword, validateUsername } from "./Validation.ts";
 
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
