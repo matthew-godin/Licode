@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const HomeRedirect = () => {
+const LoginRedirect = () => {
+    console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
     const navigate = useNavigate();
     useEffect(() => {
-        navigate('/');
+        navigate('/signin');
     });
     setTimeout(function() {
         document.getElementsByTagName('div')[0].click();
@@ -14,4 +15,4 @@ const HomeRedirect = () => {
     );
 }
 
-export default HomeRedirect;
+export default LoginRedirect;

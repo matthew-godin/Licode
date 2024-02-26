@@ -1,1 +1,1 @@
-export default interface CodingEditorProps {}
+export default interface CodingEditorProps { }

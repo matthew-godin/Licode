@@ -1,13 +1,11 @@
 import * as React from "react";
-import { createTheme, Box, Button, Stack, Paper, IconButton, } from "@mui/material"
-import CancelIcon from '@mui/icons-material/Cancel';
-import Image from '../images/victory_background.png';
-//import Image from '../images/BlueBackground.png';
+import { Box, Button, Stack, Paper, Typography } from "@mui/material"
+import User from "../common/interfaces/User";
 
 
-export interface VictoryScreenProps {}
+export interface VictoryScreenProps { }
 
-export interface VictoryScreenState {}
+export interface VictoryScreenState { }
 
 const styles = {
     paperContainer: {
@@ -28,7 +26,6 @@ class VictoryScreen extends React.Component<VictoryScreenProps, VictoryScreenSta
                     alignItems="center" 
                     justifyContent="center"
                     minHeight="100vh"
-                    //sx={{ bgcolor:'primary.light' }}
                 >
                     <Stack
                         spacing={4}
@@ -48,54 +45,6 @@ class VictoryScreen extends React.Component<VictoryScreenProps, VictoryScreenSta
                     </Stack>
                 </Box>
             </Paper>
-
-            /*<Paper style={styles.paperContainer}
-            >
-                <Box
-                    height="96vh" 
-                    display="flex" 
-                    flexDirection="column"
-                >
-                    <AppBar position="static">
-                        <Toolbar>
-                            <Greeting loaded={this.state.loaded} username={this.state.user.username.value} />
-                            <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-                                licode
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <Box
-                        display="flex"
-                        alignItems="center" 
-                        justifyContent="center"
-                        minHeight="80vh"
-                    >
-                        <Stack
-                            spacing={2}
-                            sx={{ bgcolor:'background.paper', border:5, p:2, borderColor: 'primary.main'}} 
-                        >
-                            <Typography
-                                align='center'
-                                variant='h6'
-                                color="common.white"
-                                sx={{bgcolor:'text.disabled', borderRadius:1, p:1}}
-                            >
-                                STATS
-                            </Typography>
-                            <WinLossTable loaded={this.state.loaded} numWins={this.state.numWins} numLosses={this.state.numLosses} />
-                            <Button 
-                                fullWidth variant="contained"
-                                href="/licode/editor"                                           
-                            >
-                                PLAY 
-                            </Button>
-                            <Button variant="contained" onClick={this.handleLogout}>
-                                LOGOUT
-                            </Button>
-                        </Stack>
-                    </Box>
-                </Box>
-            </Paper>*/
         );
     }
 }
