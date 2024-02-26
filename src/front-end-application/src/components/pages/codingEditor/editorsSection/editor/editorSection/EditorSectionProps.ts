@@ -1,8 +1,8 @@
 import { ChangeEventHandler } from 'react';
+import EditorSectionData from '../../../../../common/interfaces/codingEditor/EditorSectionData';
 
 export default interface EditorSectionProps {
-    code: string,
-    handleCodeChange: (value: string, event?: any) => void,
+    editorSectionData: EditorSectionData,
     peeking: boolean,
     isPlayer: boolean
 }
