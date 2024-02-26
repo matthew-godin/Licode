@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material';
-import EditorTextField from "./editorTexField/EditorTextField";
+import EditorTextField from "./editorTextField/EditorTextField";
 import { processOpponentField } from '../../../../../common/utils/Processing';
 import EditorInputOutputSectionProps from './EditorInputOutputSectionProps';
 
