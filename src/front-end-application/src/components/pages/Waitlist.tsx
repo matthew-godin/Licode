@@ -8,7 +8,6 @@ export interface WaitlistProps {
 }
 
 const Waitlist = (props: WaitlistProps) => {
-    console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
     const navigate = useNavigate();
     useEffect(() => {
         fetch('/api/matchmaking').then(response => response.json()).then((json) => { navigate('/editor'); });

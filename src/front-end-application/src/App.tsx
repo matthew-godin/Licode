@@ -20,12 +20,10 @@ function App() {
     }, []);
 
     if (user) {
-        console.log("USUSUSUSUSUSUSUSUSUSUSUSUUSUSUSUSUSU");
         return (
             <UserSite user={user} fetchUser={fetchUser} />
         );
     }
-    console.log("PBPBPBPBPBPBPBPBPBPBPBPPBPBPBPBPBPBPBPBPPBPBP");
 
     return (
         <PublicSite fetchUser={fetchUser} />
