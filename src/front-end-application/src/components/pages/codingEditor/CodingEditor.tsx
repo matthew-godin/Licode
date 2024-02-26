@@ -15,7 +15,6 @@ import InformationData from "../../common/interfaces/webSocketServer/Information
 import FieldUpdateData from "../../common/interfaces/webSocketServer/FieldUpdateData";
 import CodeSubmission from "../../common/interfaces/CodeSubmission";
 import { MAX_TYPING_SPEED } from "../../../constants/WebSocketServerConstants";
-import ColorButton from "./colorButton/ColorButton";
 import QuestionStatement from "./questionStatement/QuestionStatement";
 import EditorsSection from "./editorsSection/EditorsSection";
 import CodingEditorProps from "./CodingEditorProps";
@@ -26,6 +25,7 @@ import EditorSectionData from "../../common/interfaces/codingEditor/EditorSectio
 import InputOutputSectionData from "../../common/interfaces/codingEditor/InputOutputSectionData";
 import WebSocketServerMethods from "../../common/interfaces/codingEditor/WebSocketServerMethods";
 import EditorFlags from "../../common/interfaces/codingEditor/EditorFlags";
+import RunButton from "./runButton/RunButton";
 
 class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState> {
     constructor(props: CodingEditorProps) {
@@ -504,16 +504,7 @@ class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState>
                         <QuestionStatement questionLines={this.state.questionLines} />
                         <EditorsSection userEditorData={userEditorData} opponentEditorData={opponentEditorData}
                             webSocketServerMethods={webSocketServerMethods} editorFlags={editorFlags} />
-                        <Grid container item mt={1.5}>
-                            <Grid item xs={0.5} />
-                            <Grid item xs={1.5}>
-                                <ColorButton variant="contained" sx={{ minWidth: 125, fontSize: 24 }} onClick={this.handleRun}>
-                                    Run
-                                </ColorButton>
-                                <div className={this.state.ringClass}></div>
-                            </Grid>
-                            <Grid item xs={10} />
-                        </Grid>
+                        <RunButton handleRun={this.handleRun} ringClass={this.state.ringClass} />
                     </Grid>
                 </Box>
             </ThemeProvider>
