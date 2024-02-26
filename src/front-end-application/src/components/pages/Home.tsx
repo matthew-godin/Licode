@@ -10,12 +10,11 @@ export interface HomeProps {}
 export interface HomeState {}
 
 class Home extends React.Component<HomeProps, HomeState> {
-  //state = { :  }
   render() {
     return (
       <ThemeProvider theme={editorTheme}>
         <React.Fragment>
-          <LicodeAppBar hasToken={false} username=""/>
+          <LicodeAppBar />
           <ProductHero />
         </React.Fragment>
       </ThemeProvider>
