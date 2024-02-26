@@ -8,16 +8,17 @@ import EditorProps from './EditorProps';
 function Editor(props: EditorProps) {
     return (
         <Grid container direction="column" item xs={5}>
-            <EditorTopSection username={props.username} eloRating={props.eloRating} loaded={props.loaded} skipTestCase={props.skipTestCase}
-                slowOpponent={props.slowOpponent} peekOpponent={props.peekOpponent} questionNum={props.questionNum} isPlayer={props.isPlayer} />
-            <EditorSection code={props.code} handleCodeChange={props.handleCodeChange} peeking={props.peeking} isPlayer={props.isPlayer} />
-            <EditorInputOutputSection name="Input" handleChange={props.handleInputChange} content={props.input} peeking={props.peeking}
-                isPlayer={props.isPlayer} readOnly={!props.isPlayer} />
-            <EditorInputOutputSection name="Standard Output" handleChange={() => {}} content={props.standardOutput} errorContent={props.standardError}
-                peeking={props.peeking} isPlayer={props.isPlayer} readOnly={!props.isPlayer} />
-            <EditorInputOutputSection name="Output" handleChange={() => {}} content={props.output}
-                peeking={props.peeking} isPlayer={props.isPlayer} readOnly={true} />
-            <EditorTestCasesSection testCasesPassed={props.testCasesPassed} />
+            <EditorTopSection topSectionData={props.editorData.topSectionData} loaded={props.editorFlags.loaded}
+                webSocketServerMethods={props.webSocketServerMethods} isPlayer={props.isPlayer} />
+            <EditorSection editorSectionData={props.editorData.editorSectionData}
+                peeking={props.editorFlags.peeking} isPlayer={props.isPlayer} />
+            <EditorInputOutputSection name="Input" inputOutputSectionData={props.editorData.inputData}
+                peeking={props.editorFlags.peeking} isPlayer={props.isPlayer} readOnly={!props.isPlayer} />
+            <EditorInputOutputSection name="Standard Output" inputOutputSectionData={props.editorData.standardOutputData}
+                peeking={props.editorFlags.peeking} isPlayer={props.isPlayer} readOnly={!props.isPlayer} />
+            <EditorInputOutputSection name="Output" inputOutputSectionData={props.editorData.outputData}
+                peeking={props.editorFlags.peeking} isPlayer={props.isPlayer} readOnly={true} />
+            <EditorTestCasesSection testCasesPassed={props.editorData.testCasesPassed} />
         </Grid>
     );
 }

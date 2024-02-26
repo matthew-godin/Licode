@@ -11,29 +11,29 @@ function EditorTopSection(props: EditorTopSectionProps) {
             <Grid item xs={0.5} />
             <Grid container direction="column" item xs={11}>
                 <Grid item>
-                    <PlayerInformation loaded={props.loaded} username={props.username}
-                        eloRating={props.eloRating} />
+                    <PlayerInformation loaded={props.loaded} username={props.topSectionData.username}
+                        eloRating={props.topSectionData.eloRating} />
                 </Grid>
                 <Grid container sx={{ visibility: props.isPlayer ? 'visible' : 'hidden' }}>
                     <Grid item xs="auto">
-                        <IconButton color="button" onClick={props.skipTestCase}>
+                        <IconButton color="button" onClick={props.webSocketServerMethods.skipTestCase}>
                             <CheckCircleIcon sx={{ fontSize: 32 }} />
                         </IconButton>
                     </Grid>
                     <Grid item xs="auto">
-                        <IconButton color="button" onClick={props.slowOpponent}>
+                        <IconButton color="button" onClick={props.webSocketServerMethods.slowOpponent}>
                             <SpeedIcon sx={{ fontSize: 32 }} />
                         </IconButton>
                     </Grid>
                     <Grid item xs="auto">
-                        <IconButton color="button" onClick={props.peekOpponent}>
+                        <IconButton color="button" onClick={props.webSocketServerMethods.peekOpponent}>
                             <RemoveRedEyeIcon sx={{ fontSize: 32 }} />
                         </IconButton>
                     </Grid>
                 </Grid>
                 <Grid item>
                     <Typography variant="aboveEditor" sx={{ m: 0, p: 0 }}>
-                        Question {props.questionNum}/3
+                        Question {props.topSectionData.questionNum}/3
                     </Typography>
                 </Grid>
             </Grid>

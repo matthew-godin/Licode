@@ -20,6 +20,12 @@ import QuestionStatement from "./questionStatement/QuestionStatement";
 import EditorsSection from "./editorsSection/EditorsSection";
 import CodingEditorProps from "./CodingEditorProps";
 import CodingEditorState from "./CodingEditorState";
+import EditorData from "../../common/interfaces/codingEditor/EditorData";
+import TopSectionData from "../../common/interfaces/codingEditor/TopSectionData";
+import EditorSectionData from "../../common/interfaces/codingEditor/EditorSectionData";
+import InputOutputSectionData from "../../common/interfaces/codingEditor/InputOutputSectionData";
+import WebSocketServerMethods from "../../common/interfaces/codingEditor/WebSocketServerMethods";
+import EditorFlags from "../../common/interfaces/codingEditor/EditorFlags";
 
 class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState> {
     constructor(props: CodingEditorProps) {
@@ -422,20 +428,82 @@ class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState>
         } else if (this.state.lost) {
             return <Navigate to="/defeat"/>
         }
+        let userTopSectionData: TopSectionData = {
+            username: this.state.username,
+            eloRating: this.state.eloRating,
+            questionNum: this.state.questionNum
+        };
+        let userEditorSectionData: EditorSectionData = {
+            code: this.state.code,
+            handleCodeChange: this.handleCodeChange
+        };
+        let userInputData: InputOutputSectionData = {
+            content: this.state.input,
+            handleChange: this.handleInputChange
+        };
+        let userStandardOutputData: InputOutputSectionData = {
+            content: this.state.standardOutput,
+            errorContent: this.state.standardError,
+            handleChange: () => {}
+        };
+        let userOutputData: InputOutputSectionData = {
+            content: this.state.output,
+            handleChange: () => {}
+        };
+        let userEditorData: EditorData = {
+            topSectionData: userTopSectionData,
+            editorSectionData: userEditorSectionData,
+            inputData: userInputData,
+            standardOutputData: userStandardOutputData,
+            outputData: userOutputData,
+            testCasesPassed: this.state.testCasesPassed
+        }
+        let opponentTopSectionData: TopSectionData = {
+            username: this.state.opponentUsername,
+            eloRating: this.state.opponentEloRating,
+            questionNum: this.state.opponentQuestionNum
+        };
+        let opponentEditorSectionData: EditorSectionData = {
+            code: this.state.rightEditorCode,
+            handleCodeChange: this.handleCodeChange
+        };
+        let opponentInputData: InputOutputSectionData = {
+            content: this.state.rightInput,
+            handleChange: this.handleInputChange
+        };
+        let opponentStandardOutputData: InputOutputSectionData = {
+            content: this.state.rightStandardOutput,
+            errorContent: this.state.rightStandardError,
+            handleChange: () => {}
+        };
+        let opponentOutputData: InputOutputSectionData = {
+            content: this.state.rightOutput,
+            handleChange: () => {}
+        };
+        let opponentEditorData: EditorData = {
+            topSectionData: opponentTopSectionData,
+            editorSectionData: opponentEditorSectionData,
+            inputData: opponentInputData,
+            standardOutputData: opponentStandardOutputData,
+            outputData: opponentOutputData,
+            testCasesPassed: this.state.rightTestCasesPassed
+        }
+        let webSocketServerMethods: WebSocketServerMethods = {
+            skipTestCase: this.skipTestCase,
+            slowOpponent: this.slowOpponent,
+            peekOpponent: this.peekOpponent
+        };
+        let editorFlags: EditorFlags = {
+            loaded: this.state.loaded,
+            peeking: this.state.peeking
+        };
         return (
             <ThemeProvider theme={editorTheme}>
                 <Box sx={{ display: 'flex', height: '100%', bgcolor: 'primary.main', m: 0, p: 0 }}>
                     <Grid container direction="column">
                         <QuestionStatement questionLines={this.state.questionLines} />
-                        <EditorsSection eloRating={this.state.eloRating} opponentUsername={this.state.opponentUsername}
-                            opponentEloRating={this.state.opponentEloRating} skipTestCase={this.skipTestCase} slowOpponent={this.slowOpponent}
-                            loaded={this.state.loaded} peekOpponent={this.peekOpponent} questionNum={this.state.questionNum} code={this.state.code}
-                            handleCodeChange={this.handleCodeChange} input={this.state.input} handleInputChange={this.handleInputChange}
-                            standardOutput={this.state.standardOutput} standardError={this.state.standardError} output={this.state.output}
-                            testCasesPassed={this.state.testCasesPassed} opponentQuestionNum={this.state.opponentQuestionNum}
-                            peeking={this.state.peeking} rightEditorCode={this.state.rightEditorCode} rightInput={this.state.rightInput}
-                            rightOutput={this.state.rightOutput} rightStandardOutput={this.state.rightStandardOutput}
-                            rightStandardError={this.state.rightStandardError} rightTestCasesPassed={this.state.rightTestCasesPassed} />
+                        <EditorsSection userEditorData={userEditorData} opponentEditorData={opponentEditorData}
+                            webSocketServerMethods={webSocketServerMethods} editorFlags={editorFlags} />
                         <Grid container item mt={1.5}>
                             <Grid item xs={0.5} />
                             <Grid item xs={1.5}>

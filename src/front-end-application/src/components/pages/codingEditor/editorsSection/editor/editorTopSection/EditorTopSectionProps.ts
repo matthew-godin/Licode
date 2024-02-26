@@ -1,13 +1,10 @@
 import { MouseEventHandler } from 'react';
-import { ChangeEventHandler } from 'react';
+import TopSectionData from '../../../../../common/interfaces/codingEditor/TopSectionData';
+import WebSocketServerMethods from '../../../../../common/interfaces/codingEditor/WebSocketServerMethods';
 
 export default interface EditorTopSectionProps {
-    username: string,
-    eloRating: number,
+    topSectionData: TopSectionData,
+    webSocketServerMethods: WebSocketServerMethods,
     loaded: boolean,
-    skipTestCase: MouseEventHandler<HTMLButtonElement>,
-    slowOpponent: MouseEventHandler<HTMLButtonElement>,
-    peekOpponent: MouseEventHandler<HTMLButtonElement>,
-    questionNum: number,
     isPlayer: boolean
 }

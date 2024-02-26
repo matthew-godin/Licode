@@ -16,8 +16,9 @@ function EditorSection(props: EditorSectionProps) {
                 fontSize={14}
                 readOnly={!props.isPlayer}
                 highlightActiveLine={props.isPlayer}
-                value = {props.isPlayer || props.peeking ? props.code : processOpponentField(props.code)}
-                onChange={props.handleCodeChange}
+                value = {props.isPlayer || props.peeking ? props.editorSectionData.code
+                    : processOpponentField(props.editorSectionData.code)}
+                onChange={props.editorSectionData.handleCodeChange}
                 setOptions={props.isPlayer ? {
                     enableBasicAutocompletion: true,
                     enableLiveAutocompletion: true,

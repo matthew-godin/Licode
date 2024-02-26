@@ -15,10 +15,12 @@ function EditorInputOutputSection(props: EditorInputOutputSectionProps) {
             </Grid>
             <Grid item xs={10}>
                 <EditorTextField id="filled-multiline-static" multiline fullWidth rows={2} variant="filled"
-                    value={props.isPlayer || props.peeking ? props.content : processOpponentField(props.content)}
-                    onChange={props.handleChange}
+                    value={props.isPlayer || props.peeking ? props.inputOutputSectionData.content
+                        : processOpponentField(props.inputOutputSectionData.content)}
+                    onChange={props.inputOutputSectionData.handleChange}
                     InputProps={{ readOnly: props.readOnly }} />
-                {props.errorContent && <span style={{color: "red"}}>{props.errorContent}</span>}
+                {props.inputOutputSectionData.errorContent
+                    && <span style={{color: "red"}}>{props.inputOutputSectionData.errorContent}</span>}
             </Grid>
         </Grid>
     );
