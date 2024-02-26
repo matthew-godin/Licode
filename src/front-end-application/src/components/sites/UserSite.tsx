@@ -8,7 +8,7 @@ import DefeatScreen from "../pages/DefeatScreen";
 import CodingEditor from "../pages/codingEditor/CodingEditor";
 import Home from "../pages/Home";
 import User from "../common/interfaces/User";
-import { Box, Typography } from "@mui/material"
+import Loading from "../common/Loading";
 
 export interface UserSiteProps {
     user?: User,
@@ -16,31 +16,17 @@ export interface UserSiteProps {
 }
 
 function UserSite(props: UserSiteProps) {
-    if (props.user?.loading) {
-        return (
-            <Box
-                height="100vh"
-                sx={{ backgroundColor: '#01182a', backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}
-                display="flex" 
-                flexDirection="column"
-            >
-                <Typography sx={{textAlign: 'center', marginTop: '3vh'}}>
-                    <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
-                </Typography>
-            </Box>
-        );
-    }
     return (
         <React.Fragment>
             <main className="container">
                 <Routes>
-                    <Route path="/dashboard" element={<Dashboard user={props.user} fetchUser={props.fetchUser} />} />
-                    <Route path="/waitlist" element={<Waitlist />} />
-                    <Route path="/editor" element={<CodingEditor />} />
-                    <Route path="/victory" element={<VictoryScreen />} />
-                    <Route path="/defeat" element={<DefeatScreen/>} />
-                    <Route path="/register" element={<DashboardRedirect />} />
-                    <Route path="/signin" element={<DashboardRedirect />} />
+                    <Route path="/dashboard" element={props.user?.loading ? <Loading /> : <Dashboard user={props.user} fetchUser={props.fetchUser} />} />
+                    <Route path="/waitlist" element={props.user?.loading ? <Loading /> : <Waitlist />} />
+                    <Route path="/editor" element={props.user?.loading ? <Loading /> : <CodingEditor />} />
+                    <Route path="/victory" element={props.user?.loading ? <Loading /> : <VictoryScreen />} />
+                    <Route path="/defeat" element={props.user?.loading ? <Loading /> : <DefeatScreen />} />
+                    <Route path="/register" element={props.user?.loading ? <Loading /> : <DashboardRedirect />} />
+                    <Route path="/signin" element={props.user?.loading ? <Loading /> : <DashboardRedirect />} />
                     <Route path="/" element={<Home />} />
                 </Routes>
             </main>
