@@ -1,5 +1,5 @@
 import { Grid, IconButton, Typography } from '@mui/material';
-import PlayerInformation from './playerInformation/PlayerInformation';
+import PlayerInformation from './PlayerInformation/PlayerInformation';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SpeedIcon from '@mui/icons-material/Speed';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
