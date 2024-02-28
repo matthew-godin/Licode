@@ -3,7 +3,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
-import { processOpponentField } from '../../../../../common/utils/Processing';
+import { processOpponentField } from '../../../../../../common/utils/Processing';
 import EditorSectionProps from './EditorSectionProps';
 
 function EditorSection(props: EditorSectionProps) {

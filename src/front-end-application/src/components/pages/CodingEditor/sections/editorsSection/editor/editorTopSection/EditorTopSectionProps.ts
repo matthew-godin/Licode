@@ -1,6 +1,6 @@
 import { MouseEventHandler } from 'react';
-import TopSectionData from '../../../../../common/interfaces/codingEditor/TopSectionData';
-import WebSocketServerMethods from '../../../../../common/interfaces/codingEditor/WebSocketServerMethods';
+import TopSectionData from '../../../../interfaces/TopSectionData';
+import WebSocketServerMethods from '../../../../interfaces/WebSocketServerMethods';
 
 export default interface EditorTopSectionProps {
     topSectionData: TopSectionData,

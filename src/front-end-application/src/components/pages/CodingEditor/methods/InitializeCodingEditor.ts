@@ -3,10 +3,10 @@ import QuestionData from "../../../common/interfaces/matchmaking/QuestionData";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import * as RWS from 'reconnecting-websocket';
 import { SERVERMSGTYPE, BEHAVIOUR, INFORMATION, FIELDUPDATE, CLIENTMSGTYPE } from "../../../../enums/WebSocketServerEnums";
-import ServerMsg from "../../../common/interfaces/webSocketServer/ServerMsg";
-import BehaviourData from "../../../common/interfaces/webSocketServer/BehaviourData";
-import InformationData from "../../../common/interfaces/webSocketServer/InformationData";
-import FieldUpdateData from "../../../common/interfaces/webSocketServer/FieldUpdateData";
+import ServerMsg from "../../../common/interfaces/WebSocketServer/ServerMsg";
+import BehaviourData from "../../../common/interfaces/WebSocketServer/BehaviourData";
+import InformationData from "../../../common/interfaces/WebSocketServer/InformationData";
+import FieldUpdateData from "../../../common/interfaces/WebSocketServer/FieldUpdateData";
 import CodingEditor from "../CodingEditor";
 
 const initializeCodingEditor = async (that: CodingEditor) => {
