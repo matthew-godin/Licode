@@ -1,4 +1,4 @@
-import CodingEditor from "../../../CodingEditor";
+import CodingEditor from "../../../../CodingEditor";
 
 const manageEditor = (that: CodingEditor) => {
     //attach a keydown listener to the left code editor

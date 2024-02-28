@@ -1,7 +1,7 @@
-import MatchmakingData from "../../../../../common/interfaces/matchmaking/MatchmakingData";
-import QuestionData from "../../../../../common/interfaces/matchmaking/QuestionData";
+import MatchmakingData from "../../../../../../common/interfaces/matchmaking/MatchmakingData";
+import QuestionData from "../../../../../../common/interfaces/matchmaking/QuestionData";
 import ReconnectingWebSocket from 'reconnecting-websocket';
-import CodingEditor from "../../../CodingEditor";
+import CodingEditor from "../../../../CodingEditor";
 
 const setState = async (that: CodingEditor) => {
     console.log("Attempting Connection...");
