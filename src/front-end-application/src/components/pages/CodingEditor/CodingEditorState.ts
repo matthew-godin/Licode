@@ -63,5 +63,5 @@ export const defaultState: CodingEditorState = {
             questionNum: 1,
             opponentQuestionNum: 1,
             questionLines: ['', '', ''],
-            ringClass: 'ds-dual-ring hide-ring',
+            ringClass: 'lds-dual-ring hide-ring',
 };
