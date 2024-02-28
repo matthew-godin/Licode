@@ -15,7 +15,7 @@ import { peek, skip, slow } from "./methods/WebSocketServer/WebSocketServer";
 import { codeChange, inputChange, inputKeyDown } from "./methods/InputAndCodeChanges/InputAndCodeChanges";
 import inititalUpdates from "./methods/InitialUpdates/InitialUpdates";
 import { won } from "./methods/Predicates/Predicates";
-import preRender from "./methods/PreRender/PreRender";
+import createCodingEditorData from "./methods/CreateCodingEditorData/CreateCodingEditorData";
 
 class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState> {
     constructor(props: CodingEditorProps) {
@@ -75,7 +75,7 @@ class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState>
                 <Navigate to="/defeat"/>
             );
         }
-        let codingEditorData = preRender(this);
+        let codingEditorData = createCodingEditorData(this);
         return (
             <ThemeProvider theme={editorTheme}>
                 <Box sx={{ display: 'flex', height: '100%', bgcolor: 'primary.main', m: 0, p: 0 }}>
