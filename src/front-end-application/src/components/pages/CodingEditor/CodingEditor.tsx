@@ -18,7 +18,7 @@ import InputOutputSectionData from "./interfaces/InputOutputSectionData";
 import WebSocketServerMethods from "./interfaces/WebSocketServerMethods";
 import EditorFlags from "./interfaces/EditorFlags";
 import RunButton from "./sections/runButton/RunButton";
-import initializeCodingEditor from "./methods/InitializeCodingEditor";
+import initializeCodingEditor from "./methods/InitializeCodingEditor/InitializeCodingEditor";
 import { FIELDUPDATE, CLIENTMSGTYPE } from "../../../enums/WebSocketServerEnums";
 
 class CodingEditor extends React.Component<CodingEditorProps, CodingEditorState> {
