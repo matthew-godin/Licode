@@ -1,5 +1,5 @@
-import MatchmakingData from "../../../../../../common/interfaces/matchmaking/MatchmakingData";
-import QuestionData from "../../../../../../common/interfaces/matchmaking/QuestionData";
+import MatchmakingData from "../../../../../../common/interfaces/Matchmaking/MatchmakingData";
+import QuestionData from "../../../../../../common/interfaces/Matchmaking/QuestionData";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import CodingEditor from "../../../../CodingEditor";
 

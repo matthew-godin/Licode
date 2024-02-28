@@ -7,7 +7,7 @@ import VictoryScreen from "../pages/VictoryScreen";
 import DefeatScreen from "../pages/DefeatScreen";
 import CodingEditor from "../pages/CodingEditor/CodingEditor";
 import Home from "../pages/Home";
-import User from "../common/interfaces/User";
+import User from "../common/interfaces/User/User";
 import Loading from "../common/Loading";
 
 export interface UserSiteProps {
