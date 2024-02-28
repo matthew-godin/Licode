@@ -47,7 +47,7 @@ function WinLossTable(props: WinLossProps) {
                         <TableCell sx={{fontSize: 24}}>{props.numLosses}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell sx={{fontSize: 24}}>Winrate: </TableCell>
+                        <TableCell sx={{fontSize: 24}}>Win Rate: </TableCell>
                         <TableCell sx={{fontSize: 24}}>{computeWinRate(props.numWins, props.numLosses)}</TableCell>
                     </TableRow>
                 </TableBody>
