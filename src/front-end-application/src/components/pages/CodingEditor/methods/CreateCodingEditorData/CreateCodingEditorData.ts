@@ -7,7 +7,7 @@ import EditorFlags from "../../interfaces/EditorFlags";
 import CodingEditorData from "../../interfaces/CodingEditorData";
 import CodingEditor from "../../CodingEditor";
 
-const preRender = (that: CodingEditor): CodingEditorData => {
+const createCodingEditorData = (that: CodingEditor): CodingEditorData => {
     let userTopSectionData: TopSectionData = {
         username: that.state.username,
         eloRating: that.state.eloRating,
@@ -86,4 +86,4 @@ const preRender = (that: CodingEditor): CodingEditorData => {
     return codingEditorData;
 };
 
-export default preRender;
+export default createCodingEditorData;
