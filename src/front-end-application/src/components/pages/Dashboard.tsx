@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box, Button, Typography, Stack, Table, Paper, TableContainer, TableBody, TableRow, TableCell } from "@mui/material"
-import User from "../common/interfaces/User";
+import User from "../common/interfaces/User/User";
 
 export interface DashboardProps {
     user?: User,

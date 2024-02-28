@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import UserSite from "./components/sites/UserSite";
 import PublicSite from "./components/sites/PublicSite";
 import { createBrowserHistory } from 'history';
-import User from "./components/common/interfaces/User";
+import User from "./components/common/interfaces/User/User";
 
 export const history = createBrowserHistory();
 

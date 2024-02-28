@@ -1,6 +1,6 @@
-import QuestionData from "../../../../common/interfaces/matchmaking/QuestionData";
-import TestCasesPassed from "../../../../common/interfaces/matchmaking/TestCasesPassed";
-import CodeSubmission from "../../../../common/interfaces/CodeSubmission";
+import QuestionData from "../../../../common/interfaces/Matchmaking/QuestionData";
+import TestCasesPassed from "../../../../common/interfaces/Matchmaking/TestCasesPassed";
+import CodeSubmission from "../../../../common/interfaces/CodeSubmission/CodeSubmission";
 import { FIELDUPDATE } from "../../../../../enums/WebSocketServerEnums";
 import { sendFieldUpdate } from "../InitialUpdates/InitialUpdates";
 import CodingEditor from "../../CodingEditor";
