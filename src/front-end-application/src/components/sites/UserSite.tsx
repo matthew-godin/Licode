@@ -16,17 +16,22 @@ export interface UserSiteProps {
 }
 
 function UserSite(props: UserSiteProps) {
+    if (props.user?.loading) {
+        return (
+            <Loading />
+        );
+    }
     return (
         <React.Fragment>
             <main className="container">
                 <Routes>
-                    <Route path="/dashboard" element={props.user?.loading ? <Loading /> : <Dashboard user={props.user} fetchUser={props.fetchUser} />} />
-                    <Route path="/waitlist" element={props.user?.loading ? <Loading /> : <Waitlist />} />
-                    <Route path="/editor" element={props.user?.loading ? <Loading /> : <CodingEditor />} />
-                    <Route path="/victory" element={props.user?.loading ? <Loading /> : <VictoryScreen />} />
-                    <Route path="/defeat" element={props.user?.loading ? <Loading /> : <DefeatScreen />} />
-                    <Route path="/register" element={props.user?.loading ? <Loading /> : <DashboardRedirect />} />
-                    <Route path="/signin" element={props.user?.loading ? <Loading /> : <DashboardRedirect />} />
+                    <Route path="/dashboard" element={<Dashboard user={props.user} fetchUser={props.fetchUser} />} />
+                    <Route path="/waitlist" element={<Waitlist />} />
+                    <Route path="/editor" element={<CodingEditor />} />
+                    <Route path="/victory" element={<VictoryScreen />} />
+                    <Route path="/defeat" element={<DefeatScreen />} />
+                    <Route path="/register" element={<DashboardRedirect />} />
+                    <Route path="/signin" element={<DashboardRedirect />} />
                     <Route path="/" element={<Home />} />
                 </Routes>
             </main>
