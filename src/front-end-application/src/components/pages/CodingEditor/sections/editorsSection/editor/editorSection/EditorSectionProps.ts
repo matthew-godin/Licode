@@ -1,5 +1,5 @@
 import { ChangeEventHandler } from 'react';
-import EditorSectionData from '../../../../../common/interfaces/codingEditor/EditorSectionData';
+import EditorSectionData from '../../../../interfaces/EditorSectionData';
 
 export default interface EditorSectionProps {
     editorSectionData: EditorSectionData,

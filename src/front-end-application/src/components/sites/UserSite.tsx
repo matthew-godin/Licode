@@ -5,7 +5,7 @@ import Dashboard from "../pages/Dashboard";
 import DashboardRedirect from "../redirects/DashboardRedirect";
 import VictoryScreen from "../pages/VictoryScreen";
 import DefeatScreen from "../pages/DefeatScreen";
-import CodingEditor from "../pages/codingEditor/CodingEditor";
+import CodingEditor from "../pages/CodingEditor/CodingEditor";
 import Home from "../pages/Home";
 import User from "../common/interfaces/User";
 import Loading from "../common/Loading";
