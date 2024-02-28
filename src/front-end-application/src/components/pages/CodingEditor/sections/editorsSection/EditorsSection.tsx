@@ -6,11 +6,11 @@ function EditorsSection(props: EditorsSectionProps) {
     return (
         <Grid container item mt={0.5}>
             <Grid item xs={0.75} />
-            <Editor editorData={props.userEditorData} editorFlags={props.editorFlags}
-                webSocketServerMethods={props.webSocketServerMethods} isPlayer={true} />
+            <Editor isPlayer={true} webSocketServerMethods={props.codingEditorData.webSocketServerMethods}
+                editorData={props.codingEditorData.userEditorData} editorFlags={props.codingEditorData.editorFlags} />
             <Grid item xs={0.5} />
-            <Editor editorData={props.opponentEditorData} editorFlags={props.editorFlags}
-                webSocketServerMethods={props.webSocketServerMethods} isPlayer={false} />
+            <Editor isPlayer={false} webSocketServerMethods={props.codingEditorData.webSocketServerMethods}
+                editorData={props.codingEditorData.opponentEditorData} editorFlags={props.codingEditorData.editorFlags} />
             <Grid item xs={0.75} />
         </Grid>
     );
