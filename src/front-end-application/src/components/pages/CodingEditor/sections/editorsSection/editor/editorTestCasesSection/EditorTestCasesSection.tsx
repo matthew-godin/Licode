@@ -1,8 +1,4 @@
 import { Grid, Typography } from '@mui/material';
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-python";
-import "ace-builds/src-noconflict/theme-github";
-import "ace-builds/src-noconflict/ext-language_tools";
 import TestCaseIndicator from "./testCaseIndicator/TestCaseIndicator";
 import EditorTestCasesSectionProps from './EditorTestCasesSectionProps';
 
@@ -18,13 +14,11 @@ function EditorTestCasesSection(props: EditorTestCasesSectionProps) {
                 </Grid>
                 <Grid container item>
                     <Grid item xs={0.5} />
-                    {
-                        props.testCasesPassed.map((passed) => {
-                            <Grid item xs={1}>
-                                <TestCaseIndicator passed={passed} />
-                            </Grid>
-                        })
-                    }
+                    {props.testCasesPassed.map((passed) =>
+                        <Grid item xs={1}>
+                            <TestCaseIndicator passed={passed} />
+                        </Grid>
+                    )}
                     <Grid item xs={0.5} />
                 </Grid>
             </Grid>
