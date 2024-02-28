@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import ColorButton from "./colorButton/ColorButton";
+import ColorButton from "./ColorButton/ColorButton";
 
 export interface RunButtonProps {
     handleRun: React.MouseEventHandler<HTMLButtonElement>,
