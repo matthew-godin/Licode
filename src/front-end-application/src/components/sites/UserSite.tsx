@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Waitlist from "../pages/Waitlist";
+import Waitlist from "../pages/Waitlist/Waitlist";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import DashboardRedirect from "../redirects/DashboardRedirect";
-import VictoryScreen from "../pages/VictoryScreen";
+import VictoryScreen from "../pages/Victory/Victory";
 import Defeat from "../pages/Defeat/Defeat";
 import CodingEditor from "../pages/CodingEditor/CodingEditor";
 import Home from "../pages/Home/Home";
