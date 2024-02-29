@@ -1,21 +1,22 @@
-import {
-    Application,
-    Router,
-    RouterContext,
-    Status,
-    send,
-} from "https://deno.land/x/oak/mod.ts";
-
+import { Application, Router, RouterContext, Status } from "https://deno.land/x/oak/mod.ts";
 import MatchmakingData from "./interfaces/MatchmakingData.ts";
 import QuestionData from "./interfaces/QuestionData.ts";
 import TestCasesPassed from "./interfaces/TestCasesPassed.ts";
+import HelloWorld from "./interfaces/HelloWorld.ts";
+import AuthUser from "./interfaces/AuthUser.ts";
+import MatchmakingUser from "./interfaces/MatchmakingUser.ts";
+import CodeSubmission from "./interfaces/CodeSubmission.ts";
+import TestResult from "./interfaces/TestResult.ts";
+import QuestionInformation from "./interfaces/QuestionInformation.ts";
 import { validateEmail, validatePassword, validateUsername } from "./Validation.ts";
-
+import loadTestCases from "./methods/LoadTestCases/LoadTestCases.ts";
+import addToQueue from "./methods/AddToQueue/AddToQueue.ts";
+import checkIfFoundInQueue from "./methods/CheckIfFoundInQueue/CheckIfFoundInQueue.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import { crypto } from "https://deno.land/std@0.132.0/crypto/mod.ts";
-import { nanoid } from 'https://deno.land/x/nanoid@v3.0.0/async.ts'
-import { ensureDir } from 'https://deno.land/std@0.136.0/fs/mod.ts';
-import { parse } from "https://deno.land/std@0.143.0/flags/mod.ts"
+import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/async.ts";
+import { parse } from "https://deno.land/std@0.143.0/flags/mod.ts";
+
 const client = new Client({
     user: "licode",
     database: "licode",
@@ -28,377 +29,28 @@ const client = new Client({
     },
 });
 const env = Deno.env.toObject();
-const args = parse(Deno.args, {alias: {"prod": "p"}, boolean: ["prod"],})
+const args = parse(Deno.args, { alias: {"prod": "p"}, boolean: ["prod"] })
 const prod : boolean = args.prod
 const app = new Application();
 const router = new Router();
-//let iiiCounter = 0;
-
-interface HelloWorld {
-    text: string;
-}
-
-interface AuthUser {
-    email: { value: string };
-    username: { value: string };
-    password: { value: string };
-}
-
-interface MatchmakingUser {
-    eloRating: number;
-    sid: string;
-}
-
-interface CodeSubmission {
-    value: string;
-    input: string;
-}
-
-interface TestResult {
-    testName: string,
-    passed: boolean
-}
-
-interface QuestionInformation {
-    questionId: number,
-    inputFormat: string[],
-    outputFormat: string[],
-}
-
-const numQuestionsPerMatch = 3;
-
 let helloWorldVar: HelloWorld = { text: 'Hello World' };
-
 let sids: { [name: string]: string } = {};
-
 let sidsProgress: { [name: string]: number } = {};
-
 let sidsQuestions: { [name: string]: QuestionInformation[] } = {};
-
 let matchmakingQueue25: MatchmakingUser[] = [];
 let matchmakingQueue50: MatchmakingUser[] = [];
 let matchmakingQueue100: MatchmakingUser[] = [];
 let matchmakingQueue200: MatchmakingUser[] = [];
 let matchmakingQueue500: MatchmakingUser[] = [];
-
 let matches: { [name: string]: string } = {};
 
-const numTestCases: number = 11;
-
-function registerPairEndPoint() : string {
-    return prod ? "https://matthew-godin.com/registerPair" : "http://localhost:5000/registerPair";
-}
-
-function generateTestCaseString(allTestCases: string[], format: string[], j: number, shouldPrint: boolean) {
-    let testCaseString = '';
-    let testCase = allTestCases[j].split(';');
-    let k = 0;
-    let m = 0;
-    let mMax = 0;
-    let n = 0;
-    let nMax = 0;
-    let insideArray = false;
-    let insideArrayArray = false;
-    if (shouldPrint) { console.log("OUTPUTOUTPUTOUTPUTOUTPUTOUTPUTOUTPUTOUTPUTOUTPUTOUTPUT"); }
-    for (let l = 0; l < testCase.length; ++l) {
-        if (shouldPrint) { console.log("L" + l.toString() + "L"); console.log("LI" + testCase[l] + "LI"); }
-        if (format[k] == 'n') {
-            if (shouldPrint) { console.log("K" + k.toString() + "K"); }
-            testCaseString += testCase[l] + '\n';
-            ++k;
-        } else if (format[k] == 'a') {
-            if (insideArray) {
-                if (m < mMax) {
-                    if (shouldPrint) { console.log("M" + m.toString() + "M"); }
-                    testCaseString += testCase[l] + '\n';
-                    ++m;
-                } else {
-                    if (shouldPrint) { console.log("KK" + k.toString() + "KK"); }
-                    insideArray = false;
-                    ++k;
-                    --l;
-                }
-            } else {
-                if (shouldPrint) { console.log("MM" + m.toString() + "MM"); }
-                testCaseString += testCase[l] + '\n';
-                m = 0;
-                mMax = parseInt(testCase[l]);
-                insideArray = true;
-            }
-        } else if (format[k] == 'aa') {
-            if (insideArray) {
-                if (m < mMax) {
-                    if (insideArrayArray) {
-                        if (n < nMax) {
-                            if (shouldPrint) { console.log("N" + n.toString() + "N"); }
-                            testCaseString += testCase[l] + '\n';
-                            ++n;
-                        } else {
-                            if (shouldPrint) { console.log("MMM" + m.toString() + "MMM"); }
-                            insideArrayArray = false;
-                            ++m;
-                            --l;
-                        }
-                    } else {
-                        if (shouldPrint) { console.log("NN" + n.toString() + "NN"); }
-                        testCaseString += testCase[l] + '\n';
-                        n = 0;
-                        nMax = parseInt(testCase[l]);
-                        insideArrayArray = true;
-                    }
-                } else {
-                    if (shouldPrint) { console.log("KKK" + k.toString() + "KKK"); }
-                    insideArray = false;
-                    ++k;
-                    --l;
-                }
-            } else {
-                if (shouldPrint) { console.log("MMMM" + m.toString() + "MMMM"); }
-                testCaseString += testCase[l] + '\n';
-                m = 0;
-                mMax = parseInt(testCase[l]);
-                insideArray = true;
-            }
-        }
-    }
-    if (shouldPrint) { console.log("ENDPUTENDPUTENDPUTENDPUTENDPUTENDPUTENDPUTENDPUTENDPUT"); }
-    if (shouldPrint) { console.log("DEBPUTDEBPUTDEBPUTDEBPUTDEBPUTDEBPUTDEBPUTDEBPUTDEBPUT"); }
-    if (shouldPrint) { console.log(testCaseString); }
-    if (shouldPrint) { console.log("FINPUTFINPUTFINPUTFINPUTFINPUTFINPUTFINPUTFINPUTFINPUT"); }
-    return testCaseString;
-}
-
-function generateStubString(inputFormat: string[], outputFormat: string[], functionSignature: string, normalStub: boolean) {
-    let stubString = '\n\nimport sys\n\nif __name__ == "__main__":\n';
-    for (let i = 0; i < inputFormat.length; ++i) {
-        if (inputFormat[i] == 'n') {
-            stubString += '    p' + i.toString() + ' = int(input())\n';
-        } else if (inputFormat[i] == 'a') {
-            stubString += '    n' + i.toString() + ' = int(input())\n    p' + i.toString() + ' = []\n    for i in range(n' + i.toString() + '):\n        gh = int(input())\n        p' + i.toString() + '.append(gh)\n';
-        } else if (inputFormat[i] == 'aa') {
-            stubString += '    n' + i.toString() + ' = int(input())\n    p' + i.toString() + ' = []\n    for i in range(n' + i.toString() + '):\n        nn' + i.toString() + ' = int(input())\n        pp' + i.toString() + ' = []\n        for j in range(nn' + i.toString() + '):\n            pp' + i.toString() + '.append(int(input()))\n        p' + i.toString() + '.append(pp' + i.toString() + ')\n';
-        }
-    }
-    stubString += '    result = ' + functionSignature.split('(')[0].split('def ')[1] + '(';
-    if (inputFormat.length > 0) {
-        stubString += 'p0';
-    }
-    for (let i = 1; i < inputFormat.length; ++i) {
-        stubString += ', p' + i.toString()
-    }
-    stubString += ')\n';
-    if (normalStub) {
-        stubString += '    print("v10zg57ZIUF6vjZgSPaDY70TQff8wTHXgodX2otrDMEay0WlS36MjDhHH054uRrFxGHHSegvGcA7eaqB")\n'
-        if (outputFormat.length > 0) {
-            if (outputFormat[0] == 'n') {
-                stubString += '    print(result)\n';
-            } else if (outputFormat[0] == 'a') {
-                stubString += '    print(len(result))\n    for r in result:\n        print(r)\n';
-            } else if (outputFormat[0] == 'aa') {
-                stubString += '    print(len(result))\n    for r in result:\n        print(len(r))\n        for rr in r:\n            print(rr)\n';
-            }
-        }
-    }
-    return stubString;
-}
-
-function generateCleanString(outputFormat: string[], normalClean: boolean) {
-    let cleanString = '';
-    if (outputFormat[0] != 'aa') {
-        cleanString += 'import sys\n\nif __name__ == "__main__":\n';
-    } else {
-        cleanString += 'import sys\nimport functools\n\ndef compareNns(x, y):\n    if x[0] > y[0]:\n        return 1\n    elif x[0] < y[0]:\n        return -1\n    else:\n        for i in range(x[0]):\n            if x[1][i] > y[1][i]:\n                return 1\n            if x[1][i] < y[1][i]:\n                return -1\n    return 0\n\nif __name__ == "__main__":\n';
-    }
-    if (normalClean) {
-        cleanString += '    while True:\n        tryInput = input()\n        if (tryInput == "v10zg57ZIUF6vjZgSPaDY70TQff8wTHXgodX2otrDMEay0WlS36MjDhHH054uRrFxGHHSegvGcA7eaqB"):\n            break\n';
-    }
-    if (outputFormat.length > 0) {
-        if (outputFormat[0] == 'n') {
-            cleanString += '    qw = input()\n    print(qw)\n';
-        } else if (outputFormat[0] == 'a') {
-            cleanString += '    n = int(input())\n    nums = []\n    for i in range(n):\n        qw = int(input())\n        nums.append(qw)\n    nums.sort()\n    print(n)\n    for i in range(n):\n        print(nums[i])';
-        } else if (outputFormat[0] == 'aa') {
-            cleanString += '    n = int(input())\n    nns = []\n    nums = []\n    for i in range(n):\n        nn = int(input())\n        nns = nns.copy()\n        nns = []\n        nns.append(nn)\n        nnums = []\n        for j in range(nn):\n            qw = int(input())\n            nnums.append(qw)\n        nnums.sort()\n        nns.append(nnums)\n        nums.append(nns)\n    nums.sort(key = functools.cmp_to_key(compareNns))\n    print(n)\n    for i in range(n):\n        print(nums[i][0])\n        for j in range(len(nums[i][1])):\n            print(nums[i][1][j])\n';
-        }
-    }
-    return cleanString;
-}
-
-function generateMakeReportString(i: number) {
-    //return '#!/bin/bash\n\n(cat stub.py) >> answer.py\n(cat stubCustomInput.py) >> answerCustomInput.py\n\ncontainerID=$(docker run -dit py-sandbox)\ndocker cp TestInputs/ ${containerID}:home/pysandbox/TestEnvironment/TestInputs/\ndocker cp TestOutputs/ ${containerID}:home/pysandbox/TestEnvironment/TestOutputs/\ndocker cp answer.py ${containerID}:home/pysandbox/TestEnvironment/answer.py\ndocker cp customInput.in ${containerID}:home/pysandbox/TestEnvironment/customInput.in\ndocker cp answerCustomInput.py ${containerID}:home/pysandbox/TestEnvironment/answerCustomInput.py\ndocker cp clean.py ${containerID}:home/pysandbox/TestEnvironment/clean.py\n\ndocker exec ${containerID} sh -c "cd home/pysandbox/TestEnvironment/ && timeout 10 ./makeReport.sh"\n\ndocker cp ${containerID}:home/pysandbox/TestEnvironment/report.txt reportFromPySandbox.txt\ndocker cp ${containerID}:home/pysandbox/TestEnvironment/standardOutput.txt standardOutputFromPySandbox.txt\ndocker cp ${containerID}:home/pysandbox/TestEnvironment/output.txt outputFromPySandbox.txt\n\ndocker kill ${containerID}\n\ndocker rm ${containerID}\n\n';
-    return '#!/bin/bash\n\n(cat stub.py) >> ../answer.py\n(cat stubCustomInput.py) >> ../answerCustomInput.py\n\ncontainerID=$(docker run -dit py-sandbox)\ndocker cp TestInputs/ ${containerID}:home/pysandbox/TestEnvironment/TestInputs/\ndocker cp TestOutputs/ ${containerID}:home/pysandbox/TestEnvironment/TestOutputs/\ndocker cp ../answer.py ${containerID}:home/pysandbox/TestEnvironment/answer.py\ndocker cp ../customInput.in ${containerID}:home/pysandbox/TestEnvironment/customInput.in\ndocker cp ../answerCustomInput.py ${containerID}:home/pysandbox/TestEnvironment/answerCustomInput.py\ndocker cp clean.py ${containerID}:home/pysandbox/TestEnvironment/clean.py\ndocker cp cleanOutput.py ${containerID}:home/pysandbox/TestEnvironment/cleanOutput.py\n\ndocker exec ${containerID} sh -c "cd home/pysandbox/TestEnvironment/ && timeout 10 ./makeReport.sh"\n\ndocker cp ${containerID}:home/pysandbox/TestEnvironment/report.txt ../reportFromPySandbox.txt\ndocker cp ${containerID}:home/pysandbox/TestEnvironment/standardOutput.txt ../standardOutputFromPySandbox.txt\ndocker cp ${containerID}:home/pysandbox/TestEnvironment/standardError.txt ../standardErrorFromPySandbox.txt\ndocker cp ${containerID}:home/pysandbox/TestEnvironment/output.txt ../outputFromPySandbox.txt\n\ndocker kill ${containerID}\n\ndocker rm ${containerID}\n\n';
-}
-
-async function loadTestCases() {
-    await client.connect();
-    const questionsResult = await client.queryArray("select count(*) from questions");
-    let numQuestions = Number(questionsResult.rows[0][0] as number);
-    await client.end();
-    for (let i: number = 1; i <= numQuestions; ++i) {
-        await client.connect();
-        const selectedResult = await client.queryArray("select function_signature, input_output_format, test_cases from questions where id = " + i.toString());
-        let functionSignature: string = selectedResult.rows[0][0] as string;
-        let inputOutputFormat = selectedResult.rows[0][1] as string;
-        let testCases = selectedResult.rows[0][2] as string;
-        await client.end();
-        let inputOutputFormats = inputOutputFormat.split('|');
-        let inputFormat: string[] = inputOutputFormats[0].split(';');
-        inputFormat.shift();
-        let outputFormat: string[] = inputOutputFormats[1].split(';');
-        outputFormat.shift();
-        let allTestCases: string[] = testCases.split('|');
-        for (let j: number = 0; j < numTestCases; ++j) {
-            await ensureDir("./sandbox/" + i.toString() + "/TestInputs/");
-            await ensureDir("./sandbox/" + i.toString() + "/TestOutputs/");
-            await Deno.writeTextFile("./sandbox/" + i.toString() + "/TestInputs/test" + (j + 1).toString() + ".in",
-                generateTestCaseString(allTestCases, inputFormat, j, /*i == 2 && j == 0*/false));
-        }
-        let secondHalfThreshold = 2 * numTestCases;
-        for (let j = 11; j < secondHalfThreshold; ++j) {
-            await Deno.writeTextFile("./sandbox/" + i.toString() + "/TestOutputs/test" + (j - 10).toString() + ".out",
-                generateTestCaseString(allTestCases, outputFormat, j, false));
-        }
-        await Deno.writeTextFile("./sandbox/" + i.toString() + "/stub.py", generateStubString(inputFormat, outputFormat,
-            functionSignature, true));
-        await Deno.writeTextFile("./sandbox/" + i.toString() + "/stubCustomInput.py", generateStubString(inputFormat, outputFormat,
-            functionSignature, false));
-        await Deno.writeTextFile("./sandbox/" + i.toString() + "/clean.py", generateCleanString(outputFormat, true));
-        await Deno.writeTextFile("./sandbox/" + i.toString() + "/cleanOutput.py", generateCleanString(outputFormat, false));
-        await Deno.writeTextFile("./sandbox/" + i.toString() + "/makeReport.sh", generateMakeReportString(i));
-        await Deno.run({
-            cmd: ["chmod", "u+x", "makeReport.sh"],
-            cwd: "./sandbox/" + i.toString()
-        });
-    }
-}
-
-loadTestCases();
-
-function delay(time: number) {
-    return new Promise(resolve => setTimeout(resolve, time));
-}
-
-async function selectQuestions(matchmakingUser: MatchmakingUser) {
-    await client.connect();
-    const questionsResult = await client.queryArray("select count(*) from questions");
-    let numQuestions = Number(questionsResult.rows[0][0] as number);
-    await client.end();
-    let questionsSelected: number[] = [];
-    let randomPermutation: number[] = [];
-    for (let i = 0; i < numQuestions; ++i) {
-        randomPermutation[i] = i;
-    }
-    // Partial Fisher-Yates Algorithm for random selection of questions
-    for (let i = 0; i < numQuestionsPerMatch; ++i) {
-        let j = Math.floor(Math.random() * numQuestions);
-        [randomPermutation[i], randomPermutation[j]] = [randomPermutation[j], randomPermutation[i]];
-    }
-    for (let i = 0; i < numQuestionsPerMatch; ++i) {
-        questionsSelected.push(randomPermutation[i] + 1);
-    }
-    let questionsInformation: QuestionInformation[] = [];
-    for (let i = 0; i < questionsSelected.length; ++i) {
-        let inputOutputFormat = '';
-        for (;;) {
-            try {
-                await client.connect();
-                const selectedResult = await client.queryArray("select input_output_format from questions where id = "
-                    + questionsSelected[i].toString());
-                console.log("RRR");
-                console.log(questionsSelected[i].toString());
-                console.log("QQQ");
-                console.log(selectedResult);
-                console.log("WWW");
-                inputOutputFormat = selectedResult.rows[0][0] as string;
-                await client.end();
-                break;
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        let inputOutputFormats = inputOutputFormat.split('|');
-        let inputFormat: string[] = inputOutputFormats[0].split(';');
-        inputFormat.shift();
-        let outputFormat: string[] = inputOutputFormats[1].split(';');
-        outputFormat.shift();
-        let questionInformation: QuestionInformation = { questionId: questionsSelected[i], inputFormat: inputFormat, outputFormat: outputFormat };
-        questionsInformation.push(questionInformation);
-    }
-    sidsQuestions[matchmakingUser.sid] = questionsInformation;
-    sidsQuestions[matches[matchmakingUser.sid]] = questionsInformation;
-}
-
-async function addToQueue (queue: MatchmakingUser[], matchmakingUser: MatchmakingUser, range: number, context: any) {
-    queue.push(matchmakingUser);
-    for (let i = 0; i < queue.length; ++i) {
-        if (queue[i].sid != matchmakingUser.sid
-                && Math.abs(matchmakingUser.eloRating - queue[i].eloRating) <= range) {
-            matches[queue[i].sid] = matchmakingUser.sid;
-            matches[matchmakingUser.sid] = queue[i].sid;
-            sidsProgress[queue[i].sid] = 0;
-            sidsProgress[matchmakingUser.sid] = 0;
-            //can call goServer/registerPair here
-            console.log("attempting register pair " + matchmakingUser.sid + ", " + queue[i].sid);
-            const response = await fetch(registerPairEndPoint(), {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    Id1: matchmakingUser.sid,
-                    Id2: queue[i].sid,
-                }),
-            }); //TODO - Check response 
-            console.log(response.status);
-            //can probably eliminate this, main purpose of this api
-            //method is to match users and register them with the go server
-            context.response.body = {
-                username: sids[matchmakingUser.sid],
-                eloRating: matchmakingUser.eloRating,
-                opponentUsername: sids[queue[i].sid],
-                opponentEloRating: queue[i].eloRating,
-            };
-            queue.splice(i, 1);
-            queue.pop();
-            selectQuestions(matchmakingUser);
-            return true;
-        }
-    }
-    return false;
-}
-
-async function checkIfFoundInQueue(delayTime: number, matchmakingUser: MatchmakingUser, username: string, context: any) {
-    await delay(delayTime);
-    if (matchmakingUser.sid in matches) {
-        let opponentUsername = sids[matches[matchmakingUser.sid]];
-        await client.connect();
-        const usernameResult = await client.queryArray("select elo_rating from users where username='"
-            + username + "'");
-        let opponentEloRating = usernameResult.rows[0][0] as number;
-        await client.end();
-        context.response.body = {
-            username: sids[matchmakingUser.sid],
-            eloRating: matchmakingUser.eloRating,
-            opponentUsername: opponentUsername,
-            opponentEloRating: opponentEloRating,
-        };
-        return true;
-    }
-    return false;
-}
-
-function removeFromQueue(queue: MatchmakingUser[], sid: string) {
-    for (let i = 0; i < queue.length; ++i) {
-        if (queue[i].sid === sid) {
-            queue.splice(i, 1);
-        }
-    }
-}
+loadTestCases(client);
 
 const port: number = +env.LICODE_PORT || 3000;
 app.addEventListener("error", (evt) => {
     console.log(evt.error);
 });
+
 router
     .get("/api/hello-world", (context) => {
         try {
@@ -727,11 +379,12 @@ router
                     let delayTimesNums: number[] = [1, 5, 10, 60];
                     let foundMatch: boolean = false;
                     for (let i = 0; i < queues.length; ++i) {
-                        if (foundMatch = await addToQueue(queues[i], matchmakingUser, ranges[i], context)) {
+                        if (foundMatch = await addToQueue(prod, client, sids, sidsProgress, sidsQuestions, matches,
+                            queues[i], matchmakingUser, ranges[i], context)) {
                             break;
                         } else {
                             for (let j = 0; j < delayTimesNums[i]; ++j) {
-                                if (foundMatch = await checkIfFoundInQueue(1000, matchmakingUser, username, context)) {
+                                if (foundMatch = await checkIfFoundInQueue(client, sids, matches, 1000, matchmakingUser, username, context)) {
                                     break;
                                 }
                             }
@@ -741,8 +394,9 @@ router
                             removeFromQueue(queues[i], sid);
                         }
                     }
-                    if (!foundMatch && !addToQueue(matchmakingQueue500, matchmakingUser, 500, context)) {
-                        while (!(await checkIfFoundInQueue(1000, matchmakingUser, username, context))) { }
+                    if (!foundMatch && !addToQueue(prod, client, sids, sidsProgress, sidsQuestions, matches,
+                        matchmakingQueue500, matchmakingUser, 500, context)) {
+                        while (!(await checkIfFoundInQueue(client, sids, matches, 1000, matchmakingUser, username, context))) { }
                     }
                 }
             }
