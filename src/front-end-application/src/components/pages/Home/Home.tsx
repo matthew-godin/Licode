@@ -1,13 +1,10 @@
 import * as React from "react";
-import {  Button, Typography, Grid  } from "@mui/material"
-import LicodeAppBar from "../common/LicodeAppBar";
-import ProductHero from "../common/ProductHero";
+import LicodeAppBar from "../../common/LicodeAppBar";
+import ProductHero from "../../common/ProductHero";
 import { ThemeProvider } from '@mui/material/styles';
-import editorTheme from '../themes/EditorTheme';
-
-export interface HomeProps {}
-
-export interface HomeState {}
+import editorTheme from '../../themes/EditorTheme';
+import { HomeProps } from "./HomeProps";
+import { HomeState } from "./HomeState";
 
 class Home extends React.Component<HomeProps, HomeState> {
   render() {

@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Waitlist from "../pages/Waitlist";
-import Dashboard from "../pages/Dashboard";
+import Dashboard from "../pages/Dashboard/Dashboard";
 import DashboardRedirect from "../redirects/DashboardRedirect";
 import VictoryScreen from "../pages/VictoryScreen";
-import DefeatScreen from "../pages/DefeatScreen";
+import Defeat from "../pages/Defeat/Defeat";
 import CodingEditor from "../pages/CodingEditor/CodingEditor";
-import Home from "../pages/Home";
+import Home from "../pages/Home/Home";
 import User from "../common/interfaces/User/User";
 import Loading from "../common/Loading";
 
@@ -29,7 +29,7 @@ function UserSite(props: UserSiteProps) {
                     <Route path="/waitlist" element={<Waitlist />} />
                     <Route path="/editor" element={<CodingEditor />} />
                     <Route path="/victory" element={<VictoryScreen />} />
-                    <Route path="/defeat" element={<DefeatScreen />} />
+                    <Route path="/defeat" element={<Defeat />} />
                     <Route path="/register" element={<DashboardRedirect />} />
                     <Route path="/signin" element={<DashboardRedirect />} />
                     <Route path="/" element={<Home />} />

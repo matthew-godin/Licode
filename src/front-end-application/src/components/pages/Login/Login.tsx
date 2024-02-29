@@ -1,80 +1,22 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import { Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Container, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import FormErrorMessage from "../common/FormErrorMessage";
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="licode">
-        licode
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import FormErrorMessage from "../../common/FormErrorMessage";
+import Copyright from '../../common/Copyright';
+import LoginProps from './LoginProps';
+import LoginState from './LoginState';
+import submit from './methods/Submit';
 
 const theme = createTheme();
 
-interface User {
-    email: { value: string };
-    username: { value: string };
-    password: { value: string };
-}
-
-export interface LoginFormProps {
-    fetchUser: Function
-}
-
-export interface LoginFormState {
-    errorMessage: string;
-}
-
-class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
-    constructor(props: LoginFormProps) {
+class Login extends React.Component<LoginProps, LoginState> {
+    constructor(props: LoginProps) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = { errorMessage: '' };
     }
 
-    async handleSubmit (e: React.SyntheticEvent<HTMLFormElement>) {
-        e.preventDefault();
-        let user: User = {
-            email: { value: '' },
-            username: { value: '' },
-            password: { value: '' },
-        }
-        user.email.value = (e.target as typeof e.target & User).email.value;
-        user.password.value = (e.target as typeof e.target & User).password.value;
-        try {
-            let res = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
-            }).then(response => response.json());
-            if (res.text) {
-                this.setState({ errorMessage: res.text });
-            } else {
-                this.props.fetchUser();
-            }
-        } catch (err) {
-            console.log(err);
-        } 
-    }
+    async handleSubmit (e: React.SyntheticEvent<HTMLFormElement>) { submit(e, this); }
 
     render() {
         const errorMessage  = this.state.errorMessage;
@@ -142,4 +84,4 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     }
 }
 
-export default LoginForm;
+export default Login;
