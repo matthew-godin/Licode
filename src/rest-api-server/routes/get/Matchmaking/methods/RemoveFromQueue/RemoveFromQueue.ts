@@ -1,4 +1,4 @@
-import MatchmakingUser from "../../interfaces/MatchmakingUser.ts";
+import MatchmakingUser from "../../../../../interfaces/MatchmakingUser.ts";
 
 const removeFromQueue = (queue: MatchmakingUser[], sid: string) => {
     for (let i = 0; i < queue.length; ++i) {

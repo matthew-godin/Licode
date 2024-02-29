@@ -1,6 +1,6 @@
-import { NUM_QUESTIONS_PER_MATCH } from "../../../constants/NumQuestions.ts";
-import MatchmakingUser from "../../../interfaces/MatchmakingUser.ts";
-import QuestionInformation from "../../../interfaces/QuestionInformation.ts";
+import { NUM_QUESTIONS_PER_MATCH } from "../../../../../../constants/NumQuestions.ts";
+import MatchmakingUser from "../../../../../../interfaces/MatchmakingUser.ts";
+import QuestionInformation from "../../../../../../interfaces/QuestionInformation.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 
 const selectQuestions = async (client: Client, sidsQuestions: { [name: string]: QuestionInformation[] },
