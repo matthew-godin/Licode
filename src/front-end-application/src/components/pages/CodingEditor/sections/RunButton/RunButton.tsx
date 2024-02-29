@@ -14,7 +14,7 @@ function RunButton(props: RunButtonProps) {
                 <ColorButton variant="contained" sx={{ minWidth: 125, fontSize: 24, display: "inline" }} onClick={props.handleRun}>
                     Run
                 </ColorButton>
-                <div className={props.ringClass}></div>
+                <div className={props.ringClass} />
             </Grid>
             <Grid item xs={10} />
         </Grid>
