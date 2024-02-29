@@ -1,5 +1,5 @@
-import MatchmakingUser from "../../interfaces/MatchmakingUser.ts";
-import QuestionInformation from "../../interfaces/QuestionInformation.ts";
+import MatchmakingUser from "../../../../../interfaces/MatchmakingUser.ts";
+import QuestionInformation from "../../../../../interfaces/QuestionInformation.ts";
 import registerPairEndPoint from "./methods/RegisterPairEndPoint/RegisterPairEndPoint.ts";
 import selectQuestions from "./methods/SelectQuestions.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";

@@ -1,4 +1,4 @@
-import MatchmakingUser from "../../interfaces/MatchmakingUser.ts";
+import MatchmakingUser from "../../../../../interfaces/MatchmakingUser.ts";
 import delay from "./methods/Delay.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 
