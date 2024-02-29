@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
-import LoginForm from "../pages/LoginForm";
-import RegisterForm from "../pages/RegisterForm";
+import Home from "../pages/Home/Home";
+import LoginForm from "../pages/Login/Login";
+import RegisterForm from "../pages/Register/Register";
 import LoginRedirect from "../redirects/LoginRedirect";
 
 export interface PublicSiteProps {

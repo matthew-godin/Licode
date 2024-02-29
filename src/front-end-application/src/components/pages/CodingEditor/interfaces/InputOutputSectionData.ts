@@ -1,6 +1,4 @@
 import { ChangeEventHandler } from 'react';
-import TopSectionData from './TopSectionData';
-import EditorSectionData from './EditorSectionData';
 
 export default interface InputOutputSectionData {
     content: string;

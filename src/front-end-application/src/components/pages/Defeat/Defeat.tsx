@@ -1,10 +1,7 @@
 import * as React from "react";
-import { createTheme, Box, Button, Stack, Paper, IconButton, } from "@mui/material"
-
-
-export interface DefeatScreenProps { }
-
-export interface DefeatScreenState { }
+import { Box, Button, Stack, Paper } from "@mui/material"
+import { DefeatProps } from "./DefeatProps";
+import { DefeatState } from "./DefeatState";
 
 const styles = {
     paperContainer: {
@@ -15,8 +12,7 @@ const styles = {
     }
 };
 
-class DefeatScreen extends React.Component<DefeatScreenProps, DefeatScreenState>{
-
+class Defeat extends React.Component<DefeatProps, DefeatState>{
     render() {
         return (
             <Paper style={styles.paperContainer}>
@@ -25,11 +21,12 @@ class DefeatScreen extends React.Component<DefeatScreenProps, DefeatScreenState>
                     alignItems="center" 
                     justifyContent="center"
                     minHeight="100vh"
-                    //sx={{ bgcolor:'primary.light' }}
                 >
                     <Stack
                         spacing={4}
-                        sx={{ bgcolor:'background.paper', fontFamily: 'Varela Round', fontSize: 92, border:5, p:2, borderColor: '#d32f2f', textAlign: 'center'}} 
+                        sx={{ bgcolor:'background.paper', fontFamily: 'Varela Round',
+                            fontSize: 92, border:5, p:2, borderColor: '#d32f2f',
+                            textAlign: 'center'}} 
                     >
                         DEFEAT
                         <Stack direction="row" spacing={0}>
@@ -49,4 +46,4 @@ class DefeatScreen extends React.Component<DefeatScreenProps, DefeatScreenState>
     }
 }
 
-export default DefeatScreen;
+export default Defeat;

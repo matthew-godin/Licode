@@ -1,4 +1,3 @@
-import { ChangeEventHandler } from 'react';
 import TopSectionData from './TopSectionData';
 import EditorSectionData from './EditorSectionData';
 import InputOutputSectionData from './InputOutputSectionData';
