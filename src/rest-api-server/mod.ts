@@ -8,7 +8,7 @@ import MatchmakingUser from "./interfaces/MatchmakingUser.ts";
 import CodeSubmission from "./interfaces/CodeSubmission.ts";
 import TestResult from "./interfaces/TestResult.ts";
 import QuestionInformation from "./interfaces/QuestionInformation.ts";
-import { validateEmail, validatePassword, validateUsername } from "./Validation.ts";
+import { validateEmail, validatePassword, validateUsername } from "./methods/Validation/Validation.ts";
 import loadTestCases from "./methods/LoadTestCases/LoadTestCases.ts";
 import addToQueue from "./methods/AddToQueue/AddToQueue.ts";
 import checkIfFoundInQueue from "./methods/CheckIfFoundInQueue/CheckIfFoundInQueue.ts";
