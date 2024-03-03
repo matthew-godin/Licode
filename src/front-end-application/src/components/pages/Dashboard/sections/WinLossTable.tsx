@@ -1,8 +1,11 @@
 import { Table, Paper, TableContainer, TableBody, TableRow, TableCell } from "@mui/material";
 
 function computeWinRate(numWins?: number, numLosses?: number) {
-    if (!numWins || !numLosses) {
+    if (!numWins) {
         return '0%';
+    }
+    if (!numLosses) {
+        return '100%';
     }
     let numGames = numWins + numLosses;
     if (numGames > 0) {
