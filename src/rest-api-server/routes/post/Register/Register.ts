@@ -3,6 +3,7 @@ import { validateEmail, validatePassword, validateUsername } from "./methods/Val
 import AuthUser from "../../../interfaces/AuthUser.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/async.ts";
+import { crypto } from "https://deno.land/std@0.132.0/crypto/mod.ts";
 
 const register = async (context: RouterContext<any>, client: Client, sids: { [name: string]: string }) => {
     let sid = await context.cookies.get('sid');
