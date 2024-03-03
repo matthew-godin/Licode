@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
+import LoadingRing from '../../common/LoadingRing';
 
 const Waitlist = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const Waitlist = () => {
                 Waiting to be matched with another player . . . 
             </Typography>
             <Typography sx={{textAlign: 'center', marginTop: '3vh'}}>
-                <div className="lds-ring" />
+                <LoadingRing />
             </Typography>
         </Box>
     );
