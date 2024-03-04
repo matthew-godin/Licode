@@ -131,11 +131,7 @@ func reader(conn *websocket.Conn) {
 		ConnectionDropped:
 			break
 		case GiveFieldUpdate:
-			var i int = -1
-			var j int = -1
 			var newValue string = ""
-			var msgTypeStr string = ""
-			var fieldTypeStr string = ""
 			var field int64 = -1
 			var errMsg Msg = makeErrorMsg("")
 
@@ -158,42 +154,7 @@ func reader(conn *websocket.Conn) {
 				errMsg = makeErrorMsg("Invalid field type")
 				goto FieldUpdateFailed
 			}
-
-			newValue = msg
-			//recover newValue
-			msgTypeStr = fmt.Sprint(msgType)
-			fieldTypeStr = fmt.Sprint(field)
-			i = 0
-			//read white space
-			for ; i < len(newValue) && newValue[i] == ' '; i += 1 {
-			}
-			//read msgType
-			j = 0
-			for j < len(msgTypeStr) && (i+j) < len(newValue) && newValue[i+j] == msgTypeStr[j] {
-				j += 1
-			}
-			i += j
-			//read white space
-			for ; i < len(newValue) && newValue[i] == ' '; i += 1 {
-			}
-			//read field type
-			j = 0
-			for j < len(fieldTypeStr) && (i+j) < len(newValue) && newValue[i+j] == fieldTypeStr[j] {
-				j += 1
-			}
-			i += j
-			//read white space
-			for ; i < len(newValue) && newValue[i] == ' '; i += 1 {
-			}
-			//read newValue
-			if i < len(newValue) {
-				log.Println(fmt.Sprintf("Taking %s from %s", newValue[i:], newValue))
-				newValue = newValue[i:]
-			} else {
-				log.Println(fmt.Sprintf("Nothing left in %s", newValue))
-				newValue = ""
-			}
-
+			newValue = computeNewValue(msg, msgType, field)
 			safeWrite2(players[id].opponent.id, defMsgType, makeFieldUpdateMsg(int(field), newValue), true)
 			break
 		FieldUpdateFailed:
