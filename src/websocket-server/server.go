@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 
-	"server/home_page"
 	"server/register_pair"
 	"server/ws_endpoint"
 )
@@ -42,7 +41,6 @@ Message Types:
 */
 
 func setupRoutes() {
-	http.HandleFunc("/homePage", home_page.HomePage)
 	http.HandleFunc("/registerPair", register_pair.RegisterPair)
 	http.HandleFunc("/ws", ws_endpoint.WsEndpoint)
 }
