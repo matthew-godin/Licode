@@ -1,0 +1,3 @@
+registerPair with no body (cause fail on read)
+test already connected (<1%)
+test give missed updates (make server, reg, make ws1, send messages, make ws2, read messages)
