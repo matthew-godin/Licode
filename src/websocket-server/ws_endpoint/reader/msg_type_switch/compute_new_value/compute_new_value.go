@@ -33,10 +33,10 @@ func ComputeNewValue(newValue string, msgType int64, field int64) string {
 	}
 	//read newValue
 	if i < len(newValue) {
-		log.Println(fmt.Sprintf("Taking %s from %s", newValue[i:], newValue))
+		log.Printf("Taking %s from %s\n", newValue[i:], newValue)
 		newValue = newValue[i:]
 	} else {
-		log.Println(fmt.Sprintf("Nothing left in %s", newValue))
+		log.Printf("Nothing left in %s\n", newValue)
 		newValue = ""
 	}
 	return newValue

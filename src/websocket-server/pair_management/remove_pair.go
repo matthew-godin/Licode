@@ -20,7 +20,7 @@ func RemovePair(id string) {
 			}
 		}
 
-		log.Println("Removing Player")
+		log.Printf("Removing Player\n")
 		delete(players.Players, id)
 	}
 

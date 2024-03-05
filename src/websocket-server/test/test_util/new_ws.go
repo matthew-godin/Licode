@@ -1,7 +1,6 @@
 package test_util
 
 import (
-	"fmt"
 	"log"
 	"net/http/httptest"
 	"strings"
@@ -13,7 +12,7 @@ import (
 func NewWS(server *httptest.Server, t *testing.T) *websocket.Conn {
 	//get ws equivalent url
 	u := "ws" + strings.TrimPrefix(server.URL, "http") + "/ws"
-	log.Println(fmt.Sprintf("u: %s", u))
+	log.Printf("u: %s\n", u)
 
 	//connect
 	ws, _, err := websocket.DefaultDialer.Dial(u, nil)
