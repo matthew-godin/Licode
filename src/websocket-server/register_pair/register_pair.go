@@ -2,7 +2,6 @@ package register_pair
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -30,7 +29,7 @@ func RegisterPair(w http.ResponseWriter, r *http.Request) {
 
 	//parse body
 	var pair structs.Pair
-	log.Println(fmt.Sprintf("parsing body: %s", body))
+	log.Printf("parsing body: %s\n", body)
 	err = json.Unmarshal([]byte(body), &pair)
 	if err != nil {
 		w.WriteHeader(400)
@@ -38,7 +37,7 @@ func RegisterPair(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println(fmt.Sprintf("attempting to register %s, %s", pair.Id1, pair.Id2))
+	log.Printf("attempting to register %s, %s\n", pair.Id1, pair.Id2)
 
 	//make sure ids are distinct
 	if pair.Id1 == pair.Id2 {

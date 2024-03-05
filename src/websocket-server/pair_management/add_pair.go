@@ -1,7 +1,6 @@
 package pair_management
 
 import (
-	"fmt"
 	"log"
 
 	"server/players"
@@ -20,7 +19,7 @@ func AddPair(pair structs.Pair) {
 	players.Players[pair.Id1].Opponent = players.Players[pair.Id2]
 	players.Players[pair.Id2].Opponent = players.Players[pair.Id1]
 
-	log.Println(fmt.Sprintf("registered pair: %s, %s", pair.Id1, pair.Id2))
+	log.Printf("registered pair: %s, %s\n", pair.Id1, pair.Id2)
 
 	players.PlayersMU.Unlock()
 }

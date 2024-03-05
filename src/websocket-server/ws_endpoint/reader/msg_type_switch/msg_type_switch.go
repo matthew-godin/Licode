@@ -78,13 +78,13 @@ func MsgTypeSwitch(conn *websocket.Conn, idData *structs.IdData, readerData *str
 		safe_write.SafeWrite(opponentId, readerData.DefMsgType, make_msg.MakeSlowMsg(true), callback, true)
 	case enums.Skip:
 		//dumby response
-		log.Println(fmt.Sprintf("Player %s is skipping", idData.Id))
+		log.Printf(fmt.Sprintf("Player %s is skipping", idData.Id) + "\n")
 	case enums.Win:
 		opponentId, callback := win.Win(idData)
 		safe_write.SafeWrite(opponentId, readerData.DefMsgType, make_msg.MakeLossMsg(), callback, true)
 	case enums.GiveQuestionNum:
 		//this player is on the next question, inform their opponent
-		log.Println(fmt.Sprintf("Player %s is on question %s", idData.Id, readerData.Args[1]))
+		log.Printf(fmt.Sprintf("Player %s is on question %s", idData.Id, readerData.Args[1]) + "\n")
 		opponentId := players.Players[idData.Id].Opponent.Id
 		safe_write.SafeWrite2(opponentId, readerData.DefMsgType, make_msg.MakeQuestionNumMsg(readerData.Args[1]), true)
 	default:
