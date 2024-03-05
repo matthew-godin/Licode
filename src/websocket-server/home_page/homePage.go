@@ -1,4 +1,4 @@
-package main
+package home_page
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 // write response with w
 // format write with fmt
 // log on server with log
-func homePage(w http.ResponseWriter, r *http.Request) {
+func HomePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Home Page")
 	log.Println("Home Page")
 }

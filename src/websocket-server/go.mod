@@ -1,4 +1,4 @@
-module github.com/matthew-godin/Licode/src/websocket-server
+module server
 
 go 1.18
 

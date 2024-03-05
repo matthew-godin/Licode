@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"sync"
+
+	"server/home_page"
+	"server/register_pair"
+	"server/ws_endpoint"
 )
 
 /*
@@ -38,14 +41,10 @@ Message Types:
 	Win						- the player has solved the final question
 */
 
-// list to store players
-var players = make(map[string]*Player)
-var playersMU sync.Mutex
-
 func setupRoutes() {
-	http.HandleFunc("/homePage", homePage)
-	http.HandleFunc("/registerPair", registerPair)
-	http.HandleFunc("/ws", wsEndpoint)
+	http.HandleFunc("/homePage", home_page.HomePage)
+	http.HandleFunc("/registerPair", register_pair.RegisterPair)
+	http.HandleFunc("/ws", ws_endpoint.WsEndpoint)
 }
 
 func main() {

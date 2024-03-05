@@ -1,8 +1,10 @@
-package main
+package ws_endpoint
 
 import (
 	"log"
 	"net/http"
+
+	"server/ws_endpoint/reader"
 
 	"github.com/gorilla/websocket"
 )
@@ -15,7 +17,7 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
-func wsEndpoint(w http.ResponseWriter, r *http.Request) {
+func WsEndpoint(w http.ResponseWriter, r *http.Request) {
 	//dumby cors checker
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 
@@ -25,5 +27,5 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println("Client Connected on Web Socket")
-	reader(ws)
+	reader.Reader(ws)
 }

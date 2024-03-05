@@ -1,11 +1,11 @@
-package main
+package compute_new_value
 
 import (
 	"fmt"
 	"log"
 )
 
-func computeNewValue(newValue string, msgType int64, field int64) string {
+func ComputeNewValue(newValue string, msgType int64, field int64) string {
 	//recover newValue
 	msgTypeStr := fmt.Sprint(msgType)
 	fieldTypeStr := fmt.Sprint(field)
