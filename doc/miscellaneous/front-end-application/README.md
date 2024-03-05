@@ -12,7 +12,7 @@ npm install
 
 ## Reload Nginx Front End
 
-Run the following command to reload the front end build into Nginx and have the latest front end application be reflected at __localhost/licode__.
+Run the following command to reload the front end build into Nginx and have the latest front end application be reflected at **localhost/licode**.
 
 ```bash
 sudo ./update.sh
