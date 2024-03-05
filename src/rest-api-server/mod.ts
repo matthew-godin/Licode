@@ -42,7 +42,7 @@ let matchmakingQueues: MatchmakingQueues = {
 };
 let matches: { [name: string]: string } = {};
 
-loadTestCases(client);
+await loadTestCases(client);
 
 const port: number = +env.LICODE_PORT || 3000;
 app.addEventListener("error", (evt) => {
