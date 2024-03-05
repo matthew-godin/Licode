@@ -2,7 +2,7 @@
 
 ## Reload Packages
 
-Run the following command to reload the Deno packages.
+Run the following commands to reload the Deno packages.
 
 ```bash
 rm -rf packages
@@ -11,7 +11,7 @@ sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts
 
 ## Make Server Follow Code Changes in Real Time
 
-Run the following command to be able to edit the Deno codebase and have the changes be reflected in real time.
+Run the following commands to be able to edit the Deno codebase and have the changes be reflected in real time.
 
 ```bash
 deno install -qAf --unstable https://deno.land/x/denon/denon.ts
