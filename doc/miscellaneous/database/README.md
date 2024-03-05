@@ -2,7 +2,7 @@
 
 ## Create a Migration File to Update the Database Schema
 
-Perform the following command to generate an empty migration file. This file will contain the SQL code performing the changes to the schema.
+Run the following command to generate an empty migration file. This file will contain the SQL code performing the changes to the schema.
 
 ```bash
 python migrations/migrations.py make <migration-name>
