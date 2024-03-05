@@ -61,18 +61,5 @@ router
     .get("/api/wildcardEndpoint", async (context) => { wildcardEndpoint(context, prod); });
 app.use(router.routes());
 app.use(router.allowedMethods());
-app.use(async (context) => {
-    if (!context.request.url.pathname.endsWith('.js')
-        && !context.request.url.pathname.endsWith('.png')
-        && !context.request.url.pathname.endsWith('.ico')
-        && !context.request.url.pathname.endsWith('.txt')
-        && !context.request.url.pathname.endsWith('.css'))	{
-        context.request.url.pathname = '/';
-    }
-    await context.send({
-        root: `${Deno.cwd()}/react-app/build`,
-        index: "index.html",
-    });
-});
 console.log("Running on port", port);
 await app.listen({ port });
