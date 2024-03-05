@@ -1,4 +1,4 @@
-package main
+package register_pair
 
 import (
 	"encoding/json"
@@ -6,10 +6,14 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"server/pair_management"
+	"server/players"
+	"server/structs"
 )
 
 // register a pair of players who will compete
-func registerPair(w http.ResponseWriter, r *http.Request) {
+func RegisterPair(w http.ResponseWriter, r *http.Request) {
 	//need to give 404 or something unless it's from licode
 	log.Println(r.Header.Values("Origin"))
 	//if r.Header.Values("Origin")[0] != "licode.io" {
@@ -25,7 +29,7 @@ func registerPair(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//parse body
-	var pair Pair
+	var pair structs.Pair
 	log.Println(fmt.Sprintf("parsing body: %s", body))
 	err = json.Unmarshal([]byte(body), &pair)
 	if err != nil {
@@ -44,14 +48,14 @@ func registerPair(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//see if players are already registered
-	player1, ok1 := players[pair.Id1]
-	player2, ok2 := players[pair.Id2]
+	player1, ok1 := players.Players[pair.Id1]
+	player2, ok2 := players.Players[pair.Id2]
 
 	if !(ok1 || ok2) {
 		//neither are registered
 		w.WriteHeader(200)
-	} else if ok1 && ok2 && player1.opponent != nil && player2.opponent != nil &&
-		player1.opponent.id == pair.Id2 && player2.opponent.id == pair.Id1 {
+	} else if ok1 && ok2 && player1.Opponent != nil && player2.Opponent != nil &&
+		player1.Opponent.Id == pair.Id2 && player2.Opponent.Id == pair.Id1 {
 		//this is a duplicate, it's fine but we don't want to add it again
 		w.WriteHeader(200)
 		return
@@ -67,5 +71,5 @@ func registerPair(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	addPair(pair)
+	pair_management.AddPair(pair)
 }

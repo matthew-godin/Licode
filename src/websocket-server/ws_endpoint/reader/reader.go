@@ -1,4 +1,4 @@
-package main
+package reader
 
 import (
 	"encoding/json"
@@ -8,12 +8,21 @@ import (
 	"strings"
 	"time"
 
+	"server/enums"
+	"server/pair_management"
+	"server/players"
+	"server/structs"
+	"server/ws_endpoint/reader/compute_new_value"
+	"server/ws_endpoint/reader/is_registered"
+	"server/ws_endpoint/reader/make_msg"
+	"server/ws_endpoint/reader/safe_write"
+
 	"github.com/gorilla/websocket"
 )
 
 // the "reader" that communicates with the
 // websocket throughout its lifecycle
-func reader(conn *websocket.Conn) {
+func Reader(conn *websocket.Conn) {
 	var id string
 	var idSet bool = false
 
@@ -24,14 +33,14 @@ func reader(conn *websocket.Conn) {
 		var msgType int64
 		var msg string
 		var args []string
-		var player *Player
+		var player *structs.Player
 		var ok bool
 
 		//read msg
 		defMsgType, p, err := conn.ReadMessage()
 		if err != nil {
 			log.Println(err)
-			errMsg, err = json.Marshal(makeErrorMsg("Unknown"))
+			errMsg, err = json.Marshal(make_msg.MakeErrorMsg("Unknown"))
 			goto GeneralError
 		}
 
@@ -40,7 +49,7 @@ func reader(conn *websocket.Conn) {
 		args = strings.Fields(msg)
 		if len(args) < 1 {
 			log.Println("Too few args")
-			errMsg, err = json.Marshal(makeErrorMsg("Too few args"))
+			errMsg, err = json.Marshal(make_msg.MakeErrorMsg("Too few args"))
 			goto GeneralError
 		}
 
@@ -50,77 +59,77 @@ func reader(conn *websocket.Conn) {
 		msgType, err = strconv.ParseInt(args[0], 10, 32)
 		if err != nil {
 			log.Println(err)
-			errMsg, err = json.Marshal(makeErrorMsg("Invalid message type"))
+			errMsg, err = json.Marshal(make_msg.MakeErrorMsg("Invalid message type"))
 			goto GeneralError
 		}
 
-		if !idSet && msgType != Connection {
+		if !idSet && msgType != enums.Connection {
 			log.Println("Need an id")
-			errMsg, err = json.Marshal(makeErrorMsg("Need an id"))
+			errMsg, err = json.Marshal(make_msg.MakeErrorMsg("Need an id"))
 			goto GeneralError
 		}
 
 		//check to see if the player has been unregistered
-		player, ok = players[id]
-		if idSet && (!ok || player == nil || player.opponent == nil) {
+		player, ok = players.Players[id]
+		if idSet && (!ok || player == nil || player.Opponent == nil) {
 			log.Println("unreged player intercepted")
 			return
 		}
 
 		//handle dependent on message type
 		switch msgType {
-		case ConnectionRequest:
-			var connMsg Msg
+		case enums.ConnectionRequest:
+			var connMsg structs.Msg
 			var data []byte
 
 			//ensure there's an id
 			if len(args) < 2 {
 				log.Println("Need an id")
-				connMsg = makeErrorMsg("Need an id")
+				connMsg = make_msg.MakeErrorMsg("Need an id")
 				goto ConnectionFailed
 			}
 
 			id = args[1]
 
 			//ensure the player has been registered
-			if !isRegistered(id) {
+			if !is_registered.IsRegistered(id) {
 				log.Println("Error: not registered.")
-				connMsg = makeErrorMsg("id not registered")
+				connMsg = make_msg.MakeErrorMsg("id not registered")
 				goto ConnectionFailed
 			}
 
-			if players[id].connected {
+			if players.Players[id].Connected {
 				//maybe want to error, but what if they silently disconnected?
 				log.Println("Already connected")
 			}
-			players[id].mu.Lock()
+			players.Players[id].Mu.Lock()
 			//ensure we know the player is connected
-			players[id].connected = true
+			players.Players[id].Connected = true
 			//ensure their connection is up to date (i.e. not an invalid pointer
 			//from a dropped connection.)
-			players[id].conn = conn
-			players[id].mu.Unlock()
+			players.Players[id].Conn = conn
+			players.Players[id].Mu.Unlock()
 
 			//give missed updates
-			for len(players[id].inbox) > 0 {
+			for len(players.Players[id].Inbox) > 0 {
 				log.Println("from inbox")
-				if safeWrite(id, players[id].inbox[0].defMsgType, players[id].inbox[0].msg, players[id].inbox[0].callback, false) {
-					players[id].mu.Lock()
-					players[id].inbox = players[id].inbox[1:]
-					players[id].mu.Unlock()
+				if safe_write.SafeWrite(id, players.Players[id].Inbox[0].DefMsgType, players.Players[id].Inbox[0].Msg, players.Players[id].Inbox[0].Callback, false) {
+					players.Players[id].Mu.Lock()
+					players.Players[id].Inbox = players.Players[id].Inbox[1:]
+					players.Players[id].Mu.Unlock()
 				} else {
 					goto ConnectionDropped
 				}
 			}
 
 			//try to give a positive acknowledgment
-			connMsg = makeConnectMsg("")
-			safeWrite2(id, defMsgType, connMsg, false)
+			connMsg = make_msg.MakeConnectMsg("")
+			safe_write.SafeWrite2(id, defMsgType, connMsg, false)
 			idSet = true
 			break
 		ConnectionFailed:
 			if idSet {
-				safeWrite2(id, defMsgType, connMsg, false)
+				safe_write.SafeWrite2(id, defMsgType, connMsg, false)
 			} else {
 				data, err = json.Marshal(connMsg)
 				if err == nil {
@@ -130,17 +139,17 @@ func reader(conn *websocket.Conn) {
 			}
 		ConnectionDropped:
 			break
-		case GiveFieldUpdate:
+		case enums.GiveFieldUpdate:
 			var newValue string = ""
 			var field int64 = -1
-			var errMsg Msg = makeErrorMsg("")
+			var errMsg structs.Msg = make_msg.MakeErrorMsg("")
 
 			if len(args) < 2 {
 				if idSet {
-					errMsg = makeErrorMsg("too few args")
+					errMsg = make_msg.MakeErrorMsg("too few args")
 					goto FieldUpdateFailed
 				} else {
-					data, err := json.Marshal(makeErrorMsg("too few args"))
+					data, err := json.Marshal(make_msg.MakeErrorMsg("too few args"))
 					if err == nil {
 						log.Println("No id field update error")
 						conn.WriteMessage(defMsgType, data)
@@ -151,55 +160,55 @@ func reader(conn *websocket.Conn) {
 			field, err = strconv.ParseInt(args[1], 10, 32)
 			if err != nil {
 				log.Println(err)
-				errMsg = makeErrorMsg("Invalid field type")
+				errMsg = make_msg.MakeErrorMsg("Invalid field type")
 				goto FieldUpdateFailed
 			}
-			newValue = computeNewValue(msg, msgType, field)
-			safeWrite2(players[id].opponent.id, defMsgType, makeFieldUpdateMsg(int(field), newValue), true)
+			newValue = compute_new_value.ComputeNewValue(msg, msgType, field)
+			safe_write.SafeWrite2(players.Players[id].Opponent.Id, defMsgType, make_msg.MakeFieldUpdateMsg(int(field), newValue), true)
 			break
 		FieldUpdateFailed:
-			safeWrite2(id, defMsgType, errMsg, false)
+			safe_write.SafeWrite2(id, defMsgType, errMsg, false)
 			break
-		case StartPeeking:
+		case enums.StartPeeking:
 			//after 15 seconds, tell the player to stop sending their code
 			time.AfterFunc(15*time.Second, func() {
 				log.Println("telling " + id + " to stop peeking")
-				safeWrite2(id, defMsgType, makePeekMsg(), true)
+				safe_write.SafeWrite2(id, defMsgType, make_msg.MakePeekMsg(), true)
 			})
 			break
-		case SlowOpponent:
-			opponentId := players[id].opponent.id
+		case enums.SlowOpponent:
+			opponentId := players.Players[id].Opponent.Id
 			//after 15 seconds, tell the opponent to stop
 			//typing slowly
 			callback := func() {
 				time.AfterFunc(15*time.Second, func() {
-					safeWrite2(opponentId, defMsgType, makeSlowMsg(false), true)
+					safe_write.SafeWrite2(opponentId, defMsgType, make_msg.MakeSlowMsg(false), true)
 				})
 			}
 			//tell opponent to start typing slowly
-			safeWrite(opponentId, defMsgType, makeSlowMsg(true), callback, true)
+			safe_write.SafeWrite(opponentId, defMsgType, make_msg.MakeSlowMsg(true), callback, true)
 			break
-		case Skip:
+		case enums.Skip:
 			//dumby response
 			log.Println(fmt.Sprintf("Player %s is skipping", id))
 			break
-		case Win:
+		case enums.Win:
 			//this player is indicating that they won,
 			//give their opponent the bad news
 			log.Println(fmt.Sprintf("Player %s won!", id))
-			opponentId := players[id].opponent.id
+			opponentId := players.Players[id].Opponent.Id
 			//make callback to unregister pair after giving the bad news
 			callback := func() {
 				//unregister
-				removePair(id)
+				pair_management.RemovePair(id)
 			}
-			safeWrite(opponentId, defMsgType, makeLossMsg(), callback, true)
+			safe_write.SafeWrite(opponentId, defMsgType, make_msg.MakeLossMsg(), callback, true)
 			break
-		case GiveQuestionNum:
+		case enums.GiveQuestionNum:
 			//this player is on the next question, inform their opponent
 			log.Println(fmt.Sprintf("Player %s is on question %s", id, args[1]))
-			opponentId := players[id].opponent.id
-			safeWrite2(opponentId, defMsgType, makeQuestionNumMsg(args[1]), true)
+			opponentId := players.Players[id].Opponent.Id
+			safe_write.SafeWrite2(opponentId, defMsgType, make_msg.MakeQuestionNumMsg(args[1]), true)
 			break
 		default:
 			//error
