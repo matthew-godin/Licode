@@ -13,11 +13,11 @@ go install github.com/gorilla/websocket@latest
 Start the WebSocket server with the following command.
 
 ```bash
-go run server.go
+go run .
 ```
 
 In production, use the following command.
 
 ```bash
-go run server.go &
+go run . &
 ```
