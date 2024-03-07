@@ -18,6 +18,14 @@ deno install -qAf --unstable https://deno.land/x/denon/denon.ts
 sudo -E $DENO_INSTALL/bin/denon run --allow-all mod.ts
 ```
 
+## Update Deno
+
+Run the following command to update Deno to the latest version.
+
+```bash
+deno upgrade
+```
+
 ## Security
 
 SHA3-512 is used for encryption.
