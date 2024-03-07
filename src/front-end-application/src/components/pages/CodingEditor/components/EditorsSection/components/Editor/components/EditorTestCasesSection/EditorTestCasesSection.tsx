@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material';
-import TestCaseIndicator from "./TestCaseIndicator/TestCaseIndicator";
+import TestCaseIndicator from "./components/TestCaseIndicator";
 import EditorTestCasesSectionProps from './EditorTestCasesSectionProps';
 
 function EditorTestCasesSection(props: EditorTestCasesSectionProps) {

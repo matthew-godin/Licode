@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import Editor from './Editor/Editor';
+import Editor from './components/Editor/Editor';
 import EditorsSectionProps from './EditorsSectionProps';
 
 function EditorsSection(props: EditorsSectionProps) {

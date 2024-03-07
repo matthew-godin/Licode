@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Button, TextField, Link, Grid, Box } from '@mui/material';
 import FormErrorMessage from "../../../../common/FormErrorMessage";
 import RegisterFormProps from './RegisterFormProps';
-import Username from "./sections/Username/Username";
-import Email from "./sections/Email/Email";
-import Password from "./sections/Password/Password";
-import ConfirmPassword from "./sections/ConfirmPassword/ConfirmPassword";
+import Username from "./components/Username/Username";
+import Email from "./components/Email/Email";
+import Password from "./components/Password/Password";
+import ConfirmPassword from "./components/ConfirmPassword/ConfirmPassword";
 
 const RegisterForm = (props: RegisterFormProps) => {
     const [showPasswords, setShowPasswords] = useState<boolean>(false);

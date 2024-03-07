@@ -7,7 +7,7 @@ import RegisterState from './RegisterState';
 import submit from './methods/Submit';
 import userInput from './methods/UserInput';
 import validate, { validateField } from './methods/Validate';
-import RegisterForm from './sections/RegisterForm/RegisterForm';
+import RegisterForm from './components/RegisterForm/RegisterForm';
 import createRegisterData from './methods/CreateRegisterData';
 
 const theme = createTheme();

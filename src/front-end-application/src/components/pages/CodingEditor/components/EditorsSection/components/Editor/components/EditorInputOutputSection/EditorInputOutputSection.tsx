@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
-import EditorTextField from "./EditorTextField/EditorTextField";
-import { processOpponentField } from '../../../../../../common/utils/Processing';
+import EditorTextField from "./components/EditorTextField";
+import { processOpponentField } from '../../../../../../../../common/utils/Processing';
 import EditorInputOutputSectionProps from './EditorInputOutputSectionProps';
 
 function EditorInputOutputSection(props: EditorInputOutputSectionProps) {

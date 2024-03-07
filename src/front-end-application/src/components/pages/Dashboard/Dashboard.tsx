@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Box, Button, Typography, Stack } from "@mui/material";
-import WinLossTable from "./sections/WinLossTable";
+import WinLossTable from "./components/WinLossTable";
 import DashboardProps from "./DashboardProps";
 import DashboardState from "./DashboardState";
 
