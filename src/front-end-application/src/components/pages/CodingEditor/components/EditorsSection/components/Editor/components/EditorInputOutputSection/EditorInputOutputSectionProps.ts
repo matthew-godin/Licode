@@ -1,4 +1,4 @@
-import InputOutputSectionData from '../../../../interfaces/InputOutputSectionData';
+import InputOutputSectionData from '../../../../../../interfaces/InputOutputSectionData';
 
 export default interface EditorInputOutputSectionProps {
     name: string,

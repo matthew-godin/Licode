@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import QuestionLine from "./QuestionLine/QuestionLine";
+import QuestionLine from "./components/QuestionLine";
 
 export interface QuestionStatementProps {
     questionLines: string[]

@@ -1,8 +1,8 @@
 import { Grid } from '@mui/material';
-import EditorTopSection from './EditorTopSection/EditorTopSection';
-import EditorSection from './EditorSection/EditorSection';
-import EditorInputOutputSection from './EditorInputOutputSection/EditorInputOutputSection';
-import EditorTestCasesSection from './EditorTestCasesSection/EditorTestCasesSection';
+import EditorTopSection from './components/EditorTopSection/EditorTopSection';
+import EditorSection from './components/EditorSection/EditorSection';
+import EditorInputOutputSection from './components/EditorInputOutputSection/EditorInputOutputSection';
+import EditorTestCasesSection from './components/EditorTestCasesSection/EditorTestCasesSection';
 import EditorProps from './EditorProps';
 
 function Editor(props: EditorProps) {
