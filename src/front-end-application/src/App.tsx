@@ -7,7 +7,7 @@ import User from "./components/common/interfaces/User/User";
 export const history = createBrowserHistory();
 
 function App() {
-    const [user, setUser] = useState<User>({ loading: true });
+    const [user, setUser] = useState<User>({ loading: false });
 
     const fetchUser = () => {
         fetch('/api/user').then(response => response.json()).then((json) => {
@@ -16,7 +16,7 @@ function App() {
     };
 
     useEffect(() => {
-        fetchUser();
+        //fetchUser();
     }, []);
 
     if (user) {

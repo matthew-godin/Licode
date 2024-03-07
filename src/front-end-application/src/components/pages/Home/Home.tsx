@@ -1,6 +1,7 @@
 import * as React from "react";
-import LicodeAppBar from "../../common/LicodeAppBar";
-import ProductHero from "../../common/ProductHero";
+//import LicodeAppBar from "../../common/LicodeAppBar";
+//import ProductHero from "../../common/ProductHero";
+import Banner from "./components/Banner";
 import { ThemeProvider } from '@mui/material/styles';
 import editorTheme from '../../themes/EditorTheme';
 import { HomeProps } from "./HomeProps";
@@ -11,8 +12,9 @@ class Home extends React.Component<HomeProps, HomeState> {
     return (
       <ThemeProvider theme={editorTheme}>
         <React.Fragment>
-          <LicodeAppBar />
-          <ProductHero />
+          {/*<LicodeAppBar />
+          <ProductHero />*/}
+          <Banner />
         </React.Fragment>
       </ThemeProvider>
     );
