@@ -1,7 +1,7 @@
 import * as React from "react";
 //import LicodeAppBar from "../../common/LicodeAppBar";
 //import ProductHero from "../../common/ProductHero";
-import Banner from "./components/Banner";
+import Banner from "./components/Banner/Banner";
 import { ThemeProvider } from '@mui/material/styles';
 import editorTheme from '../../themes/EditorTheme';
 import { HomeProps } from "./HomeProps";
