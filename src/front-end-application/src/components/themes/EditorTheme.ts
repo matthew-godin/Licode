@@ -31,6 +31,7 @@ declare module '@mui/material/styles' {
         welcomeTitle: React.CSSProperties;
         welcomeSubtitle: React.CSSProperties;
         mainTitle: React.CSSProperties;
+        expandable: React.CSSProperties;
     }
 
     interface TypographyVariantsOptions {
@@ -44,6 +45,7 @@ declare module '@mui/material/styles' {
         welcomeTitle?: React.CSSProperties;
         welcomeSubtitle?: React.CSSProperties;
         mainTitle?: React.CSSProperties;
+        expandable?: React.CSSProperties;
     }
 }
 
@@ -65,6 +67,7 @@ declare module '@mui/material/Typography' {
         welcomeTitle: true;
         welcomeSubtitle: true;
         mainTitle: true;
+        expandable: true;
     }
 }
 
@@ -78,8 +81,12 @@ const editorTheme = createTheme({
         button: {
             main: '#000000',
         },
-    },
+    }
 });
+
+editorTheme.typography.expandable = {
+    fontFamily: 'Inter',
+}
 
 editorTheme.typography.problemDescription = {
     fontFamily: 'Arial',
