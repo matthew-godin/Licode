@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import editorTheme from '../../themes/EditorTheme';
 import { HomeProps } from "./HomeProps";
 import { HomeState } from "./HomeState";
+import HomeButton from "./components/HomeButton/HomeButton";
 
 class Home extends React.Component<HomeProps, HomeState> {
   render() {
@@ -14,7 +15,8 @@ class Home extends React.Component<HomeProps, HomeState> {
         <React.Fragment>
           {/*<LicodeAppBar />
           <ProductHero />*/}
-          <Banner />
+          {/*<Banner />*/}
+          <HomeButton label="GET STARTED" background="#000000" color="#ffffff" />
         </React.Fragment>
       </ThemeProvider>
     );
