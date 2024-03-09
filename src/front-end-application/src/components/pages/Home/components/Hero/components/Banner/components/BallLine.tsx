@@ -4,7 +4,8 @@ import BallPill from "./BallPill";
 export interface BallLineProps {
     scale: number,
     color: string,
-    visible: boolean
+    visible: boolean,
+    dataAos: string
 }
 
 function BallLine(props: BallLineProps) {
@@ -15,9 +16,9 @@ function BallLine(props: BallLineProps) {
 
     return (
         <div style={ballLineStyle}>
-            <Ball scale={props.scale} color={props.color} filter={filter} />
-            <BallPill scale={props.scale} color={props.color} filter={filter} />
-            <BallPill scale={props.scale} color={props.color} filter={filter} />
+            <Ball dataAos={props.dataAos} scale={props.scale} color={props.color} filter={filter} />
+            <BallPill dataAos={props.dataAos} scale={props.scale} color={props.color} filter={filter} />
+            <BallPill dataAos={props.dataAos} scale={props.scale} color={props.color} filter={filter} />
         </div>
     );
 }

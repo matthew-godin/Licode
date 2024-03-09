@@ -2,7 +2,8 @@ import SideEditor from "./SideEditor";
 
 export interface EditorsProps {
     scale: number,
-    color: string
+    color: string,
+    dataAos: string
 }
 
 function Editors(props: EditorsProps) {
@@ -61,11 +62,11 @@ function Editors(props: EditorsProps) {
 
     return (
         <div style={editorsStyle}>
-            <SideEditor scale={props.scale} color={props.color} marginTop={marginTop} marginMiddle={marginMiddle}
+            <SideEditor dataAos={props.dataAos} scale={props.scale} color={props.color} marginTop={marginTop} marginMiddle={marginMiddle}
                 usernameString={leftUsernameString} wildcardsVisible={leftWildcardsVisible} questionString={leftQuestionString}
                 editorStrings={leftEditorStrings} editorLastString={leftEditorLastString} inputString={leftInputString}
                 standardOutputString={leftStandardOutputString} standardErrorString={leftStandardErrorString} outputString={leftOutputString} />
-            <SideEditor scale={props.scale} color={props.color} marginTop={marginTop} marginMiddle={marginMiddle}
+            <SideEditor dataAos={props.dataAos} scale={props.scale} color={props.color} marginTop={marginTop} marginMiddle={marginMiddle}
                 usernameString={rightUsernameString} wildcardsVisible={rightWildcardsVisible} questionString={rightQuestionString}
                 editorStrings={rightEditorStrings} editorLastString={rightEditorLastString} inputString={rightInputString}
                 standardOutputString={rightStandardOutputString} standardErrorString={rightStandardErrorString} outputString={rightOutputString} />

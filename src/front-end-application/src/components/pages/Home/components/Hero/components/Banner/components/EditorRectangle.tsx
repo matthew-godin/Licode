@@ -1,9 +1,18 @@
+import { useEffect } from "react";
+import AOS from "aos";
+import 'aos/dist/aos.css';
+
 export interface EditorRectangleProps {
     scale: number,
-    color: string
+    color: string,
+    dataAos: string
 }
 
 function EditorRectangle(props: EditorRectangleProps) {
+    useEffect(() => {
+        AOS.init();
+        AOS.refresh();
+      }, []);
     let width = 1875;
     let height = width * 8;
     let borderRadius = 375;
@@ -18,7 +27,7 @@ function EditorRectangle(props: EditorRectangleProps) {
     }
 
     return (
-        <div style={editorRectangleStyle} />
+        <div data-aos={props.dataAos ? props.dataAos : undefined} style={editorRectangleStyle} />
     );
 }
 

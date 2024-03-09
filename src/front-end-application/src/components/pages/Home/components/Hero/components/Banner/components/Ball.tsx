@@ -1,10 +1,19 @@
+import { useEffect } from "react";
+import AOS from "aos";
+import 'aos/dist/aos.css';
+
 export interface BallProps {
     scale: number,
     color: string,
-    filter: string
+    filter: string,
+    dataAos: string
 }
 
 function Ball(props: BallProps) {
+    useEffect(() => {
+        AOS.init();
+        AOS.refresh();
+      }, []);
     let width = 1125;
     let height = width;
     let borderRadius = width / 2;
@@ -20,7 +29,7 @@ function Ball(props: BallProps) {
     }
 
     return (
-        <div style={ballStyle} />
+        <div data-aos={props.dataAos ? props.dataAos : undefined} style={ballStyle} />
     );
 }
 
