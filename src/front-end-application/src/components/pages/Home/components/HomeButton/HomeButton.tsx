@@ -1,5 +1,5 @@
-import { Button, Typography } from "@mui/material";
-import { darken } from "@mui/material";
+import { Typography, Button } from "@mui/material";
+import { darken, styled } from '@mui/material/styles';
 
 export interface HomeButtonProps {
     label: string,
@@ -8,9 +8,7 @@ export interface HomeButtonProps {
 }
 
 function HomeButton(props: HomeButtonProps) {
-    let style = {
-        fontSize: "1rem",
-        fontWeight: "600",
+    const buttonStyle = {
         padding: "1rem 4rem",
         border: "0",
         borderRadius: "60px",
@@ -21,10 +19,17 @@ function HomeButton(props: HomeButtonProps) {
         "&:hover": {
             background: darken(props.background, 0.1),
         }
-    }
+    };
+    const StyledDiv = styled('div')(({ theme }) => ({
+        fontSize: "0.5rem",
+        fontWeight: "600",
+        [theme.breakpoints.up('md')]: {
+            fontSize: "1rem"
+        }
+    }));
 
     return (
-        <Button href="/licode/register" sx={style}><Typography variant="expandable">{props.label}</Typography></Button>
+        <Button sx={buttonStyle} href="/licode/register"><StyledDiv><Typography variant="expandable">{props.label}</Typography></StyledDiv></Button>
     );
 }
 
