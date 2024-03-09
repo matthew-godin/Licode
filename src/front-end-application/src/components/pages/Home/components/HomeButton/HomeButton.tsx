@@ -21,7 +21,7 @@ function HomeButton(props: HomeButtonProps) {
         }
     };
     const StyledDiv = styled('div')(({ theme }) => ({
-        fontSize: "0.5rem",
+        fontSize: "0.75rem",
         fontWeight: "600",
         [theme.breakpoints.up('md')]: {
             fontSize: "1rem"
