@@ -23,7 +23,7 @@ const StyledHeading = styled('h1')(({ theme }) => ({
     }
 }));
 const StyledParagraph = styled('p')(({ theme }) => ({
-    fontSize: "0.75rem",
+    fontSize: "1.25rem",
     color: "#c3c3c3",
     letterSpacing: "1px",
     margin: "2rem 0 2.5rem",
