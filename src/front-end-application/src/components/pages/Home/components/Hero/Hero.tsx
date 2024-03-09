@@ -17,20 +17,23 @@ const StyledHeading = styled('h1')(({ theme }) => ({
     color: "white",
     marginBottom: "1rem",
     lineHeight: "1.1",
-    fontSize: "4rem"
+    fontSize: "2rem",
+    [theme.breakpoints.up('md')]: {
+        fontSize: "4rem"
+    }
 }));
 const StyledParagraph = styled('p')(({ theme }) => ({
-    fontSize: "1.5rem",
+    fontSize: "0.75rem",
     color: "#c3c3c3",
     letterSpacing: "1px",
-    margin: "2rem 0 2.5rem"
+    margin: "2rem 0 2.5rem",
+    [theme.breakpoints.up('md')]: {
+        fontSize: "1.5rem"
+    }
 }));
 const StyledBlock = styled('div')(({ theme }) => ({
     textAlign: "center",
-    alignSelf: "center",
-    [theme.breakpoints.up('md')]: {
-        textAlign: "left"
-    }
+    alignSelf: "center"
 }));
 
 function Hero(props: HeroProps) {
