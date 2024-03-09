@@ -17,7 +17,7 @@ const StyledHeading = styled('h1')(({ theme }) => ({
     color: "white",
     marginBottom: "1rem",
     lineHeight: "1.1",
-    fontSize: "2rem",
+    fontSize: "2.5rem",
     [theme.breakpoints.up('md')]: {
         fontSize: "4rem"
     }
