@@ -10,7 +10,8 @@ export interface LineProps {
     color: string,
     spacing: number,
     lineString: string,
-    selected?: boolean
+    selected?: boolean,
+    dataAos: string
 }
 
 function Line(props: LineProps) {
@@ -30,15 +31,15 @@ function Line(props: LineProps) {
             {props.lineString.split('').map((size) => {
                 switch (size) {
                     case "S":
-                        return <SmallPill scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
+                        return <SmallPill dataAos={props.dataAos} scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
                     case "M":
-                        return <MediumPill scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
+                        return <MediumPill dataAos={props.dataAos} scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
                     case "L":
-                        return <LargePill scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
+                        return <LargePill dataAos={props.dataAos} scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
                     case "X":
-                        return <ExtraLargePill scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
+                        return <ExtraLargePill dataAos={props.dataAos} scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
                     case "G":
-                        return <MegaLargePill scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
+                        return <MegaLargePill dataAos={props.dataAos} scale={props.scale} color={props.color} filter={filter} height={pillHeight} />
                     case "I":
                         return <Indent scale={props.scale} height={pillHeight} />
                 }

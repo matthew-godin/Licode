@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { AppBar, Link, List, ListItem, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import { shouldForwardProp } from "@mui/styled-engine";
+import AOS from "aos";
+import 'aos/dist/aos.css';
 
 export interface NavigationBarProps {
     color: string,
@@ -15,7 +16,7 @@ const StyledNav = styled('nav', {shouldForwardProp: () => true})<{color: string}
     display: "flex",
     justifyContent: "space-between",
     flexWrap: "wrap",
-    padding: "1rem",
+    padding: "3rem",
     alignItems: "center"
 }));
 const StyledSvg = styled('svg', {shouldForwardProp: () => true})<{collapsed:boolean, bodyColor: string, iconColor: string}>(({ theme, collapsed,
@@ -71,10 +72,8 @@ const StyledLink = styled('a', {shouldForwardProp: () => true})<{bodyColor: stri
 
 function NavigationBar(props: NavigationBarProps) {
     const [collapsed, setCollapsed] = useState<boolean>(false);
-    const collapsibleClick = () => {
-        setCollapsed(!collapsed);
-    };
-
+    const collapsibleClick = () => { setCollapsed(!collapsed); };
+    useEffect(() => { AOS.init(); AOS.refresh(); }, []);
     return (
         <StyledNav color={props.color}>
             <a href="/licode">
@@ -85,10 +84,10 @@ function NavigationBar(props: NavigationBarProps) {
             </StyledSvg>
             <StyledList collapsed={collapsed} bodyColor={props.bodyColor}>
                 <StyledListItem borderColor={props.borderColor}>
-                    <StyledLink bodyColor={props.bodyColor} href="#"><Typography variant="expandable">Sign In</Typography></StyledLink>
+                    <StyledLink bodyColor={props.bodyColor} href="/licode/signin"><Typography variant="expandable">Sign In</Typography></StyledLink>
                 </StyledListItem>
                 <StyledListItem borderColor={props.borderColor}>
-                    <StyledLink bodyColor={props.bodyColor} href="#"><Typography variant="expandable">Sign Up</Typography></StyledLink>
+                    <StyledLink bodyColor={props.bodyColor} href="/licode/register"><Typography variant="expandable">Sign Up</Typography></StyledLink>
                 </StyledListItem>
             </StyledList>
         </StyledNav>

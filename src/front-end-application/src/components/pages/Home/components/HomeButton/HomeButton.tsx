@@ -1,5 +1,5 @@
-import { Button } from "@mui/material";
-import { lighten } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import { darken } from "@mui/material";
 
 export interface HomeButtonProps {
     label: string,
@@ -9,9 +9,9 @@ export interface HomeButtonProps {
 
 function HomeButton(props: HomeButtonProps) {
     let style = {
-        fontSize: "1.8rem",
+        fontSize: "1rem",
         fontWeight: "600",
-        padding: "2rem 3rem",
+        padding: "1rem 4rem",
         border: "0",
         borderRadius: "60px",
         background: props.background,
@@ -19,12 +19,12 @@ function HomeButton(props: HomeButtonProps) {
         cursor: "pointer",
         whiteSpace: "nowrap",
         "&:hover": {
-            background: lighten(props.background, 0.1),
+            background: darken(props.background, 0.1),
         }
     }
 
     return (
-        <Button sx={style}>{props.label}</Button>
+        <Button href="/licode/register" sx={style}><Typography variant="expandable">{props.label}</Typography></Button>
     );
 }
 

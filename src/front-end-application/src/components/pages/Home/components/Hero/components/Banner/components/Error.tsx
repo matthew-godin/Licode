@@ -4,7 +4,8 @@ export interface ErrorProps {
     scale: number,
     color: string,
     spacing: number,
-    lineString: string
+    lineString: string,
+    dataAos: string
 }
 
 function Error(props: ErrorProps) {
@@ -17,7 +18,7 @@ function Error(props: ErrorProps) {
         <div style={editorStyle}>
             <div style={{display: "flex", justifyContent: "center", alignItems: "center",
                 width: 2625 * 2 * props.scale + "px"  }} />
-            <Line scale={props.scale} color={props.color} spacing={props.spacing} lineString={props.lineString} />
+            <Line dataAos={props.dataAos} scale={props.scale} color={props.color} spacing={props.spacing} lineString={props.lineString} />
         </div>
     );
 }

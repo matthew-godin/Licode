@@ -5,7 +5,8 @@ export interface EditorProps {
     scale: number,
     color: string,
     strings: string[],
-    lastString: string
+    lastString: string,
+    dataAos: string
 }
 
 function Editor(props: EditorProps) {
@@ -15,8 +16,8 @@ function Editor(props: EditorProps) {
 
     return (
         <div style={editorStyle}>
-            <EditorRectangle scale={props.scale} color={props.color} />
-            <EditorText scale={props.scale} color={props.color} strings={props.strings} lastString={props.lastString} />
+            <EditorRectangle dataAos={props.dataAos} scale={props.scale} color={props.color} />
+            <EditorText dataAos={props.dataAos} scale={props.scale} color={props.color} strings={props.strings} lastString={props.lastString} />
         </div>
     );
 }

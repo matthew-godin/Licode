@@ -2,7 +2,8 @@ import Line from "./Line";
 
 export interface QuestionStatementProps {
     scale: number,
-    color: string
+    color: string,
+    dataAos: string
 }
 
 function QuestionStatement(props: QuestionStatementProps) {
@@ -10,7 +11,7 @@ function QuestionStatement(props: QuestionStatementProps) {
     let spacing = 0;
 
     return (
-        <Line scale={props.scale} color={props.color} spacing={spacing} lineString={questionStatementString} />
+        <Line dataAos={props.dataAos} scale={props.scale} color={props.color} spacing={spacing} lineString={questionStatementString} />
     );
 }
 

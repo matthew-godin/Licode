@@ -4,12 +4,13 @@ export interface MegaLargePillProps {
     scale: number,
     color: string,
     filter: string,
-    height: number
+    height: number,
+    dataAos: string
 }
 
 function MegaLargePill(props: MegaLargePillProps) {
     return (
-        <Pill width={2625 * 3} height={props.height} scale={props.scale} color={props.color} filter={props.filter} />
+        <Pill dataAos={props.dataAos} width={2625 * 3} height={props.height} scale={props.scale} color={props.color} filter={props.filter} />
     );
 }
 

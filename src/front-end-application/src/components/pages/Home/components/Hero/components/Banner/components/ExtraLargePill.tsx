@@ -4,12 +4,13 @@ export interface ExtraLargePillProps {
     scale: number,
     color: string,
     filter: string,
-    height: number
+    height: number,
+    dataAos: string
 }
 
 function ExtraLargePill(props: ExtraLargePillProps) {
     return (
-        <Pill width={2625} height={props.height} scale={props.scale} color={props.color} filter={props.filter} />
+        <Pill dataAos={props.dataAos} width={2625} height={props.height} scale={props.scale} color={props.color} filter={props.filter} />
     );
 }
 
