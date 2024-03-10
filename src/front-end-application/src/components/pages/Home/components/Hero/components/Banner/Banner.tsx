@@ -8,7 +8,7 @@ export interface BannerProps {
 }
 
 function Banner(props: BannerProps) {
-    const [width, setWidth] = useState<number>(0);
+    const [width, setWidth] = useState<number>(window.innerWidth);
     useLayoutEffect(() => {
         function updateSize() {
           setWidth(window.innerWidth);
@@ -24,7 +24,7 @@ function Banner(props: BannerProps) {
         justifyContent: "center",
         alignItems: "center"
     };
-    let scale = width ? width / 140000 : 0.01;
+    let scale = width / 140000;
     if (width < 900) {
         scale *= 2;
     }
