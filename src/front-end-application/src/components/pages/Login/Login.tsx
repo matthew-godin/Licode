@@ -34,7 +34,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                 >
                 <Avatar sx={{ width: 24, height: 24, bgcolor: 'secondary.main', marginBottom: '4%' }} src="./favicon.ico" variant="rounded" />
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Sign In
                 </Typography>
                 <Box component="form" onSubmit={this.handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField

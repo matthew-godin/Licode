@@ -60,7 +60,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
                     >
                         <Avatar sx={{ width: 24, height: 24, bgcolor: 'secondary.main', marginBottom: '4%' }} src="./favicon.ico" variant="rounded" />
                         <Typography component="h1" variant="h5">
-                            Sign up
+                            Sign Up
                         </Typography>
                         <RegisterForm registerData={registerData} />
                     </Box>
