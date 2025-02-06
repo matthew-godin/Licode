@@ -8,18 +8,19 @@ sudo apt upgrade
 sudo apt install openjdk-17-jdk openjdk-17-jre
 ```
 
-Add the following two lines to ~/.bashrc.
+Run the following commands to install Maven.
 
 ```bash
-export DENO_INSTALL="/$HOME/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
+wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.zip
+unzip apache-maven-3.9.9-bin.zip
+sudo mv apache-maven-3.9.9 /opt/
+
 ```
 
-Add the following two lines to ~/.profile.
+Add the following line to ~/.profile.
 
 ```bash
-export DENO_DIR="$HOME/licode/packages"
-export LICODE_PORT=8000
+export PATH=$PATH:/opt/apache-maven-3.9.9/bin
 ```
 
 Start the REST API server with the following command.
