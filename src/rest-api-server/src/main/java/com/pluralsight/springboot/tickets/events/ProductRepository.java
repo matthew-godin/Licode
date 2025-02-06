@@ -3,18 +3,16 @@ package com.pluralsight.springboot.tickets.events;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public class VenueRepository {
-    private final List<Venue> venues = List.of(
-        new Venue(101, "AAA", "AAAAA", "AA", "A"),
-        new Venue(102, "BBB", "BBBBB", "BB", "B"),
-        new Venue(103, "CCC", "CCCCC", "CC", "C"),
-        new Venue(104, "DDD", "DDDDD", "DD", "D"),
+public class ProductRepository {
+    private final List<Product> products = List.of(
+        new Product(101, 101, "AAA", "AAAAA", 1.1),
+        new Product(102, 102, "BBB", "BBBBB", 1.2),
+        new Product(103, 103, "CCC", "CCCCC", 1.3)
     );
 
-    public Optional<Venue> findById(int id) {
-        return return venues.stream().filter(venue -> venue.id() == id).findAny();
+    public List<Product> findByEventId(int eventId) {
+        return products.stream().filter(product -> product.eventId() == eventId).toList();
     }
 }
