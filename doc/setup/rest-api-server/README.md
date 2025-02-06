@@ -26,11 +26,11 @@ export PATH=$PATH:/opt/apache-maven-3.9.9/bin
 Start the REST API server with the following command.
 
 ```bash
-sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts
+mvn spring-boot:run
 ```
 
 In production, use the following command.
 
 ```bash
-sudo -E $DENO_INSTALL/bin/deno run --allow-all mod.ts -p &
+mvn spring-boot:run &
 ```
