@@ -1,9 +1,11 @@
 # REST API Server Installation
 
-Run the following command to install Deno.
+Run the following commands to install JDK 17.
 
 ```bash
-curl -fsSL https://deno.land/x/install/install.sh | sh
+sudo apt update
+sudo apt upgrade
+sudo apt install openjdk-17-jdk openjdk-17-jre
 ```
 
 Add the following two lines to ~/.bashrc.
