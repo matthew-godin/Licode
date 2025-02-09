@@ -40,7 +40,7 @@ public class RegistrationRepository {
             registrationsByTicketCode.put(ticketCode, saved);
             return saved;
         } else {
-            throw NoSuchElementException("No registration with " + ticketCode + " ticket code");
+            throw new NoSuchElementException("No registration with " + ticketCode + " ticket code");
         }
     }
 
