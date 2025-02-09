@@ -41,4 +41,9 @@ public class EventController {
     public List<Product> getProductsByEvent(@RequestParam("eventId") int eventId) {
         return productRepository.findByEventId(eventId);
     }
+
+    @ExceptionHandler(class.NoSuchElementException)
+    public ErrorResponse notFound(NoSuchElementException ex) {
+        return ErrorResponse.create(ex, HttpStatus.NOT_FOUND, ex.getMessage());
+    }
 }
