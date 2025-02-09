@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Repository
 public class EventRepository {
