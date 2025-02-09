@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping(path = "/java/registrations")
 public class RegistrationController {
 
     private final RegistrationRepository registrationRepository;
