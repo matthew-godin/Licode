@@ -1,7 +1,9 @@
 package com.pluralsight.springboot.tickets.events;
 
 import java.util.NoSuchElementException;
+//import org.springframework.web.bind.annotation.RequestMethod;
 
+@RestController
 public class EventController {
     private final OrganizerRepository organizerRepository;
     private final EventRepository eventRepository;
@@ -13,19 +15,24 @@ public class EventController {
         this.productRepository = productRepository;
     }
 
+    //@RequestMapping(method = RequestMethod.GET, path = "/organizers")
+    @GetMapping(path = "/organizers")
     public List<Organizer> getOrganizers() {
         return organizerRepository.findAll();
     }
 
-    public List<Event> getEventsByOrganizer(int organizerId) {
+    @GetMapping(path = "/events")
+    public List<Event> getEventsByOrganizer(@RequestParam("organizerId") int organizerId) {
         return eventRepository.findByOrganizerId(organizerId);
     }
 
-    public Event getEventById(int eventId) {
+    @GetMapping(path = "/events/{id}")
+    public Event getEventById(@PathVariable("id") int eventId) {
         return eventRepository.findById(eventId).orElseThrow(() -> throw new NoSuchElementException("Event with id " + eventId + " not found"));
     }
 
-    public List<Product> getProductsByEvent(int eventId) {
+    @GetMapping(path = "/products")
+    public List<Product> getProductsByEvent(@RequestParam("eventId") int eventId) {
         return productRepository.findEventById(eventId);
     }
 }
