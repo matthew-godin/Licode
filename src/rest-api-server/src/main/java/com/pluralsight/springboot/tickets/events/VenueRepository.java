@@ -15,6 +15,6 @@ public class VenueRepository {
     );
 
     public Optional<Venue> findById(int id) {
-        return return venues.stream().filter(venue -> venue.id() == id).findAny();
+        return venues.stream().filter(venue -> venue.id() == id).findAny();
     }
 }
