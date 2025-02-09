@@ -2,9 +2,9 @@ package com.pluralsight.springboot.tickets.registration;
 
 public record Registration(
     int id,
-    int productId,
+    @NotNull(message = "Product id is required") int productId,
     String ticketCode,
-    String attendeeName
+    @NotBlank(message = "Attendee name is required") String attendeeName
 ) {
 
 }
