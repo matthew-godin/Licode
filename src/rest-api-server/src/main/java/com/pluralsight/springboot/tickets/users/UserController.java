@@ -61,9 +61,19 @@ public class UserController {
 
     @PostMapping(path = "/api/register")
     public AuthUser register(@RequestBody AuthUser user, HttpServletResponse response) {
-        String sid = user.username().value();
-        sids.put(sid, user.username().value());
-        response.addCookie(new Cookie("sid", sid));
-        return user;
+        Optional<User> userByUsername = userRepository.findByUsername(user.username().value());
+        if (userByUsername.isPresent()) {
+            return message("PRESENT");
+        } else {
+            Optional<User> userByEmail = userRepository.findByEmail(user.email().value());
+            if (userByEmail.isPresent()) {
+                return message("PRESENT");
+            } else {
+                String sid = user.username().value();
+                sids.put(sid, user.username().value());
+                response.addCookie(new Cookie("sid", sid));
+                return user;
+            }
+        }
     }
 }
