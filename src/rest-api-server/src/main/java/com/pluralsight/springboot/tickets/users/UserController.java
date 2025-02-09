@@ -25,10 +25,6 @@ public class UserController {
         return new AuthUser(null, null, null, null);
     }
 
-    private DatabaseUser emptyDatabaseUser() {
-        return new DatabaseUser(null, null, null, null, null);
-    }
-
     private AuthUser message(String text) {
         return new AuthUser(text, null, null, null);
     }
@@ -44,7 +40,7 @@ public class UserController {
                 .orElseThrow(() -> new NoSuchElementException("User with username " + sids.get(sid) + " not found"));
             return new DatabaseUser(new RecordUser (user.getEmail(), user.getUsername(), user.getNumWins(), user.getNumLosses(), user.getEloRating()));
         }
-        return emptyDatabaseUser();
+        return new DatabaseUser(null);
     }
 
     @PostMapping(path = "/api/login")
