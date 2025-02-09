@@ -11,7 +11,7 @@ public class VenueRepository {
         new Venue(101, "AAA", "AAAAA", "AA", "A"),
         new Venue(102, "BBB", "BBBBB", "BB", "B"),
         new Venue(103, "CCC", "CCCCC", "CC", "C"),
-        new Venue(104, "DDD", "DDDDD", "DD", "D"),
+        new Venue(104, "DDD", "DDDDD", "DD", "D")
     );
 
     public Optional<Venue> findById(int id) {
