@@ -2,9 +2,8 @@ package com.pluralsight.springboot.tickets.users;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.boot.web.server.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 
 import java.util.NoSuchElementException;
 import java.util.Map;
@@ -56,10 +55,9 @@ public class UserController {
     }
 
     @PostMapping(path = "/api/register")
-    public ResponseEntity<AuthUser> register(@RequestBody AuthUser user) {
+    public ResponseEntity<AuthUser> register(@RequestBody AuthUser user, HttpServletResponse response) {
         String sid = user.username().value();
         sids.put(sid, user.username().value());
-        ResponseEntity<AuthUser> response = new ResponseEntity<AuthUser>(user, HttpStatus.OK);
         response.addCookie(new Cookie("sid", sid));
         return response;
     }
