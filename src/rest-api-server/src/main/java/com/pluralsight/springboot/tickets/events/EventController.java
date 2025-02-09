@@ -4,9 +4,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.ErrorResponse;
-import org.springframework.http.HttpStatus;
 
 import java.util.NoSuchElementException;
 //import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,10 +40,5 @@ public class EventController {
     @GetMapping(path = "/java/products")
     public List<Product> getProductsByEvent(@RequestParam("eventId") int eventId) {
         return productRepository.findByEventId(eventId);
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public ErrorResponse notFound(NoSuchElementException ex) {
-        return ErrorResponse.create(ex, HttpStatus.NOT_FOUND, ex.getMessage());
     }
 }
