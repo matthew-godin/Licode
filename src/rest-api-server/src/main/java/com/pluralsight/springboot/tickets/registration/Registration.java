@@ -1,13 +1,14 @@
 package com.pluralsight.springboot.tickets.registration;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document("registrations")
 public record Registration(
-    int id,
-    @NotNull(message = "Product id is required") int productId,
-    String ticketCode,
-    @NotBlank(message = "Attendee name is required") String attendeeName
-) {
-
+        @Id String id,
+        @NotNull(message = "Product id is required") Integer productId,
+        String ticketCode,
+        @NotBlank(message = "Attendee name is required") String attendeeName) {
 }
