@@ -33,28 +33,28 @@ public class UserController {
     public AuthUser user(@CookieValue("sid") String sid) {
         /*return userRepository.findByUsername(sids[sid])
                 .orElseThrow(() -> new NoSuchElementException("User with username " + username + " not found"));*/
-        return new emptyBody();
+        return emptyBody();
     }
 
     @PostMapping(path = "/api/login")
     public AuthUser login(@RequestBody AuthUser user) {
         Optional<User> userByUsername = userRepository.findByUsername(user.email().value());
         if (userByUsername.isPresent()) {
-            return new message("PRESENT");
+            return message("PRESENT");
         } else {
             Optional<User> userByEmail = userRepository.findByEmail(user.email().value());
             if (userByEmail.isPresent()) {
-                return new message("PRESENT");
+                return message("PRESENT");
             } else {
                 //return new Message("Given Email or Username Does Not Exist");
-                return new message("NOT PRESENT");
+                return message("NOT PRESENT");
             }
         }
     }
 
     @PostMapping(path = "/api/register")
     public AuthUser register(@RequestBody AuthUser user) {
-        String sid = "12345";
+        String sid = user.username().value();
         sids[sid] = user.username().value();
         response.addCookie(new Cookie("sid", sid));
         return user;
