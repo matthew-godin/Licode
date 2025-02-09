@@ -34,7 +34,8 @@ public class UserController {
             if (userByEmail.isPresent()) {
                 return new Message("PRESENT");
             } else {
-                return new Message("Given Email or Username Does Not Exist");
+                //return new Message("Given Email or Username Does Not Exist");
+                return new Message("NOT PRESENT");
             }
         }
     }
