@@ -25,7 +25,7 @@ public class UserController {
         return new AuthUser(text, null null, null);
     }
 
-    private AuthUser user(String email, String username, String password = null) {
+    private AuthUser user(String email, String username, String password) {
         return new AuthUser(null, new Email(email), new Username(username), new Password(password));
     }
 
