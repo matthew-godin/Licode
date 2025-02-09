@@ -38,7 +38,7 @@ public class Registration {
         return ticketCode;
     }
 
-    public void setTicketCode(int ticketCode) {
+    public void setTicketCode(String ticketCode) {
         this.ticketCode = ticketCode;
     }
 
@@ -46,7 +46,7 @@ public class Registration {
         return attendeeName;
     }
 
-    public void setAttendeeName(int attendeeName) {
+    public void setAttendeeName(String attendeeName) {
         this.attendeeName = attendeeName;
     }
 }
