@@ -22,7 +22,7 @@ public class UserController {
     }
 
     private AuthUser message(String text) {
-        return new AuthUser(text, null null, null);
+        return new AuthUser(text, null, null, null);
     }
 
     private AuthUser user(String email, String username, String password) {
