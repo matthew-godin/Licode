@@ -1,10 +1,10 @@
 package com.pluralsight.springboot.tickets.registration;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface RegistrationRepository extends MongoRepository<Registration, String> {
+public interface RegistrationRepository extends JpaRepository<Registration, String> {
 
     Optional<Registration> findByTicketCode(String ticketCode);
 
