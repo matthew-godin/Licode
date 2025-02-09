@@ -7,6 +7,7 @@ import jakarta.servlet.http.Cookie;
 
 import java.util.NoSuchElementException;
 import java.util.Map;
+import java.util.ConcurrentHashMap;
 import java.util.Optional;
 
 @RestController
@@ -17,7 +18,7 @@ public class UserController {
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.sids = new Map<String, String>();
+        this.sids = new ConcurrentHashMap<String, String>();
     }
 
     private AuthUser emptyBody() {
