@@ -36,8 +36,8 @@ public class UserController {
     @GetMapping(path = "/api/user")
     public AuthUser user(@CookieValue("sid") String sid) {
         if (sids.containsKey(sid)) {
-            return userRepository.findByUsername(sids[sid])
-                .orElseThrow(() -> new NoSuchElementException("User with username " + sids[sid] + " not found"));
+            return userRepository.findByUsername(sids.get(sid))
+                .orElseThrow(() -> new NoSuchElementException("User with username " + sids.get(sid) + " not found"));
         }
         return emptyBody();
     }
