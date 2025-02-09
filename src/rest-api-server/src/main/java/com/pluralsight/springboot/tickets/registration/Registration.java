@@ -34,7 +34,7 @@ public class Registration {
         this.productId = productId;
     }
 
-    public int getTicketCode() {
+    public String getTicketCode() {
         return ticketCode;
     }
 
@@ -42,7 +42,7 @@ public class Registration {
         this.ticketCode = ticketCode;
     }
 
-    public int getAttendeeName() {
+    public String getAttendeeName() {
         return attendeeName;
     }
 
