@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/licode
+    username: postgres
+    password: my-password
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  sql:
+    init:
+      mode: always
