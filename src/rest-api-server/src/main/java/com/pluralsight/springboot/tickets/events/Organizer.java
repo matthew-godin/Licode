@@ -23,15 +23,15 @@ public class Organizer {
         return description;
     }
 
-    public setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 }
