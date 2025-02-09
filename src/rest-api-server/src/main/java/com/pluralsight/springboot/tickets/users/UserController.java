@@ -18,25 +18,33 @@ public class UserController {
     }
 
     @GetMapping(path = "/api/user")
-    public EmptyBody get(@CookieValue("sid") String sid) {
+    public AuthUser user(@CookieValue("sid") String sid) {
         /*return userRepository.findByUsername(sids[sid])
                 .orElseThrow(() -> new NoSuchElementException("User with username " + username + " not found"));*/
-        return new EmptyBody();
+        return new AuthUser();
     }
 
     @PostMapping(path = "/api/login")
-    public Message get(@RequestBody Email email) {
-        Optional<User> userByUsername = userRepository.findByUsername(email.value());
+    public AuthUser login(@RequestBody AuthUser user) {
+        Optional<User> userByUsername = userRepository.findByUsername(user.email().value());
         if (userByUsername.isPresent()) {
-            return new Message("PRESENT");
+            return new AuthUser("PRESENT");
         } else {
-            Optional<User> userByEmail = userRepository.findByEmail(email.value());
+            Optional<User> userByEmail = userRepository.findByEmail(user.email().value());
             if (userByEmail.isPresent()) {
-                return new Message("PRESENT");
+                return new AuthUser("PRESENT");
             } else {
                 //return new Message("Given Email or Username Does Not Exist");
-                return new Message("NOT PRESENT");
+                return new AuthUser("NOT PRESENT");
             }
         }
+    }
+
+    @PostMapping(path = "/api/register")
+    public AuthUser register(@RequestBody AuthUser user) {
+        String sid = "12345";
+        sids[sid] = user.username().value();
+        response.addCookie(new Cookie("sid", sid));
+        return user;
     }
 }
