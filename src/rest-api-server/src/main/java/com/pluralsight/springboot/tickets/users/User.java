@@ -45,7 +45,7 @@ public class User {
     }
 
     public int getNumLosses() {
-        return numLosses;
+        return num_losses;
     }
 
     public void setNumLosses(int num_losses) {
