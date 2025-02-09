@@ -37,7 +37,7 @@ public class UserController {
     public AuthUser user(@CookieValue("sid") String sid) {
         if (sids.containsKey(sid)) {
             return userRepository.findByUsername(sids[sid])
-                .orElseThrow(() -> new NoSuchElementException("User with username " + username + " not found"));
+                .orElseThrow(() -> new NoSuchElementException("User with username " + sids[sid] + " not found"));
         }
         return emptyBody();
     }
