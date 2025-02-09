@@ -25,6 +25,10 @@ public class UserController {
         return new AuthUser(null, null, null, null);
     }
 
+    private DatabaseUser emptyDatabaseUser() {
+        return new DatabaseUser(null, null, null, null, null, false);
+    }
+
     private AuthUser message(String text) {
         return new AuthUser(text, null, null, null);
     }
@@ -34,12 +38,13 @@ public class UserController {
     }
 
     @GetMapping(path = "/api/user")
-    public AuthUser user(@CookieValue("sid") String sid) {
+    public FoundUser user(@CookieValue("sid") String sid) {
         if (sids.containsKey(sid)) {
-            return userRepository.findByUsername(sids.get(sid))
+            User user = userRepository.findByUsername(sids.get(sid))
                 .orElseThrow(() -> new NoSuchElementException("User with username " + sids.get(sid) + " not found"));
+            return new DatabaseUser(user.getEmail(), user.getUsername(), user.getNumWins(), user.getNumLosses(), user.getEloRating(), false);
         }
-        return emptyBody();
+        return emptyDatabaseUser();
     }
 
     @PostMapping(path = "/api/login")
