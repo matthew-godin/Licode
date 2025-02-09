@@ -26,11 +26,11 @@ public class UserController {
 
     @PostMapping(path = "/api/login")
     public Message get(@RequestBody Email email) {
-        Optional<User> userByUsername = userRepository.findByUsername(email.value);
+        Optional<User> userByUsername = userRepository.findByUsername(email.value());
         if (userByUsername.isPresent()) {
             return new Message("PRESENT");
         } else {
-            Optional<User> userByEmail = userRepository.findByEmail(email.value);
+            Optional<User> userByEmail = userRepository.findByEmail(email.value());
             if (userByEmail.isPresent()) {
                 return new Message("PRESENT");
             } else {
