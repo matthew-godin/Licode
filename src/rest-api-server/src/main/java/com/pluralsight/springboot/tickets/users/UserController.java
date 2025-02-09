@@ -17,25 +17,37 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    private AuthUser emptyBody() {
+        return new AuthUser(null, null, null, null);
+    }
+
+    private AuthUser message(String text) {
+        return new AuthUser(text, null null, null);
+    }
+
+    private AuthUser user(String email, String username, String password = null) {
+        return new AuthUser(null, new Email(email), new Username(username), new Password(password));
+    }
+
     @GetMapping(path = "/api/user")
     public AuthUser user(@CookieValue("sid") String sid) {
         /*return userRepository.findByUsername(sids[sid])
                 .orElseThrow(() -> new NoSuchElementException("User with username " + username + " not found"));*/
-        return new AuthUser();
+        return new emptyBody();
     }
 
     @PostMapping(path = "/api/login")
     public AuthUser login(@RequestBody AuthUser user) {
         Optional<User> userByUsername = userRepository.findByUsername(user.email().value());
         if (userByUsername.isPresent()) {
-            return new AuthUser("PRESENT");
+            return new message("PRESENT");
         } else {
             Optional<User> userByEmail = userRepository.findByEmail(user.email().value());
             if (userByEmail.isPresent()) {
-                return new AuthUser("PRESENT");
+                return new message("PRESENT");
             } else {
                 //return new Message("Given Email or Username Does Not Exist");
-                return new AuthUser("NOT PRESENT");
+                return new message("NOT PRESENT");
             }
         }
     }
