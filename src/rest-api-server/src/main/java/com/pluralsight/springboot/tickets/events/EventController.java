@@ -1,5 +1,10 @@
 package com.pluralsight.springboot.tickets.events;
 
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import java.util.NoSuchElementException;
 //import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,7 +33,7 @@ public class EventController {
 
     @GetMapping(path = "/java/events/{id}")
     public Event getEventById(@PathVariable("id") int eventId) {
-        return eventRepository.findById(eventId).orElseThrow(() -> throw new NoSuchElementException("Event with id " + eventId + " not found"););
+        return eventRepository.findById(eventId).orElseThrow(() -> throw new NoSuchElementException("Event with id " + eventId + " not found"));
     }
 
     @GetMapping(path = "/java/products")
