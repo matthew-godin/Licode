@@ -26,7 +26,7 @@ public class UserController {
     }
 
     private DatabaseUser emptyDatabaseUser() {
-        return new DatabaseUser(null, null, null, null, null, false);
+        return new DatabaseUser(null, null, null, null, null);
     }
 
     private AuthUser message(String text) {
@@ -42,7 +42,7 @@ public class UserController {
         if (sids.containsKey(sid)) {
             User user = userRepository.findByUsername(sids.get(sid))
                 .orElseThrow(() -> new NoSuchElementException("User with username " + sids.get(sid) + " not found"));
-            return new DatabaseUser(user.getEmail(), user.getUsername(), user.getNumWins(), user.getNumLosses(), user.getEloRating(), false);
+            return new DatabaseUser(new RecordUser (user.getEmail(), user.getUsername(), user.getNumWins(), user.getNumLosses(), user.getEloRating()));
         }
         return emptyDatabaseUser();
     }
