@@ -2,27 +2,25 @@ package com.pluralsight.springboot.tickets.events;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-
 @Entity
-@Table(name = "products")
-public class Product {
+@Table(name = "venues")
+public class Venue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
-    private int eventId;
-
-    @Column(nullable = false)
     private String name;
 
     @Column
-    private String description;
+    private String street;
 
-    @Column(nullable = false)
-    private BigDecimal price;
+    @Column
+    private String city;
+
+    @Column
+    private String country;
 
     public int getId() {
         return id;
@@ -30,14 +28,6 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
     }
 
     public String getName() {
@@ -48,19 +38,27 @@ public class Product {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getStreet() {
+        return street;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public String getCity() {
+        return city;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
