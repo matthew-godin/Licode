@@ -28,7 +28,7 @@ public class EventController {
 
     @GetMapping(path = "/java/events/{id}")
     public Event getEventById(@PathVariable("id") int eventId) {
-        return eventRepository.findById(eventId).orElseThrow(() -> throw new NoSuchElementException("Event with id " + eventId + " not found"));
+        return eventRepository.findById(eventId).orElseThrow(() -> throw new NoSuchElementException("Event with id " + eventId + " not found"););
     }
 
     @GetMapping(path = "/java/products")
