@@ -9,8 +9,4 @@ public interface RegistrationRepository extends JpaRepository<Registration, Stri
     Optional<Registration> findByTicketCode(String ticketCode);
 
     void deleteByTicketCode(String ticketCode);
-
-    Registration create(Registration registration);
-
-    Registration update(Registration registration);
 }
