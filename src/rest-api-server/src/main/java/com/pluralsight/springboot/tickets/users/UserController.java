@@ -57,7 +57,7 @@ public class UserController {
     @PostMapping(path = "/api/register")
     public ResponseEntity<AuthUser> register(@RequestBody AuthUser user) {
         String sid = user.username().value();
-        sids[sid] = user.username().value();
+        sids.put(sid, user.username().value());
         ResponseEntity<AuthUser> response = new ResponseEntity<AuthUser>(user, HttpStatus.OK);
         response.addCookie(new Cookie("sid", sid));
         return response;
