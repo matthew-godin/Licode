@@ -56,9 +56,10 @@ public class UserController {
 
     @PostMapping(path = "/api/register")
     public AuthUser register(@RequestBody AuthUser user, HttpServletResponse response) {
-        String sid = user.username().value();
+        /*String sid = user.username().value();
         sids.put(sid, user.username().value());
         response.addCookie(new Cookie("sid", sid));
-        return user;
+        return user;*/
+        return message("TEST");
     }
 }
