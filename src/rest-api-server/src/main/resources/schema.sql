@@ -7,7 +7,7 @@ CREATE TABLE public.events (
     venue_id integer NOT NULL
 );
 
-ALTER TABLE public.events OWNER TO pluralsight;
+--ALTER TABLE public.events OWNER TO pluralsight;
 
 CREATE SEQUENCE public.events_id_seq
     AS integer
@@ -18,7 +18,7 @@ CREATE SEQUENCE public.events_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.events_id_seq OWNER TO pluralsight;
+--ALTER TABLE public.events_id_seq OWNER TO pluralsight;
 
 ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
@@ -28,7 +28,7 @@ CREATE TABLE public.organizers (
     name character varying(255) NOT NULL
 );
 
-ALTER TABLE public.organizers OWNER TO pluralsight;
+--ALTER TABLE public.organizers OWNER TO pluralsight;
 
 CREATE SEQUENCE public.organizers_id_seq
     AS integer
@@ -38,7 +38,7 @@ CREATE SEQUENCE public.organizers_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.organizers_id_seq OWNER TO pluralsight;
+--ALTER TABLE public.organizers_id_seq OWNER TO pluralsight;
 
 ALTER SEQUENCE public.organizers_id_seq OWNED BY public.organizers.id;
 
@@ -50,7 +50,7 @@ CREATE TABLE public.products (
     price numeric(38,2) NOT NULL
 );
 
-ALTER TABLE public.products OWNER TO pluralsight;
+--ALTER TABLE public.products OWNER TO pluralsight;
 
 CREATE SEQUENCE public.products_id_seq
     AS integer
@@ -60,7 +60,7 @@ CREATE SEQUENCE public.products_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.products_id_seq OWNER TO pluralsight;
+--ALTER TABLE public.products_id_seq OWNER TO pluralsight;
 
 ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
 
@@ -72,7 +72,7 @@ CREATE TABLE public.venues (
     street character varying(255)
 );
 
-ALTER TABLE public.venues OWNER TO pluralsight;
+--ALTER TABLE public.venues OWNER TO pluralsight;
 
 CREATE SEQUENCE public.venues_id_seq
     AS integer
@@ -82,7 +82,7 @@ CREATE SEQUENCE public.venues_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.venues_id_seq OWNER TO pluralsight;
+--ALTER TABLE public.venues_id_seq OWNER TO pluralsight;
 
 ALTER SEQUENCE public.venues_id_seq OWNED BY public.venues.id;
 
