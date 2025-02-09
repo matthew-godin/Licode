@@ -3,6 +3,7 @@ package com.pluralsight.springboot.tickets.users;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.boot.web.server.Cookie;
 
 import java.util.NoSuchElementException;
