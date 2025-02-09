@@ -16,22 +16,22 @@ public class EventController {
     }
 
     //@RequestMapping(method = RequestMethod.GET, path = "/organizers")
-    @GetMapping(path = "/organizers")
+    @GetMapping(path = "/java/organizers")
     public List<Organizer> getOrganizers() {
         return organizerRepository.findAll();
     }
 
-    @GetMapping(path = "/events")
+    @GetMapping(path = "/java/events")
     public List<Event> getEventsByOrganizer(@RequestParam("organizerId") int organizerId) {
         return eventRepository.findByOrganizerId(organizerId);
     }
 
-    @GetMapping(path = "/events/{id}")
+    @GetMapping(path = "/java/events/{id}")
     public Event getEventById(@PathVariable("id") int eventId) {
         return eventRepository.findById(eventId).orElseThrow(() -> throw new NoSuchElementException("Event with id " + eventId + " not found"));
     }
 
-    @GetMapping(path = "/products")
+    @GetMapping(path = "/java/products")
     public List<Product> getProductsByEvent(@RequestParam("eventId") int eventId) {
         return productRepository.findEventById(eventId);
     }
