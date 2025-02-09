@@ -17,6 +17,7 @@ public class UserController {
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.sids = new Map<String, String>();
     }
 
     private AuthUser emptyBody() {
@@ -56,10 +57,9 @@ public class UserController {
 
     @PostMapping(path = "/api/register")
     public AuthUser register(@RequestBody AuthUser user, HttpServletResponse response) {
-        /*String sid = user.username().value();
+        String sid = user.username().value();
         sids.put(sid, user.username().value());
         response.addCookie(new Cookie("sid", sid));
-        return user;*/
-        return message("TEST");
+        return user;
     }
 }
