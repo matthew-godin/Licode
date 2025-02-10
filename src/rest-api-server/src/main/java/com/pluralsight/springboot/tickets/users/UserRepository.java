@@ -1,4 +1,4 @@
-package com.pluralsight.springboot.tickets.users;
+package com.pluralsight.springboot.licode.users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

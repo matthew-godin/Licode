@@ -1,4 +1,4 @@
-package com.pluralsight.springboot.tickets;
+package com.pluralsight.springboot.licode;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.ErrorResponse;

@@ -1,13 +1,13 @@
-package com.pluralsight.springboot.tickets;
+package com.pluralsight.springboot.licode;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TicketsApplication {
+public class LicodeApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TicketsApplication.class, args);
+		SpringApplication.run(LicodeApplication.class, args);
 	}
 
 }

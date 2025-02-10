@@ -1,4 +1,4 @@
-package com.pluralsight.springboot.tickets;
+package com.pluralsight.springboot.licode;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

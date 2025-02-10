@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.pluralsight.springboot</groupId>
-	<artifactId>tickets</artifactId>
+	<artifactId>licode</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tickets</name>
+	<name>licode</name>
 	<description>Spring Boot 3 Fundamentals</description>
 	<url/>
 	<licenses>
