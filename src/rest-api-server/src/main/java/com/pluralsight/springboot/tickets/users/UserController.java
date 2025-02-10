@@ -82,7 +82,7 @@ public class UserController {
     private String generateNanoId(int size) {
         String nanoId = "";
         for (int i = 0; i < size; ++i) {
-            nanoId += numToNanoIdChar(rand.nextChar(64));
+            nanoId += numToNanoIdChar((char)rand.nextInt(64));
         }
         return nanoId;
     }
