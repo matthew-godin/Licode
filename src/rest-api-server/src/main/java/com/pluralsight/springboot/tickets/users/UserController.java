@@ -102,7 +102,7 @@ public class UserController {
                     saltHexString += Integer.toHexString(rand.nextInt(Math.pow(2, 32)));
                 }
                 int saltHexStringLength = saltHexString.length();
-                for (let i = 0; i < 256 - saltHexStringLength; ++i) {
+                for (int i = 0; i < 256 - saltHexStringLength; ++i) {
                     saltHexString = "0" + saltHexString;
                 }
                 MessageDigest md = MessageDigest.getInstance("SHA-512");
