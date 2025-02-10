@@ -2,6 +2,8 @@ package com.pluralsight.springboot.tickets.users;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -22,6 +24,34 @@ public class User {
 
     @Column
     private int elo_rating;
+
+    @Column
+    private String hashed_password;
+
+    @Column
+    private String salt;
+
+    @Column
+    private LocalDate updated_at;
+
+    @Column
+    private LocalDate created_at;
+
+    @Column
+    private boolean has_2400_rating_history;
+
+    public User(String email, String username, int num_wins, int num_losses, int elo_rating, String hashed_password, String salt, LocalDate created_at, LocalDate updated_at, boolean has_2400_rating_history) {
+        this.email = email;
+        this.username = username;
+        this.num_wins = num_wins;
+        this.num_losses = num_losses;
+        this.elo_rating = elo_rating;
+        this.hashed_password = hashed_password;
+        this.salt = salt;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.has_2400_rating_history = has_2400_rating_history;
+    }
 
     public String getEmail() {
         return email;
@@ -61,5 +91,45 @@ public class User {
 
     public void setEloRating(int elo_rating) {
         this.elo_rating = elo_rating;
+    }
+
+    public String getHashedPassword() {
+        return hashed_password;
+    }
+
+    public void setHashedPassword(String hashed_password) {
+        this.hashed_password = hashed_password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public LocalDate getCreatedAt() {
+        return created_at;
+    }
+
+    public void setCreatedAt(LocalDate created_at) {
+        this.created_at = created_at;
+    }
+
+    public LocalDate getUpdatedAt() {
+        return updated_at;
+    }
+
+    public void setUpdatedAt(LocalDate updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public boolean getHas2400RatingHistory() {
+        return has_2400_rating_history;
+    }
+
+    public void setHas2400RatingHistory(boolean has_2400_rating_history) {
+        this.has_2400_rating_history = has_2400_rating_history;
     }
 }
