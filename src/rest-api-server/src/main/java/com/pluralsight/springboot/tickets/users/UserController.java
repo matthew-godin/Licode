@@ -99,7 +99,7 @@ public class UserController {
             } else {
                 String saltHexString = "";
                 for (int i = 0; i < 32; ++i) {
-                    saltHexString += Integer.toHexString(rand.nextInt(Math.pow(2, 32)));
+                    saltHexString += Integer.toHexString(rand.nextInt((int)Math.pow(2, 32)));
                 }
                 int saltHexStringLength = saltHexString.length();
                 for (int i = 0; i < 256 - saltHexStringLength; ++i) {
