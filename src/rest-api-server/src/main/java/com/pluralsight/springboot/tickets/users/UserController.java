@@ -74,7 +74,7 @@ public class UserController {
         String sid = generateNanoId(40);
             sids.put(sid, authUser.username().value());
             response.addCookie(new Cookie("sid", sid));
-        return user(user.getEmail(), new String(savedPassword), null);
+        return user(user.getEmail(), user.getUsername(), null);
         /*if (savedPassword.equals(providedPassword)) {
             String sid = generateNanoId(40);
             sids.put(sid, authUser.username().value());
