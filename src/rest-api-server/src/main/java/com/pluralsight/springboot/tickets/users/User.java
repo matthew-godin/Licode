@@ -40,6 +40,8 @@ public class User {
     @Column
     private boolean has_2400_rating_history;
 
+    public User() { }
+
     public User(String email, String username, int num_wins, int num_losses, int elo_rating, byte[] hashed_password, byte[] salt, LocalDate created_at, LocalDate updated_at, boolean has_2400_rating_history) {
         this.email = email;
         this.username = username;
