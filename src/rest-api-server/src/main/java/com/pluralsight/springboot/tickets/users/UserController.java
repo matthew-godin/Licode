@@ -67,7 +67,7 @@ public class UserController {
         }
     }
 
-    private AuthUser authLogin(AuthUser authUser, User user) {
+    private AuthUser authLogin(AuthUser authUser, User user, HttpServletResponse response) {
         String saltHexString = new String(user.getSalt());
         if (user.getHashedPassword().equals(hashPassword(new String(user.getSalt()), authUser.password().value()))) {
             String sid = generateNanoId(40);
@@ -79,14 +79,14 @@ public class UserController {
     }
 
     @PostMapping(path = "/api/login")
-    public AuthUser login(@RequestBody AuthUser user) {
+    public AuthUser login(@RequestBody AuthUser user, HttpServletResponse response) {
         Optional<User> userByUsername = userRepository.findByUsername(user.email().value());
         if (userByUsername.isPresent()) {
-            return authLogin(user, userByUsername.orEls(null));
+            return authLogin(user, userByUsername.orElse(null), response);
         } else {
             Optional<User> userByEmail = userRepository.findByEmail(user.email().value());
             if (userByEmail.isPresent()) {
-                return authLogin(user, userByEmail.orElse(null));
+                return authLogin(user, userByEmail.orElse(null), response);
             } else {
                 return message("Given Email or Username Does Not Exist");
             }
