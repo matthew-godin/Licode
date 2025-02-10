@@ -31,7 +31,6 @@ public class UserController {
         this.sids = new ConcurrentHashMap<String, String>();
         rand = new Random();
         logger = LoggerFactory.getLogger(UserController.class);
-        logger.info("CONSTRUCCCCCCCCCCCCCCTTTEDTETEDED");
     }
 
     private AuthUser emptyBody() {
@@ -70,12 +69,14 @@ public class UserController {
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         }
-        return "AAA";
+        return hashedPasswordHexString;
     }
 
     private AuthUser authLogin(AuthUser authUser, User user, HttpServletResponse response) {
         byte[] savedPassword = user.getHashedPassword();
         byte[] providedPassword = hashPassword(user.getSalt(), authUser.password().value()).getBytes(StandardCharsets.UTF_8);
+        logger.info("AAAAA " + new String(savedPassword));
+        logger.info("BBBBB " + new String(providedPassword));
         if (savedPassword.equals(providedPassword)) {
             String sid = generateNanoId(40);
             sids.put(sid, user.getUsername());
