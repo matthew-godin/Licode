@@ -120,7 +120,7 @@ public class UserController {
                 } catch (NoSuchAlgorithmException ex) {
                     ex.printStackTrace();
                 }
-                userRepository.save(new User(user.email().value(), user.username().value(), 0, 0, 1000, hashedPasswordHexString, saltHexString, LocalDate.now(), LocalDate.now(), false));
+                userRepository.save(new User(user.email().value(), user.username().value(), 0, 0, 1000, "\\x" + hashedPasswordHexString, "\\x" + saltHexString, LocalDate.now(), LocalDate.now(), false));
                 String sid = generateNanoId(40);
                 sids.put(sid, user.username().value());
                 response.addCookie(new Cookie("sid", sid));
