@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.security.NoSuchAlgorithmException;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import java.util.Arrays;
 
 @RestController
 public class UserController {
@@ -75,9 +76,7 @@ public class UserController {
     private AuthUser authLogin(AuthUser authUser, User user, HttpServletResponse response) {
         byte[] savedPassword = user.getHashedPassword();
         byte[] providedPassword = hashPassword(user.getSalt(), authUser.password().value()).getBytes(StandardCharsets.UTF_8);
-        logger.info("AAAAA " + new String(savedPassword));
-        logger.info("BBBBB " + new String(providedPassword));
-        if (savedPassword.equals(providedPassword)) {
+        if (Arrays.equals(savedPassword, providedPassword)) {
             String sid = generateNanoId(40);
             sids.put(sid, user.getUsername());
             response.addCookie(new Cookie("sid", sid));
