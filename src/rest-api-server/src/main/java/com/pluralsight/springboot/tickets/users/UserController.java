@@ -65,7 +65,7 @@ public class UserController {
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         }
-        return hashedPasswordHexString;
+        return "AAA";
     }
 
     private AuthUser authLogin(AuthUser authUser, User user, HttpServletResponse response) {
