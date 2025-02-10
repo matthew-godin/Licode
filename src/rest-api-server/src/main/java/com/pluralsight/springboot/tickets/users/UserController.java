@@ -67,7 +67,7 @@ public class UserController {
 
     private char numToNanoIdChar(char num) {
         if (num < 10) {
-            return '0' + num;
+            return (char)('0' + num);
         } else if (num < 36) {
             return 'a' + num - 10;
         } else if (num < 63) {
