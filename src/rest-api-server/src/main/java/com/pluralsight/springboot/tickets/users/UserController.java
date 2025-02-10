@@ -51,18 +51,44 @@ public class UserController {
         return new DatabaseUser(null);
     }
 
+    private String hashPassword(String saltHexString, String password) {
+        String hashedPasswordHexString = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(saltHexString.getBytes(StandardCharsets.UTF_8));
+            byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < bytes.length; ++i){
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            hashedPasswordHexString = sb.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private AuthUser authLogin(AuthUser authUser, Optional<User> user) {
+        String saltHexString = new String(user.getSalt());
+        if (user.getHashedPassword().equals(hashPassword(new String(user.getSalt()), authUser.password().value()))) {
+            String sid = generateNanoId(40);
+            sids.put(sid, user.username().value());
+            response.addCookie(new Cookie("sid", sid));
+            return user(user.getEmail(), user.getUsername());
+        }
+        return message("Wrong Password");
+    }
+
     @PostMapping(path = "/api/login")
     public AuthUser login(@RequestBody AuthUser user) {
         Optional<User> userByUsername = userRepository.findByUsername(user.email().value());
         if (userByUsername.isPresent()) {
-            return message("PRESENT");
+            return authLogin(userByUsername);
         } else {
             Optional<User> userByEmail = userRepository.findByEmail(user.email().value());
             if (userByEmail.isPresent()) {
-                return message("PRESENT");
+                return authLogin(userByEmail);
             } else {
-                //return new Message("Given Email or Username Does Not Exist");
-                return message("NOT PRESENT");
+                return message("Given Email or Username Does Not Exist");
             }
         }
     }
@@ -107,19 +133,7 @@ public class UserController {
                 for (int i = 0; i < 256 - saltHexStringLength; ++i) {
                     saltHexString = "0" + saltHexString;
                 }
-                String hashedPasswordHexString = null;
-                try {
-                    MessageDigest md = MessageDigest.getInstance("SHA-512");
-                    md.update(saltHexString.getBytes(StandardCharsets.UTF_8));
-                    byte[] bytes = md.digest(user.password().value().getBytes(StandardCharsets.UTF_8));
-                    StringBuilder sb = new StringBuilder();
-                    for(int i = 0; i < bytes.length; ++i){
-                        sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-                    }
-                    hashedPasswordHexString = sb.toString();
-                } catch (NoSuchAlgorithmException ex) {
-                    ex.printStackTrace();
-                }
+                String hashedPasswordHexString = hashPassword(saltHexString, user.password().value());
                 userRepository.save(new User(user.email().value(), user.username().value(), 0, 0, 1000, hashedPasswordHexString.getBytes(StandardCharsets.UTF_8), saltHexString.getBytes(StandardCharsets.UTF_8), LocalDate.now(), LocalDate.now(), false));
                 String sid = generateNanoId(40);
                 sids.put(sid, user.username().value());
