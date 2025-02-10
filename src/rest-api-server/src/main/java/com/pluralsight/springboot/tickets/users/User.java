@@ -26,10 +26,10 @@ public class User {
     private int elo_rating;
 
     @Column
-    private String hashed_password;
+    private byte[] hashed_password;
 
     @Column
-    private String salt;
+    private byte[] salt;
 
     @Column
     private LocalDate updated_at;
@@ -93,19 +93,19 @@ public class User {
         this.elo_rating = elo_rating;
     }
 
-    public String getHashedPassword() {
+    public byte[] getHashedPassword() {
         return hashed_password;
     }
 
-    public void setHashedPassword(String hashed_password) {
+    public void setHashedPassword(byte[] hashed_password) {
         this.hashed_password = hashed_password;
     }
 
-    public String getSalt() {
+    public byte[] getSalt() {
         return salt;
     }
 
-    public void setSalt(String salt) {
+    public void setSalt(byte[] salt) {
         this.salt = salt;
     }
 
