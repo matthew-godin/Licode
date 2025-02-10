@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.LocalDate;
 import java.security.NoSuchAlgorithmException;
+import org.slf4j.LoggerFactory;
 
 @RestController
 public class UserController {
@@ -22,11 +23,14 @@ public class UserController {
     private final UserRepository userRepository;
     private Map<String, String> sids;
     private Random rand;
+    private Logger logger;
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
         this.sids = new ConcurrentHashMap<String, String>();
         rand = new Random();
+        logger = LoggerFactory.getLogger(UserController.class);
+        logger.info("CONSTRUCCCCCCCCCCCCCCTTTEDTETEDED");
     }
 
     private AuthUser emptyBody() {
