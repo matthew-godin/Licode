@@ -107,6 +107,7 @@ public class UserController {
                 for (int i = 0; i < 256 - saltHexStringLength; ++i) {
                     saltHexString = "0" + saltHexString;
                 }
+                String hashedPasswordHexString = null;
                 try {
                     MessageDigest md = MessageDigest.getInstance("SHA-512");
                     md.update(saltHexString.getBytes(StandardCharsets.UTF_8));
