@@ -67,11 +67,11 @@ public class UserController {
 
     private char numtToNanoIdChar(int num) {
         if (num < 10) {
-            return '0' + num;
+            return '0' + (char)num;
         } else if (num < 36) {
-            return 'a' + (num - 10);
+            return 'a' + (char)(num - 10);
         } else if (num < 63) {
-            return 'A' + (num - 36);
+            return 'A' + (char)(num - 36);
         } else if (num == 62) {
             return '-';
         } else {
