@@ -200,3 +200,7 @@ src/websocket-server/ws_endpoint/reader/msg_type_switch/connection_request/conne
 src/websocket-server/ws_endpoint/reader/msg_type_switch/field_update/field_update.go linguist-vendored
 src/websocket-server/ws_endpoint/reader/msg_type_switch/is_registered/is_registered.go linguist-vendored
 src/websocket-server/ws_endpoint/reader/msg_type_switch/msg_type_switch.go linguist-vendored
+src/websocket-server/ws_endpoint/reader/msg_type_switch/safe_write/add_msg.go linguist-vendored
+src/websocket-server/ws_endpoint/reader/msg_type_switch/safe_write/safe_write.go linguist-vendored
+src/websocket-server/ws_endpoint/reader/msg_type_switch/safe_write/wrap_msg.go linguist-vendored
+src/websocket-server/ws_endpoint/reader/msg_type_switch/win/win.go linguist-vendored
