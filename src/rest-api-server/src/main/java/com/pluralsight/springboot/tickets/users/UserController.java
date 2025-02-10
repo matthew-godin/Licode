@@ -72,12 +72,12 @@ public class UserController {
         byte[] savedPassword = user.getHashedPassword();
         byte[] providedPassword = hashPassword(user.getSalt(), authUser.password().value()).getBytes(StandardCharsets.UTF_8);
         String sid = generateNanoId(40);
-            sids.put(sid, authUser.username().value());
+            sids.put(sid, user.getUsername());
             response.addCookie(new Cookie("sid", sid));
         return user(user.getEmail(), user.getUsername(), null);
         /*if (savedPassword.equals(providedPassword)) {
             String sid = generateNanoId(40);
-            sids.put(sid, authUser.username().value());
+            sids.put(sid, user.getUsername());
             response.addCookie(new Cookie("sid", sid));
             return user(user.getEmail(), user.getUsername(), null);
         }
