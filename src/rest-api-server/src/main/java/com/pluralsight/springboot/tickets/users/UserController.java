@@ -128,4 +128,13 @@ public class UserController {
             }
         }
     }
+
+    @GetMapping(path = "/api/logout")
+    public AuthUser logout(@CookieValue("sid") String sid, HttpServletResponse response) {
+        Cookie cookieToRemove = new Cookie("sid", null);
+        cookieToRemove.setMaxAge(0);
+        response.addCookie(cookieToRemove);
+        sids.remove(sid);
+        return message("Successfully Logged Out");
+    }
 }
