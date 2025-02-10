@@ -14,6 +14,7 @@ import java.lang.Math;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.LocalDate;
+import java.security.NoSuchAlgorithmException;
 
 @RestController
 public class UserController {
@@ -106,14 +107,18 @@ public class UserController {
                 for (int i = 0; i < 256 - saltHexStringLength; ++i) {
                     saltHexString = "0" + saltHexString;
                 }
-                MessageDigest md = MessageDigest.getInstance("SHA-512");
-                md.update(saltHexString.getBytes(StandardCharsets.UTF_8));
-                byte[] bytes = md.digest(user.password().value().getBytes(StandardCharsets.UTF_8));
-                StringBuilder sb = new StringBuilder();
-                for(int i = 0; i < bytes.length; ++i){
-                    sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+                try {
+                    MessageDigest md = MessageDigest.getInstance("SHA-512");
+                    md.update(saltHexString.getBytes(StandardCharsets.UTF_8));
+                    byte[] bytes = md.digest(user.password().value().getBytes(StandardCharsets.UTF_8));
+                    StringBuilder sb = new StringBuilder();
+                    for(int i = 0; i < bytes.length; ++i){
+                        sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+                    }
+                    String hashedPasswordHexString = sb.toString();
+                } catch (NoSuchAlgorithmException ex) {
+                    ex.printStackTrace();
                 }
-                String hashedPasswordHexString = sb.toString();
                 userRepository.save(new User(user.email().value(), user.username().value(), 0, 0, 1000, hashedPasswordHexString, saltHexString, LocalDate.now(), LocalDate.now(), false));
                 String sid = generateNanoId(40);
                 sids.put(sid, user.username().value());
