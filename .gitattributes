@@ -1,7 +1,3 @@
-src/front-end-application/src/components/common/interfaces/WebSocketServer/BehaviourData.ts linguist-vendored
-src/front-end-application/src/components/common/interfaces/WebSocketServer/FieldUpdateData.ts linguist-vendored
-src/front-end-application/src/components/common/interfaces/WebSocketServer/InformationData.ts linguist-vendored
-src/front-end-application/src/components/common/interfaces/WebSocketServer/ServerMsg.ts linguist-vendored
 src/front-end-application/src/components/common/utils/Processing.ts linguist-vendored
 src/front-end-application/src/components/common/Validation.ts linguist-vendored
 src/front-end-application/src/components/pages/CodingEditor/CodingEditorProps.ts linguist-vendored
