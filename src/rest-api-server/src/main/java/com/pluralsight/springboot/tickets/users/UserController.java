@@ -71,7 +71,7 @@ public class UserController {
         String saltHexString = new String(user.getSalt());
         if (user.getHashedPassword().equals(hashPassword(new String(user.getSalt()), authUser.password().value()))) {
             String sid = generateNanoId(40);
-            sids.put(sid, user.username().value());
+            sids.put(sid, authUser.username().value());
             response.addCookie(new Cookie("sid", sid));
             return user(user.getEmail(), user.getUsername());
         }
