@@ -73,7 +73,7 @@ public class UserController {
             String sid = generateNanoId(40);
             sids.put(sid, authUser.username().value());
             response.addCookie(new Cookie("sid", sid));
-            return user(user.getEmail(), user.getUsername());
+            return user(user.getEmail(), user.getUsername(), null);
         }
         return message("Wrong Password");
     }
