@@ -69,9 +69,9 @@ public class UserController {
         if (num < 10) {
             return (char)('0' + num);
         } else if (num < 36) {
-            return 'a' + num - 10;
+            return (char)('a' + num - 10);
         } else if (num < 63) {
-            return 'A' + num - 36;
+            return (char)('A' + num - 36);
         } else if (num == 62) {
             return '-';
         } else {
