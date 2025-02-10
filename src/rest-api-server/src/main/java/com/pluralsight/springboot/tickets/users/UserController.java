@@ -16,6 +16,7 @@ import java.security.MessageDigest;
 import java.time.LocalDate;
 import java.security.NoSuchAlgorithmException;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 @RestController
 public class UserController {
