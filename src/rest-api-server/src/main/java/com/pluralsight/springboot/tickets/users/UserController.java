@@ -71,17 +71,13 @@ public class UserController {
     private AuthUser authLogin(AuthUser authUser, User user, HttpServletResponse response) {
         byte[] savedPassword = user.getHashedPassword();
         byte[] providedPassword = hashPassword(user.getSalt(), authUser.password().value()).getBytes(StandardCharsets.UTF_8);
-        String sid = generateNanoId(40);
-            sids.put(sid, user.getUsername());
-            response.addCookie(new Cookie("sid", sid));
-        return user(user.getEmail(), user.getUsername(), null);
-        /*if (savedPassword.equals(providedPassword)) {
+        if (savedPassword.equals(providedPassword)) {
             String sid = generateNanoId(40);
             sids.put(sid, user.getUsername());
             response.addCookie(new Cookie("sid", sid));
             return user(user.getEmail(), user.getUsername(), null);
         }
-        return message("Wrong Password");*/
+        return message("Wrong Password");
     }
 
     @PostMapping(path = "/api/login")
