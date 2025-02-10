@@ -1,3 +1,4 @@
+src/front-end-application/src/components/pages/CodingEditor/CodingEditorProps.ts linguist-vendored
 src/front-end-application/src/components/pages/CodingEditor/components/EditorsSection/components/Editor/components/EditorInputOutputSection/EditorInputOutputSectionProps.ts linguist-vendored
 src/front-end-application/src/components/pages/CodingEditor/components/EditorsSection/components/Editor/components/EditorSection/EditorSectionProps.ts linguist-vendored
 src/front-end-application/src/components/pages/CodingEditor/components/EditorsSection/components/Editor/components/EditorTestCasesSection/EditorTestCasesSectionProps.ts linguist-vendored
