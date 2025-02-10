@@ -51,11 +51,11 @@ public class UserController {
         return new DatabaseUser(null);
     }
 
-    private String hashPassword(String saltHexString, String password) {
+    private String hashPassword(byte[] salt, String password) {
         String hashedPasswordHexString = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(saltHexString.getBytes(StandardCharsets.UTF_8));
+            md.update(salt);
             byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             for(int i = 0; i < bytes.length; ++i){
@@ -69,8 +69,7 @@ public class UserController {
     }
 
     private AuthUser authLogin(AuthUser authUser, User user, HttpServletResponse response) {
-        String saltHexString = new String(user.getSalt());
-        if (user.getHashedPassword().equals(hashPassword(new String(user.getSalt()), authUser.password().value()))) {
+        if (user.getHashedPassword().equals(hashPassword(user.getSalt(), authUser.password().value()))) {
             String sid = generateNanoId(40);
             sids.put(sid, authUser.username().value());
             response.addCookie(new Cookie("sid", sid));
@@ -134,7 +133,7 @@ public class UserController {
                 for (int i = 0; i < 256 - saltHexStringLength; ++i) {
                     saltHexString = "0" + saltHexString;
                 }
-                String hashedPasswordHexString = hashPassword(saltHexString, user.password().value());
+                String hashedPasswordHexString = hashPassword(saltHexString.getBytes(StandardCharsets.UTF_8), user.password().value());
                 userRepository.save(new User(user.email().value(), user.username().value(), 0, 0, 1000, hashedPasswordHexString.getBytes(StandardCharsets.UTF_8), saltHexString.getBytes(StandardCharsets.UTF_8), LocalDate.now(), LocalDate.now(), false));
                 String sid = generateNanoId(40);
                 sids.put(sid, user.username().value());
