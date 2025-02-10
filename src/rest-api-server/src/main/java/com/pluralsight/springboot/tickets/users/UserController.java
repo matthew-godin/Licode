@@ -69,7 +69,7 @@ public class UserController {
     }
 
     private AuthUser authLogin(AuthUser authUser, User user, HttpServletResponse response) {
-        if (user.getHashedPassword().equals(hashPassword(user.getSalt(), authUser.password().value()))) {
+        if (user.getHashedPassword().equals(hashPassword(user.getSalt(), authUser.password().value()).getBytes(StandardCharsets.UTF_8))) {
             String sid = generateNanoId(40);
             sids.put(sid, authUser.username().value());
             response.addCookie(new Cookie("sid", sid));
@@ -133,8 +133,9 @@ public class UserController {
                 for (int i = 0; i < 256 - saltHexStringLength; ++i) {
                     saltHexString = "0" + saltHexString;
                 }
-                String hashedPasswordHexString = hashPassword(saltHexString.getBytes(StandardCharsets.UTF_8), user.password().value());
-                userRepository.save(new User(user.email().value(), user.username().value(), 0, 0, 1000, hashedPasswordHexString.getBytes(StandardCharsets.UTF_8), saltHexString.getBytes(StandardCharsets.UTF_8), LocalDate.now(), LocalDate.now(), false));
+                byte[] salt = saltHexString.getBytes(StandardCharsets.UTF_8);
+                String hashedPasswordHexString = hashPassword(salt, user.password().value());
+                userRepository.save(new User(user.email().value(), user.username().value(), 0, 0, 1000, hashedPasswordHexString.getBytes(StandardCharsets.UTF_8), salt, LocalDate.now(), LocalDate.now(), false));
                 String sid = generateNanoId(40);
                 sids.put(sid, user.username().value());
                 response.addCookie(new Cookie("sid", sid));
