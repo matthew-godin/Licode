@@ -17,7 +17,7 @@ public class Validation {
             return "";
         } else if (password.length() < MIN_PASSWORD_LENGTH) {
             return "Password must be at least " + MIN_PASSWORD_LENGTH + " characters";
-        } else if (password.length > MAX_PASSWORD_LENGTH) {
+        } else if (password.length() > MAX_PASSWORD_LENGTH) {
             return "Password must be at most " + MAX_PASSWORD_LENGTH + " characters";
         } else {
             //must meet NUM_PASSWORD_SOFT_REQS of 2 requirements
