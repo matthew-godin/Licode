@@ -3,13 +3,13 @@ package com.pluralsight.springboot.licode.users;
 import java.util.regex.Pattern;
 
 public class Validation {
-    private final int MIN_PASSWORD_LENGTH = 8;
-    private final int MIN_USERNAME_LENGTH = 4;
-    private final int MIN_EMAIL_LENGTH = 3;
-    private final int MAX_PASSWORD_LENGTH = 256;
-    private final int MAX_USERNAME_LENGTH = 16;
-    private final int MAX_EMAIL_LENGTH = 320;
-    private final String INVALID_EMAIL_MESSAGE = "Email Address must be valid";
+    private static final int MIN_PASSWORD_LENGTH = 8;
+    private static final int MIN_USERNAME_LENGTH = 4;
+    private static final int MIN_EMAIL_LENGTH = 3;
+    private static final int MAX_PASSWORD_LENGTH = 256;
+    private static final int MAX_USERNAME_LENGTH = 16;
+    private static final int MAX_EMAIL_LENGTH = 320;
+    private static final String INVALID_EMAIL_MESSAGE = "Email Address must be valid";
 
     public static String validatePassword(String password, boolean annoying) {
         if (!annoying && password.length() == 0) {

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Arrays;
 
 public class AllowedDomainExtensions {
-    private final List<String> ALLOWED_DOMAIN_EXTENSIONS = Arrays.asList(new String[]{"aaa",
+    private static final List<String> ALLOWED_DOMAIN_EXTENSIONS = Arrays.asList(new String[]{"aaa",
         "aarp",
         "abarth",
         "abb",
