@@ -44,7 +44,7 @@ public class Validation {
     }   
 
     public static String validateUsername(String username, boolean annoying) {
-        if (!annoying && username.length == 0) {
+        if (!annoying && username.length() == 0) {
             //don't want to annoy the user, they know an empty password is invalid
             return "";
         } else if (username.length() < MIN_USERNAME_LENGTH) {
