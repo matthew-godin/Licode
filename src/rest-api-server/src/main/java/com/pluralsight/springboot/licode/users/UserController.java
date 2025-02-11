@@ -132,7 +132,7 @@ public class UserController {
         if (!validationMessage.isEmpty()) {
             return message(validationMessage);
         }
-        validationMessage = validatePassword(user.password().value(), true);
+        validationMessage = Validation.validatePassword(user.password().value(), true);
         if (!validationMessage.isEmpty()) {
             return message(validationMessage);
         }
