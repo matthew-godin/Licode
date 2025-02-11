@@ -25,7 +25,7 @@ public class Validation {
             boolean hasUpper = Pattern.compile("[A-Z]").matcher(password).find();
             boolean hasDigit = Pattern.compile("\\d").matcher(password).find();
             boolean hasSpecial = Pattern.compile("[^a-zA-Z\\d]").matcher(password).find();
-            boolean softReqsMet = 0;
+            int softReqsMet = 0;
             if (hasLower) softReqsMet++;
             if (hasUpper) softReqsMet++;
             if (hasDigit) softReqsMet++;
