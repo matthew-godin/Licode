@@ -75,7 +75,7 @@ public class Validation {
             || Pattern.compile("^.*[-]{2}.*$").matcher(prefix).find() || Pattern.compile("^.*[.]{2}.*$").matcher(prefix).find() || Pattern.compile("^.*[_]{2}.*$").matcher(prefix).find()) {
             return INVALID_EMAIL_MESSAGE;
         }
-        String[] dotSplit = domain.split('[.]');
+        String[] dotSplit = domain.split("[.]");
         if (dotSplit.length() < 2) {
             return INVALID_EMAIL_MESSAGE;
         }
