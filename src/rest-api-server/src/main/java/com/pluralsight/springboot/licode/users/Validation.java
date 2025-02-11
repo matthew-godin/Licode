@@ -9,6 +9,7 @@ public class Validation {
     private static final int MAX_PASSWORD_LENGTH = 256;
     private static final int MAX_USERNAME_LENGTH = 16;
     private static final int MAX_EMAIL_LENGTH = 320;
+    private static final int NUM_PASSWORD_SOFT_REQS = 2;
     private static final String INVALID_EMAIL_MESSAGE = "Email Address must be valid";
 
     public static String validatePassword(String password, boolean annoying) {
