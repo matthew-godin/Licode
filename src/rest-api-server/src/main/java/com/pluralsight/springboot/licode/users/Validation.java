@@ -77,7 +77,7 @@ public class Validation {
             return INVALID_EMAIL_MESSAGE;
         }
         String[] dotSplit = domain.split("[.]");
-        if (dotSplit.length() < 2) {
+        if (dotSplit.length < 2) {
             return INVALID_EMAIL_MESSAGE;
         }
         for (int i = 0; i < dotSplit.length - 1; ++i) {
