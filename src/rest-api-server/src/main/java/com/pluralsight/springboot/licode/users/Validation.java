@@ -72,7 +72,7 @@ public class Validation {
             return INVALID_EMAIL_MESSAGE;
         }
         if (Pattern.compile("[^a-z\\d-_.]").matcher(prefix).find() || prefix.charAt(0) == '-' || prefix.charAt(0) == '_' || prefix.charAt(0) == '.'
-            || prefix.charAt(prefix.length() - 1) == '-' || prefix.charAt(prefix.length - 1) == '_' || prefix.charAt(prefix.length - 1) == '.'
+            || prefix.charAt(prefix.length() - 1) == '-' || prefix.charAt(prefix.length() - 1) == '_' || prefix.charAt(prefix.length() - 1) == '.'
             || Pattern.compile("^.*[-]{2}.*$").matcher(prefix).find() || Pattern.compile("^.*[.]{2}.*$").matcher(prefix).find() || Pattern.compile("^.*[_]{2}.*$").matcher(prefix).find()) {
             return INVALID_EMAIL_MESSAGE;
         }
