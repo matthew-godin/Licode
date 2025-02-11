@@ -124,6 +124,18 @@ public class UserController {
 
     @PostMapping(path = "/api/register")
     public AuthUser register(@RequestBody AuthUser user, HttpServletResponse response) {
+        String validationMessage = Validation.validateUsername(username, true);
+        if (!validationMessage.isEmpty()) {
+            return message(validationMessage);
+        }
+        validationMessage = Validation.validateEmail(email, true);
+        if (!validationMessage.isEmpty()) {
+            return message(validationMessage);
+        }
+        validationMessage = validatePassword(password, true);
+        if (!validationMessage.isEmpty()) {
+            return message(validationMessage);
+        }
         Optional<User> userByUsername = userRepository.findByUsername(user.username().value());
         if (userByUsername.isPresent()) {
             return message("Given Username Already Exists");
