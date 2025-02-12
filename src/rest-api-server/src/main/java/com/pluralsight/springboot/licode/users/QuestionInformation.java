@@ -1,3 +1,5 @@
 package com.pluralsight.springboot.licode.users;
 
-public record QuestionInformation(long questionId, String[] inputFormat, String[] outputFormat) { }
+import java.util.List;
+
+public record QuestionInformation(long questionId, List<String> inputFormat, List<String> outputFormat) { }
