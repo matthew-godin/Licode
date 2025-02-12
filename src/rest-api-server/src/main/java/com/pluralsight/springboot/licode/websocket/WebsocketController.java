@@ -3,7 +3,7 @@ package com.pluralsight.springboot.licode.websocket;
 @RestController
 public class WebsocketController {
 
-    public UserController() { }
+    public WebsocketController() { }
 
     @GetMapping(path = "/api/wildcardEndpoint")
     public WildcardEndpoint wildcardEndpoint() {
