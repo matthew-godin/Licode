@@ -85,7 +85,7 @@ public class Matchmaking {
                 //method is to match users and register them with the go server
                 queue.remove(i);
                 queue.remove(queue.size() - 1);
-                selectQuestions(questionRepository, sidsQuestions, matches, matchmakingUser);
+                selectQuestions(questionRepository, rand, sidsQuestions, matches, matchmakingUser);
                 return new MatchedUser(sids.get(matchmakingUser.sid()), matchmakingUser.eloRating(), sids.get(queue.get(i).sid()), queue.get(i).eloRating());
             }
         }
