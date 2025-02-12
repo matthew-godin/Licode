@@ -30,7 +30,7 @@ public class UserController {
     private final QuestionRepository questionRepository;
     private Map<String, String> sids;
     private Map<String, Integer> sidsProgress;
-    private Map<String, QuestionInformation[]> sidsQuestions;
+    private Map<String, List<QuestionInformation>> sidsQuestions;
     private Map<String, String> matches;
     private Random rand;
     private Logger logger;
