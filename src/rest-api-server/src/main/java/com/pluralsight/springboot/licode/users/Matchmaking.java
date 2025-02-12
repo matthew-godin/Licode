@@ -59,10 +59,10 @@ public class Matchmaking {
         for (int i = 0; i < queue.size(); ++i) {
             if (queue.get(i).sid() != matchmakingUser.sid()
                 && Math.abs(matchmakingUser.eloRating() - queue.get(i).eloRating()) <= range) {
-                matches.get(queue.get(i).sid()) = matchmakingUser.sid();
-                matches.get(matchmakingUser.sid()) = queue.get(i).sid();
-                sidsProgress.get(queue.get(i).sid()) = 0;
-                sidsProgress.get(matchmakingUser.sid()) = 0;
+                matches.put(queue.get(i).sid(), matchmakingUser.sid());
+                matches.put(matchmakingUser.sid(), queue.get(i).sid());
+                sidsProgress.put(queue.get(i).sid(), 0);
+                sidsProgress.put(matchmakingUser.sid(), 0);
                 //can call goServer/registerPair here
                 logger.info("attempting register pair " + matchmakingUser.sid() + ", " + queue.get(i).sid());
                 URL registerPairURL = new URL("https://matthew-godin.com/registerPair");
