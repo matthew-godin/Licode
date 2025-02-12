@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import java.net.MalformedURLException;
+import java.io.IOException;
 
 public class Matchmaking {
     private static final int NUM_QUESTIONS_PER_MATCH = 3;
@@ -67,12 +68,17 @@ public class Matchmaking {
                 //can call goServer/registerPair here
                 logger.info("attempting register pair " + matchmakingUser.sid() + ", " + queue.get(i).sid());
                 URL registerPairURL = null;
+                HttpURLConnection registerPairConnection = null;
                 try {
                     registerPairURL = new URL("https://matthew-godin.com/registerPair");
                 } catch (MalformedURLException ex) {
                     ex.printStackTrace();
                 }
-                HttpURLConnection registerPairConnection = (HttpURLConnection)registerPairURL.openConnection();
+                try {
+                    registerPairConnection = (HttpURLConnection)registerPairURL.openConnection();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 registerPairConnection.setRequestMethod("POST");
                 //registerPairConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
                 registerPairConnection.setRequestProperty("Content-Type", "application/json");
