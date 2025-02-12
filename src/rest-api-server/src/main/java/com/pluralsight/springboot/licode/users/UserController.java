@@ -223,7 +223,7 @@ public class UserController {
             }
         }
         if (foundMatch.username() == null) {
-            foundMatch = Matchmaking.addToQueue(logger, questionRepository sids, sidsProgress, sidsQuestions, matches, matchmakingQueues.matchmakingQueue500(), matchmakingUser, 500);
+            foundMatch = Matchmaking.addToQueue(logger, questionRepository, sids, sidsProgress, sidsQuestions, matches, matchmakingQueues.matchmakingQueue500(), matchmakingUser, 500);
             if (foundMatch.username() == null) {
                 for (;;) {
                     foundMatch = Matchmaking.checkIfFoundInQueue(userRepository, sids, matches, 1, matchmakingUser, username);
