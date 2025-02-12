@@ -95,6 +95,8 @@ public class Matchmaking {
                     registerPairOutputStream.write(registerPairInput, 0, registerPairInput.length);
                     registerPairOutputStream.flush();
                     registerPairOutputStream.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
                 int registerPairResponseCode = registerPairConnection.getResponseCode();
                 logger.info("registerPair response: " + registerPairResponseCode);
