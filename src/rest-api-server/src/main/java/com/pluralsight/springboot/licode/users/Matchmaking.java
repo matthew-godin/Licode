@@ -24,7 +24,7 @@ public class Matchmaking {
     private void selectQuestions(QuestionRepository questionRepository, Random rand, Map<String, QuestionInformation[]> sidsQuestions,
         Map<String, String> matches, MatchmakingUser matchmakingUser) {
         long numQuestions = questionRepository.count();
-        List<int> questionsSelected = new ArrayList<int>();
+        List<Integer> questionsSelected = new ArrayList<Integer>();
         List<long> randomPermutation = new ArrayList<long>();
         for (long i = 0; i < numQuestions; ++i) {
             randomPermutation.add(i);

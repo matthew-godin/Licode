@@ -39,7 +39,7 @@ public class UserController {
         this.userRepository = userRepository;
         this.questionRepository = questionRepository;
         this.sids = new ConcurrentHashMap<String, String>();
-        this.sidsProgress = new ConcurrentHashMap<String, int>();
+        this.sidsProgress = new ConcurrentHashMap<String, Integer>();
         this.sidsQuestions = new ConcurrentHashMap<String, QuestionInformation[]>();
         this.matches = new ConcurrentHashMap<String, String>();
         this.matchmakingQueues = new MatchmakingQueues(
