@@ -66,7 +66,7 @@ public class Matchmaking {
                 sidsProgress.put(matchmakingUser.sid(), 0);
                 //can call goServer/registerPair here
                 logger.info("attempting register pair " + matchmakingUser.sid() + ", " + queue.get(i).sid());
-                URL registerPair;
+                URL registerPairURL;
                 try {
                     registerPairURL = new URL("https://matthew-godin.com/registerPair");
                 } catch (MalformedURLException ex) {
