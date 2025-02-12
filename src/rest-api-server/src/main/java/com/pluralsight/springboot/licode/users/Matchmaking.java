@@ -26,19 +26,19 @@ public class Matchmaking {
         Long numQuestions = questionRepository.count();
         List<Integer> questionsSelected = new ArrayList<Integer>();
         List<Long> randomPermutation = new ArrayList<Long>();
-        for (Long i = 0; i < numQuestions; ++i) {
+        for (Long i = 0L; i < numQuestions; ++i) {
             randomPermutation.add(i);
         }
         // Partial Fisher-Yates Algorithm for random selection of questions
-        for (Long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
+        for (Long i = 0L; i < NUM_QUESTIONS_PER_MATCH; ++i) {
             long j = rand.nextLong(numQuestions);
             Collections.swap(randomPermutation, i.intValue(), j.intValue());
         }
-        for (Long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
+        for (Long i = 0L; i < NUM_QUESTIONS_PER_MATCH; ++i) {
             questionsSelected.add(randomPermutation.get(i) + 1);
         }
         List<QuestionInformation> questionsInformation = new ArrayList<QuestionInformation>();
-        for (long i = 0; i < questionsSelected.size(); ++i) {
+        for (long i = 0L; i < questionsSelected.size(); ++i) {
             String inputOutputFormat = questionRepository.findById(questionsSelected.get(i)).orElse(null).getInputOutputFormat();
             List<String> inputOutputFormats = Arrays.asList(inputOutputFormat.split("[|]"));
             List<String> inputFormat = Arrays.asList(inputOutputFormats[0].split("[;]"));
