@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import java.net.MalformedURLException;
 import java.io.IOException;
 import java.net.ProtocolException;
+import java.lang.InterruptedException;
 
 public class Matchmaking {
     private static final int NUM_QUESTIONS_PER_MATCH = 3;
@@ -113,7 +114,11 @@ public class Matchmaking {
 
     public static MatchedUser checkIfFoundInQueue(UserRepository userRepository, Map<String, String> sids, Map<String, String> matches,
         int delayTime, MatchmakingUser matchmakingUser, String username) {
-        TimeUnit.SECONDS.sleep(delayTime);
+        try {
+            TimeUnit.SECONDS.sleep(delayTime);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
         if (matches.get(matchmakingUser.sid()) != null) {
             String opponentUsername = sids.get(matches.get(matchmakingUser.sid()));
             int opponentEloRating = userRepository.findByUsername(username).orElse(null).getEloRating();
