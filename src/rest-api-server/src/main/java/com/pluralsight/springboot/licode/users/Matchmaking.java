@@ -57,7 +57,7 @@ public class Matchmaking {
         Map<String, String> matches, List<MatchmakingUser> queue, MatchmakingUser matchmakingUser, int range) {
         queue.add(matchmakingUser);
         for (int i = 0; i < queue.size(); ++i) {
-            if (queue.get(i).sid != matchmakingUser.sid()
+            if (queue.get(i).sid() != matchmakingUser.sid()
                 && Math.abs(matchmakingUser.eloRating - queue.get(i).eloRating) <= range) {
                 matches.get(queue.get(i).sid()) = matchmakingUser.sid();
                 matches.get(matchmakingUser.sid()) = queue.get(i).sid();
