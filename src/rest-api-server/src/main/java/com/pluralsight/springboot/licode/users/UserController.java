@@ -197,17 +197,16 @@ public class UserController {
         String username = sids.get(sid);
         int eloRating = userRepository.findByUsername(username).orElse(null).getEloRating();
         MatchmakingUser matchmakingUser = new MatchmakingUser(sid, eloRating);
-        ArrayList<MatchmakingUser>[] queues = new ArrayList<MatchmakingUser>[] {
-            matchmakingQueues.matchmakingQueue25(),
-            matchmakingQueues.matchmakingQueue50(),
-            matchmakingQueues.matchmakingQueue100(),
-            matchmakingQueues.matchmakingQueue200()
-        };
+        List<List<MatchmakingUser>> queues = new ArrayList<ArrayList<MatchmakingUser>>();
+        queues.add(matchmakingQueues.matchmakingQueue25());
+        queues.add(matchmakingQueues.matchmakingQueue50());
+        queues.add(matchmakingQueues.matchmakingQueue100());
+        queues.add(matchmakingQueues.matchmakingQueue200());
         int[] ranges = new int[]{25, 50, 100, 200};
         int[] delayTimesNums = new int[]{1, 5, 10, 60};
         boolean foundMatch = false;
-        for (int i = 0; i < queues.length; ++i) {
-            foundMatch = Matchmaking.addToQueue(logger, questionRepository, rand, sids, sidsProgress, sidsQuestions, matches, queues[i], matchmakingUser, ranges[i]);
+        for (int i = 0; i < queues.size(); ++i) {
+            foundMatch = Matchmaking.addToQueue(logger, questionRepository, rand, sids, sidsProgress, sidsQuestions, matches, queues.get(i), matchmakingUser, ranges[i]);
             if (foundMatch.username() != null) {
                 break;
             } else {
@@ -220,7 +219,7 @@ public class UserController {
                 if (foundMatch.username() != null) {
                     break;
                 }
-                Matchmaking.removeFromQueue(queues[i], sid);
+                Matchmaking.removeFromQueue(queues.get(i), sid);
             }
         }
         if (foundMatch.username() == null) {
