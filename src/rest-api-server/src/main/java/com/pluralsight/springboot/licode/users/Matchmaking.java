@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import java.net.MalformedURLException;
 import java.io.IOException;
+import java.net.ProtocolException;
 
 public class Matchmaking {
     private static final int NUM_QUESTIONS_PER_MATCH = 3;
@@ -79,7 +80,11 @@ public class Matchmaking {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                registerPairConnection.setRequestMethod("POST");
+                try {
+                    registerPairConnection.setRequestMethod("POST");
+                } catch (ProtocolException ex) {
+                    ex.printStackTrace();
+                }
                 //registerPairConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
                 registerPairConnection.setRequestProperty("Content-Type", "application/json");
                 //registerPairConnection.setRequestProperty("Accept", "application/json");
