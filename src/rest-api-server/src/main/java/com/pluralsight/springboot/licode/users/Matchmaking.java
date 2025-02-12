@@ -1,6 +1,6 @@
 package com.pluralsight.springboot.licode.users;
 
-import com.pluralsight.springboot.licode.questions;
+import com.pluralsight.springboot.licode.questions.QuestionRepository;
 
 import java.util.Map;
 import java.util.List;
