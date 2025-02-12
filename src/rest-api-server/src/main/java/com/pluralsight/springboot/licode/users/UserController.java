@@ -204,7 +204,7 @@ public class UserController {
         queues.add(matchmakingQueues.matchmakingQueue200());
         int[] ranges = new int[]{25, 50, 100, 200};
         int[] delayTimesNums = new int[]{1, 5, 10, 60};
-        MatchedUser foundMatch = false;
+        MatchedUser foundMatch = new MatchedUser(null, null, null, null);
         for (int i = 0; i < queues.size(); ++i) {
             foundMatch = Matchmaking.addToQueue(logger, rand, questionRepository, sids, sidsProgress, sidsQuestions, matches, queues.get(i), matchmakingUser, ranges[i]);
             if (foundMatch.username() != null) {
