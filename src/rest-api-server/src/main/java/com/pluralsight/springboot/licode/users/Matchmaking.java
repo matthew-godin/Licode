@@ -16,6 +16,7 @@ import java.util.Random;
 import java.util.Collections;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
 
 public class Matchmaking {
     private final int NUM_QUESTIONS_PER_MATCH = 3;
