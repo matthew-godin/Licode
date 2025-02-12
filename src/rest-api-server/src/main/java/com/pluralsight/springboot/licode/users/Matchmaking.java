@@ -48,8 +48,8 @@ public class Matchmaking {
             QuestionInformation questionInformation = new QuestionInformation(questionsSelected.get(i.intValue()), inputFormat, outputFormat);
             questionsInformation.add(questionInformation);
         }
-        sidsQuestions.put(matchmakingUser.sid, questionsInformation);
-        sidsQuestions.put(matches.get(matchmakingUser.sid)) = questionsInformation;
+        sidsQuestions.put(matchmakingUser.sid(), questionsInformation);
+        sidsQuestions.put(matches.get(matchmakingUser.sid())) = questionsInformation;
     }
 
     public static MatchedUser addToQueue(Logger logger, Random rand, QuestionRepository questionRepository,
@@ -57,14 +57,14 @@ public class Matchmaking {
         Map<String, String> matches, List<MatchmakingUser> queue, MatchmakingUser matchmakingUser, int range) {
         queue.add(matchmakingUser);
         for (int i = 0; i < queue.size(); ++i) {
-            if (queue.get(i).sid != matchmakingUser.sid
+            if (queue.get(i).sid != matchmakingUser.sid()
                 && Math.abs(matchmakingUser.eloRating - queue.get(i).eloRating) <= range) {
-                matches.get(queue.get(i).sid) = matchmakingUser.sid;
-                matches.get(matchmakingUser.sid) = queue.get(i).sid;
-                sidsProgress.get(queue.get(i).sid) = 0;
-                sidsProgress.get(matchmakingUser.sid) = 0;
+                matches.get(queue.get(i).sid()) = matchmakingUser.sid();
+                matches.get(matchmakingUser.sid()) = queue.get(i).sid();
+                sidsProgress.get(queue.get(i).sid()) = 0;
+                sidsProgress.get(matchmakingUser.sid()) = 0;
                 //can call goServer/registerPair here
-                logger.info("attempting register pair " + matchmakingUser.sid + ", " + queue.get(i).sid);
+                logger.info("attempting register pair " + matchmakingUser.sid() + ", " + queue.get(i).sid());
                 URL registerPairURL = new URL("https://matthew-godin.com/registerPair");
                 HttpURLConnection registerPairConnection = (HttpURLConnection)registerPairURL.openConnection();
                 registerPairConnection.setRequestMethod("POST");
@@ -72,7 +72,7 @@ public class Matchmaking {
                 registerPairConnection.setRequestProperty("Content-Type", "application/json");
                 //registerPairConnection.setRequestProperty("Accept", "application/json");
                 registerPairConnection.setDoOutput(true);
-                String registerPairJson = "{\"Id1\": \"" + matchmakingUser.sid + "\", \"Id2\": \"" + queue.get(i).sid + "\"}";
+                String registerPairJson = "{\"Id1\": \"" + matchmakingUser.sid() + "\", \"Id2\": \"" + queue.get(i).sid() + "\"}";
                 try (OutputStream registerPairOutputStream = registerPairConnection.getOutputStream()) {
                     byte[] registerPairInput = registerPairJson.getBytes("utf-8");
                     registerPairOutputStream.write(registerPairInput, 0, registerPairInput.length);
@@ -86,7 +86,7 @@ public class Matchmaking {
                 queue.remove(i);
                 queue.remove(queue.size() - 1);
                 selectQuestions(questionRepository, sidsQuestions, matches, matchmakingUser);
-                return new MatchedUser(sids.get(matchmakingUser.sid), matchmakingUser.eloRating, sids.get(queue.get(i).sid), queue.get(i).eloRating);
+                return new MatchedUser(sids.get(matchmakingUser.sid()), matchmakingUser.eloRating(), sids.get(queue.get(i).sid()), queue.get(i).eloRating());
             }
         }
         return new MatchedUser(null, null, null, null);
@@ -95,17 +95,17 @@ public class Matchmaking {
     public static MatchedUser checkIfFoundInQueue(UserRepository userRepository, Map<String, String> sids, Map<String, String> matches,
         int delayTime, MatchmakingUser matchmakingUser, String username) {
         TimeUnit.SECONDS.sleep(delayTime);
-        if (matches.get(matchmakingUser.sid) != null) {
-            String opponentUsername = sids.get(matches.get(matchmakingUser.sid));
+        if (matches.get(matchmakingUser.sid()) != null) {
+            String opponentUsername = sids.get(matches.get(matchmakingUser.sid()));
             int opponentEloRating = userRepository.findByUsername(username).orElse(null).getEloRating();
-            return new MatchedUser(sids.get(matchmakingUser.sid), matchmakingUser.eloRating, opponentUsername, opponentEloRating);
+            return new MatchedUser(sids.get(matchmakingUser.sid()), matchmakingUser.eloRating(), opponentUsername, opponentEloRating);
         }
         return new MatchedUser(null, null, null, null);
     };
 
     public static void removeFromQueue(List<MatchmakingUser> queue, String sid) {
         for (int i = 0; i < queue.size(); ++i) {
-            if (queue.get(i).sid.equals(sid)) {
+            if (queue.get(i).sid().equals(sid)) {
                 queue.remove(i);
             }
         }
