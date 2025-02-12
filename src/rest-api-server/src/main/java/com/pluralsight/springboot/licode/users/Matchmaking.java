@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 public class Matchmaking {
     private final int NUM_QUESTIONS_PER_MATCH = 3;
 
-    private void selectQuestions(QuestionRepository questionRepository, Random rand, Map<String, List<QuestionInformation>> sidsQuestions,
+    private static void selectQuestions(QuestionRepository questionRepository, Random rand, Map<String, List<QuestionInformation>> sidsQuestions,
         Map<String, String> matches, MatchmakingUser matchmakingUser) {
         Long numQuestions = questionRepository.count();
         List<Long> questionsSelected = new ArrayList<Long>();
