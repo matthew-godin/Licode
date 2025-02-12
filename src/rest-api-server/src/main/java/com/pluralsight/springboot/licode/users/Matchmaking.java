@@ -95,11 +95,11 @@ public class Matchmaking {
                     registerPairOutputStream.write(registerPairInput, 0, registerPairInput.length);
                     registerPairOutputStream.flush();
                     registerPairOutputStream.close();
+                    int registerPairResponseCode = registerPairConnection.getResponseCode();
+                    logger.info("registerPair response: " + registerPairResponseCode);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                int registerPairResponseCode = registerPairConnection.getResponseCode();
-                logger.info("registerPair response: " + registerPairResponseCode);
                 //can probably eliminate this, main purpose of this api
                 //method is to match users and register them with the go server
                 queue.remove(i);
