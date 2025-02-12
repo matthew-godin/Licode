@@ -1,10 +1,10 @@
 package com.pluralsight.springboot.licode.users;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public record MatchmakingQueues(
-    List<MatchmakingUser> matchmakingQueue25,
-    List<MatchmakingUser> matchmakingQueue50,
-    List<MatchmakingUser> matchmakingQueue100,
-    List<MatchmakingUser> matchmakingQueue200,
-    List<MatchmakingUser> matchmakingQueue500) { }
+    ArrayList<MatchmakingUser> matchmakingQueue25,
+    ArrayList<MatchmakingUser> matchmakingQueue50,
+    ArrayList<MatchmakingUser> matchmakingQueue100,
+    ArrayList<MatchmakingUser> matchmakingQueue200,
+    ArrayList<MatchmakingUser> matchmakingQueue500) { }
