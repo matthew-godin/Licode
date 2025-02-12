@@ -46,7 +46,7 @@ public class Matchmaking {
             List<String> outputFormat = Arrays.asList(inputOutputFormats.get(1).split("[;]"));
             outputFormat.remove(0);
             QuestionInformation questionInformation = new QuestionInformation(questionsSelected.get(i.intValue()), inputFormat, outputFormat);
-            questionsInformation.push(questionInformation);
+            questionsInformation.add(questionInformation);
         }
         sidsQuestions.put(matchmakingUser.sid, questionsInformation);
         sidsQuestions.put(matches.get(matchmakingUser.sid)) = questionsInformation;
