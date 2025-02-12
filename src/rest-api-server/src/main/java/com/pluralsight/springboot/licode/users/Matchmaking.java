@@ -32,7 +32,7 @@ public class Matchmaking {
         // Partial Fisher-Yates Algorithm for random selection of questions
         for (long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
             long j = rand.nextLong(numQuestions);
-            Collections.swap(randomPermutation, (int)i, (int)j);
+            Collections.swap(randomPermutation, i.intValue(), j.intValue());
         }
         for (long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
             questionsSelected.add(randomPermutation.get(i) + 1);
