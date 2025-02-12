@@ -1,6 +1,7 @@
 package com.pluralsight.springboot.licode.users;
 
 import com.pluralsight.springboot.licode.questions.QuestionRepository;
+import com.pluralsight.springboot.licode.questions.Question;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
