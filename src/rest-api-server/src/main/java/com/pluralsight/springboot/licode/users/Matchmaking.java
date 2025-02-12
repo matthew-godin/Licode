@@ -41,9 +41,9 @@ public class Matchmaking {
         for (Long i = 0L; i < questionsSelected.size(); ++i) {
             String inputOutputFormat = questionRepository.findById(questionsSelected.get(i.intValue())).orElse(null).getInputOutputFormat();
             List<String> inputOutputFormats = Arrays.asList(inputOutputFormat.split("[|]"));
-            List<String> inputFormat = Arrays.asList(inputOutputFormats[0].split("[;]"));
+            List<String> inputFormat = Arrays.asList(inputOutputFormats.get(0).split("[;]"));
             inputFormat.remove(0);
-            List<String> outputFormat = Arrays.asList(inputOutputFormats[1].split("[;]"));
+            List<String> outputFormat = Arrays.asList(inputOutputFormats.get(1).split("[;]"));
             outputFormat.remove(0);
             QuestionInformation questionInformation = new QuestionInformation(questionsSelected.get(i.intValue()), inputFormat.toArray(), outputFormat.toArray());
             questionsInformation.push(questionInformation);
