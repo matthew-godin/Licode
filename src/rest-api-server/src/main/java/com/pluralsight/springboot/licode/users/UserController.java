@@ -206,7 +206,7 @@ public class UserController {
         int[] delayTimesNums = new int[]{1, 5, 10, 60};
         boolean foundMatch = false;
         for (int i = 0; i < queues.size(); ++i) {
-            foundMatch = Matchmaking.addToQueue(logger, questionRepository, rand, sids, sidsProgress, sidsQuestions, matches, queues.get(i), matchmakingUser, ranges[i]);
+            foundMatch = Matchmaking.addToQueue(logger, rand, questionRepository, sids, sidsProgress, sidsQuestions, matches, queues.get(i), matchmakingUser, ranges[i]);
             if (foundMatch.username() != null) {
                 break;
             } else {
@@ -223,7 +223,7 @@ public class UserController {
             }
         }
         if (foundMatch.username() == null) {
-            foundMatch = Matchmaking.addToQueue(logger, questionRepository, sids, sidsProgress, sidsQuestions, matches, matchmakingQueues.matchmakingQueue500(), matchmakingUser, 500);
+            foundMatch = Matchmaking.addToQueue(logger, rand, questionRepository, sids, sidsProgress, sidsQuestions, matches, matchmakingQueues.matchmakingQueue500(), matchmakingUser, 500);
             if (foundMatch.username() == null) {
                 for (;;) {
                     foundMatch = Matchmaking.checkIfFoundInQueue(userRepository, sids, matches, 1, matchmakingUser, username);
