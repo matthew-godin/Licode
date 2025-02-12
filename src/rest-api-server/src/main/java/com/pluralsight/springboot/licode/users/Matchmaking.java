@@ -38,14 +38,14 @@ public class Matchmaking {
             questionsSelected.add(randomPermutation.get(i.intValue()) + 1L);
         }
         List<QuestionInformation> questionsInformation = new ArrayList<QuestionInformation>();
-        for (long i = 0L; i < questionsSelected.size(); ++i) {
-            String inputOutputFormat = questionRepository.findById(questionsSelected.get(i)).orElse(null).getInputOutputFormat();
+        for (Long i = 0L; i < questionsSelected.size(); ++i) {
+            String inputOutputFormat = questionRepository.findById(questionsSelected.get(i.intValue())).orElse(null).getInputOutputFormat();
             List<String> inputOutputFormats = Arrays.asList(inputOutputFormat.split("[|]"));
             List<String> inputFormat = Arrays.asList(inputOutputFormats[0].split("[;]"));
             inputFormat.remove(0);
             List<String> outputFormat = Arrays.asList(inputOutputFormats[1].split("[;]"));
             outputFormat.remove(0);
-            QuestionInformation questionInformation = new QuestionInformation(questionsSelected.get(i), inputFormat.toArray(), outputFormat.toArray());
+            QuestionInformation questionInformation = new QuestionInformation(questionsSelected.get(i.intValue()), inputFormat.toArray(), outputFormat.toArray());
             questionsInformation.push(questionInformation);
         }
         sidsQuestions.put(matchmakingUser.sid, questionsInformation);
