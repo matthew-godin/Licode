@@ -242,7 +242,7 @@ public class UserController {
         String opponentUsername = sids.get(matches.get(sid));
         if (username != null && opponentUsername != null) {
             int eloRating = userRepository.findByUsername(username).orElse(null).getEloRating();
-            int opponentEloRating = userRepository.findByUsername(opponentEloRating).orElse(null).getEloRating();
+            int opponentEloRating = userRepository.findByUsername(opponentUsername).orElse(null).getEloRating();
             return new Opponent(new OpponentUser(username, eloRating, sid), new OpponentUser(opponentUsername, eloRating, ""));
         }
         return new Opponent(null, null);
