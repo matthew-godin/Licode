@@ -1,0 +1,112 @@
+package com.pluralsight.springboot.licode.users;
+
+import com.pluralsight.springboot.licode.questions;
+
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.lang.Math;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.Random;
+import java.util.Collections;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
+public class Matchmaking {
+    private final int NUM_QUESTIONS_PER_MATCH = 3;
+
+    private void selectQuestions(QuestionRepository questionRepository, Random rand, Map<String, QuestionInformation[]> sidsQuestions,
+        Map<String, String> matches, MatchmakingUser matchmakingUser) {
+        long numQuestions = questionRepository.count();
+        List<int> questionsSelected = new ArrayList<int>();
+        List<long> randomPermutation = new ArrayList<long>();
+        for (long i = 0; i < numQuestions; ++i) {
+            randomPermutation.add(i);
+        }
+        // Partial Fisher-Yates Algorithm for random selection of questions
+        for (long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
+            long j = rand.nextLong(numQuestions);
+            Collections.swap(randomPermutation, i, j);
+        }
+        for (long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
+            questionsSelected.add(randomPermutation.get(i) + 1);
+        }
+        List<QuestionInformation> questionsInformation = new ArrayList<QuestionInformation>();
+        for (long i = 0; i < questionsSelected.size(); ++i) {
+            String inputOutputFormat = questionRepository.findById(questionsSelected.get(i)).orElse(null).getInputOutputFormat();
+            List<String> inputOutputFormats = Arrays.asList(inputOutputFormat.split('[|]'));
+            List<String> inputFormat = Arrays.asList(inputOutputFormats[0].split('[;]'));
+            inputFormat.remove(0);
+            List<String> outputFormat = Arrays.asList(inputOutputFormats[1].split('[;]'));
+            outputFormat.remove(0);
+            QuestionInformation questionInformation = new QuestionInformation(questionsSelected.get(i), inputFormat.toArray(), outputFormat.toArray());
+            questionsInformation.push(questionInformation);
+        }
+        sidsQuestions.put(matchmakingUser.sid, questionsInformation);
+        sidsQuestions.put(matches.get(matchmakingUser.sid)) = questionsInformation;
+    }
+
+    public static MatchedUser addToQueue(Logger logger, Random rand, QuestionRepository questionRepository,
+        Map<String, String> sids, Map<String, int> sidsProgress, Map<String, QuestionInformation[]> sidsQuestions,
+        Map<String, String> matches, List<MatchmakingUser> queue, MatchmakingUser matchmakingUser, int range) {
+        queue.add(matchmakingUser);
+        for (int i = 0; i < queue.size(); ++i) {
+            if (queue.get(i).sid != matchmakingUser.sid
+                && Math.abs(matchmakingUser.eloRating - queue.get(i).eloRating) <= range) {
+                matches.get(queue.get(i).sid) = matchmakingUser.sid;
+                matches.get(matchmakingUser.sid) = queue.get(i).sid;
+                sidsProgress.get(queue.get(i).sid) = 0;
+                sidsProgress.get(matchmakingUser.sid) = 0;
+                //can call goServer/registerPair here
+                logger.info("attempting register pair " + matchmakingUser.sid + ", " + queue.get(i).sid);
+                URL registerPairURL = new URL("https://matthew-godin.com/registerPair");
+                HttpURLConnection registerPairConnection = (HttpURLConnection)registerPairURL.openConnection();
+                registerPairConnection.setRequestMethod("POST");
+                //registerPairConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                registerPairConnection.setRequestProperty("Content-Type", "application/json");
+                //registerPairConnection.setRequestProperty("Accept", "application/json");
+                registerPairConnection.setDoOutput(true);
+                String registerPairJson = "{\"Id1\": \"" + matchmakingUser.sid + "\", \"Id2\": \"" + queue.get(i).sid + "\"}";
+                try (OutputStream registerPairOutputStream = registerPairConnection.getOutputStream()) {
+                    byte[] registerPairInput = registerPairJson.getBytes("utf-8");
+                    registerPairOutputStream.write(registerPairInput, 0, registerPairInput.length);
+                    registerPairOutputStream.flush();
+                    registerPairOutputStream.close();
+                }
+                int registerPairResponseCode = registerPairConnection.getResponseCode();
+                logger.info("registerPair response: " + registerPairResponseCode);
+                //can probably eliminate this, main purpose of this api
+                //method is to match users and register them with the go server
+                queue.remove(i);
+                queue.remove(queue.size() - 1);
+                selectQuestions(questionRepository, sidsQuestions, matches, matchmakingUser);
+                return new MatchedUser(sids.get(matchmakingUser.sid), matchmakingUser.eloRating, sids.get(queue.get(i).sid), queue.get(i).eloRating);
+            }
+        }
+        return new MatchedUser(null, null, null, null);
+    }
+
+    public static MatchedUser checkIfFoundInQueue(UserRepository userRepository, Map<String, String> sids, Map<String, String> matches,
+        int delayTime, MatchmakingUser matchmakingUser, String username) {
+        TimeUnit.SECONDS.sleep(delayTime);
+        if (matches.get(matchmakingUser.sid) != null) {
+            String opponentUsername = sids.get(matches.get(matchmakingUser.sid));
+            int opponentEloRating = userRepository.findByUsername(username).orElse(null).getEloRating();
+            return new MatchedUser(sids.get(matchmakingUser.sid), matchmakingUser.eloRating, opponentUsername, opponentEloRating);
+        }
+        return new MatchedUser(null, null, null, null);
+    };
+
+    public static void removeFromQueue(List<MatchmakingUser> queue, String sid) => {
+        for (int i = 0; i < queue.size(); ++i) {
+            if (queue.get(i).sid.equals(sid)) {
+                queue.remove(i);
+            }
+        }
+    }
+}

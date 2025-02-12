@@ -1,5 +1,7 @@
 package com.pluralsight.springboot.licode.users;
 
+import com.pluralsight.springboot.licode.questions;
+
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,18 +20,35 @@ import java.security.NoSuchAlgorithmException;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 @RestController
 public class UserController {
 
     private final UserRepository userRepository;
+    private final QuestionRepository questionRepository;
     private Map<String, String> sids;
+    private Map<String, int> sidsProgress;
+    private Map<String, QuestionInformation[]> sidsQuestions;
+    private Map<String, String> matches;
     private Random rand;
     private Logger logger;
+    private MatchmakingQueues matchmakingQueues;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, QuestionRepository questionRepository) {
         this.userRepository = userRepository;
+        this.questionRepository = questionRepository;
         this.sids = new ConcurrentHashMap<String, String>();
+        this.sidsProgress = new ConcurrentHashMap<String, int>();
+        this.sidsQuestions = new ConcurrentHashMap<String, QuestionInformation[]>();
+        this.matches = new ConcurrentHashMap<String, String>();
+        this.matchmakingQueues = new MatchmakingQueues(
+            new ArrayList<MatchmakingUser>,
+            new ArrayList<MatchmakingUser>,
+            new ArrayList<MatchmakingUser>,
+            new ArrayList<MatchmakingUser>,
+            new ArrayList<MatchmakingUser>
+        );
         rand = new Random();
         logger = LoggerFactory.getLogger(UserController.class);
     }
@@ -171,4 +190,66 @@ public class UserController {
         sids.remove(sid);
         return message("Successfully Logged Out");
     }
+
+    @GetMapping(path = "/api/matchmaking")
+    public MatchedUser matchmaking(@CookieValue("sid") String sid) {
+        String username = sids.get(sid);
+        int eloRating = userRepository.findByUsername(username).orElse(null).getEloRating();
+        MatchmakingUser matchmakingUser = new MatchmakingUser(sid, eloRating);
+        MatchmakingUser[][] queues = new MatchmakingUser[] {
+            matchmakingQueues.matchmakingQueue25(),
+            matchmakingQueues.matchmakingQueue50(),
+            matchmakingQueues.matchmakingQueue100(),
+            matchmakingQueues.matchmakingQueue200()
+        };
+        int[] ranges = new int[]{25, 50, 100, 200};
+        int[] delayTimesNums = new int[]{1, 5, 10, 60};
+        boolean foundMatch = false;
+        for (int i = 0; i < queues.length; ++i) {
+            foundMatch = Matchmaking.addToQueue(logger, questionRepository, rand, sids, sidsProgress, sidsQuestions, matches, queues[i], matchmakingUser, ranges[i]);
+            if (foundMatch.username() != null) {
+                break;
+            } else {
+                for (int j = 0; j < delayTimesNums[i]; ++j) {
+                    foundMatch = Matchmaking.checkIfFoundInQueue(userRepository, sids, matches, 1, matchmakingUser, username);
+                    if (foundMatch.username() != null) {
+                        break;
+                    }
+                }
+                if (foundMatch.username() != null) {
+                    break;
+                }
+                Matchmaking.removeFromQueue(queues.get(i), sid);
+            }
+        }
+        if (foundMatch.username() == null) {
+            foundMatch = Matchmaking.addToQueue(logger, questionRepository sids, sidsProgress, sidsQuestions, matches, matchmakingQueues.matchmakingQueue500(), matchmakingUser, 500);
+            if (foundMatch.username() == null) {
+                for (;;) {
+                    foundMatch = Matchmaking.checkIfFoundInQueue(userRepository, sids, matches, 1, matchmakingUser, username);
+                    if (foundMatch.username() != null) {
+                        break;
+                    }
+                }
+            }
+        }
+        return foundMatch;
+    }
+
+    @GetMapping(path = "/api/opponent")
+    public Opponent opponent(@CookieValue("sid") String sid) {
+        String username = sids.get(sid);
+        String opponentUsername = sids.get(matches.get(sid));
+        if (username != null && opponentUsername != null) {
+            int eloRating = userRepository.findByUsername(username).orElse(null).getEloRating();
+            int opponentEloRating = userRepository.findByUsername(opponentEloRating).orElse(null).getEloRating();
+            return new Opponent(new OpponentUser(username, eloRating, sid), new OpponentUser(opponentUsername, eloRating, ""));
+        }
+        return new Opponent(null, null);
+    }
+
+    @GetMapping(path = "/api/question")
+    public MatchQuestion question(@CookieValue("sid") String sid) {
+        Question q = questionRepository.findById(sidsQuestions.get(sid)[sidsProgress.get(sid)]).orElse(null);
+        return new MatchQuestion(q.getQuestion(), q.getFunctionSignature(), q.getDefaultCustomInput());
 }
