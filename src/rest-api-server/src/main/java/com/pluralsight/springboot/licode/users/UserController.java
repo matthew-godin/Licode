@@ -40,7 +40,7 @@ public class UserController {
         this.questionRepository = questionRepository;
         this.sids = new ConcurrentHashMap<String, String>();
         this.sidsProgress = new ConcurrentHashMap<String, Integer>();
-        this.sidsQuestions = new ConcurrentHashMap<String, QuestionInformation[]>();
+        this.sidsQuestions = new ConcurrentHashMap<String, List<QuestionInformation>>();
         this.matches = new ConcurrentHashMap<String, String>();
         this.matchmakingQueues = new MatchmakingQueues(
             new ArrayList<MatchmakingUser>(),
@@ -250,7 +250,7 @@ public class UserController {
 
     @GetMapping(path = "/api/question")
     public MatchQuestion question(@CookieValue("sid") String sid) {
-        Question q = questionRepository.findById(sidsQuestions.get(sid)[sidsProgress.get(sid)]).orElse(null);
+        Question q = questionRepository.findById(sidsQuestions.get(sid).get(sidsProgress.get(sid))).orElse(null);
         return new MatchQuestion(q.getQuestion(), q.getFunctionSignature(), q.getDefaultCustomInput());
     }
 }

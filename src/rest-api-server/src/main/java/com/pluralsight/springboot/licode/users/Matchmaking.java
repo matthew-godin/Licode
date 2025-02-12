@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 public class Matchmaking {
     private final int NUM_QUESTIONS_PER_MATCH = 3;
 
-    private void selectQuestions(QuestionRepository questionRepository, Random rand, Map<String, QuestionInformation[]> sidsQuestions,
+    private void selectQuestions(QuestionRepository questionRepository, Random rand, Map<String, List<QuestionInformation>> sidsQuestions,
         Map<String, String> matches, MatchmakingUser matchmakingUser) {
         Long numQuestions = questionRepository.count();
         List<Long> questionsSelected = new ArrayList<Long>();
@@ -53,7 +53,7 @@ public class Matchmaking {
     }
 
     public static MatchedUser addToQueue(Logger logger, Random rand, QuestionRepository questionRepository,
-        Map<String, String> sids, Map<String, Integer> sidsProgress, Map<String, QuestionInformation[]> sidsQuestions,
+        Map<String, String> sids, Map<String, Integer> sidsProgress, Map<String, List<QuestionInformation>> sidsQuestions,
         Map<String, String> matches, List<MatchmakingUser> queue, MatchmakingUser matchmakingUser, int range) {
         queue.add(matchmakingUser);
         for (int i = 0; i < queue.size(); ++i) {
