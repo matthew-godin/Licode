@@ -23,18 +23,18 @@ public class Matchmaking {
 
     private void selectQuestions(QuestionRepository questionRepository, Random rand, Map<String, QuestionInformation[]> sidsQuestions,
         Map<String, String> matches, MatchmakingUser matchmakingUser) {
-        long numQuestions = questionRepository.count();
+        Long numQuestions = questionRepository.count();
         List<Integer> questionsSelected = new ArrayList<Integer>();
         List<Long> randomPermutation = new ArrayList<Long>();
-        for (long i = 0; i < numQuestions; ++i) {
+        for (Long i = 0; i < numQuestions; ++i) {
             randomPermutation.add(i);
         }
         // Partial Fisher-Yates Algorithm for random selection of questions
-        for (long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
+        for (Long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
             long j = rand.nextLong(numQuestions);
             Collections.swap(randomPermutation, i.intValue(), j.intValue());
         }
-        for (long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
+        for (Long i = 0; i < NUM_QUESTIONS_PER_MATCH; ++i) {
             questionsSelected.add(randomPermutation.get(i) + 1);
         }
         List<QuestionInformation> questionsInformation = new ArrayList<QuestionInformation>();
