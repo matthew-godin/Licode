@@ -196,7 +196,7 @@ public class UserController {
         String username = sids.get(sid);
         int eloRating = userRepository.findByUsername(username).orElse(null).getEloRating();
         MatchmakingUser matchmakingUser = new MatchmakingUser(sid, eloRating);
-        MatchmakingUser[][] queues = new MatchmakingUser[] {
+        List<MatchmakingUser>[] queues = new List<MatchmakingUser>[] {
             matchmakingQueues.matchmakingQueue25(),
             matchmakingQueues.matchmakingQueue50(),
             matchmakingQueues.matchmakingQueue100(),
@@ -219,7 +219,7 @@ public class UserController {
                 if (foundMatch.username() != null) {
                     break;
                 }
-                Matchmaking.removeFromQueue(queues.get(i), sid);
+                Matchmaking.removeFromQueue(queues[i], sid);
             }
         }
         if (foundMatch.username() == null) {
