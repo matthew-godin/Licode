@@ -251,7 +251,7 @@ public class UserController {
 
     @GetMapping(path = "/api/question")
     public MatchQuestion question(@CookieValue("sid") String sid) {
-        Question q = questionRepository.findById(sidsQuestions.get(sid).get(sidsProgress.get(sid))).orElse(null);
+        Question q = questionRepository.findById(sidsQuestions.get(sid).get(sidsProgress.get(sid)).questionId()).orElse(null);
         return new MatchQuestion(q.getQuestion(), q.getFunctionSignature(), q.getDefaultCustomInput());
     }
 }
