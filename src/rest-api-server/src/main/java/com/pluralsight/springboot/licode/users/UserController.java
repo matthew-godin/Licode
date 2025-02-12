@@ -43,11 +43,11 @@ public class UserController {
         this.sidsQuestions = new ConcurrentHashMap<String, QuestionInformation[]>();
         this.matches = new ConcurrentHashMap<String, String>();
         this.matchmakingQueues = new MatchmakingQueues(
-            new ArrayList<MatchmakingUser>,
-            new ArrayList<MatchmakingUser>,
-            new ArrayList<MatchmakingUser>,
-            new ArrayList<MatchmakingUser>,
-            new ArrayList<MatchmakingUser>
+            new ArrayList<MatchmakingUser>(),
+            new ArrayList<MatchmakingUser>(),
+            new ArrayList<MatchmakingUser>(),
+            new ArrayList<MatchmakingUser>(),
+            new ArrayList<MatchmakingUser>()
         );
         rand = new Random();
         logger = LoggerFactory.getLogger(UserController.class);
