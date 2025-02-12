@@ -35,7 +35,7 @@ public class Matchmaking {
             Collections.swap(randomPermutation, i.intValue(), j.intValue());
         }
         for (Long i = 0L; i < NUM_QUESTIONS_PER_MATCH; ++i) {
-            questionsSelected.add(randomPermutation.get(i) + 1);
+            questionsSelected.add(randomPermutation.get(i) + 1L);
         }
         List<QuestionInformation> questionsInformation = new ArrayList<QuestionInformation>();
         for (long i = 0L; i < questionsSelected.size(); ++i) {
