@@ -28,7 +28,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final QuestionRepository questionRepository;
     private Map<String, String> sids;
-    private Map<String, int> sidsProgress;
+    private Map<String, Integer> sidsProgress;
     private Map<String, QuestionInformation[]> sidsQuestions;
     private Map<String, String> matches;
     private Random rand;
