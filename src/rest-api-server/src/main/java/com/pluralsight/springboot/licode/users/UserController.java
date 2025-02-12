@@ -252,4 +252,5 @@ public class UserController {
     public MatchQuestion question(@CookieValue("sid") String sid) {
         Question q = questionRepository.findById(sidsQuestions.get(sid)[sidsProgress.get(sid)]).orElse(null);
         return new MatchQuestion(q.getQuestion(), q.getFunctionSignature(), q.getDefaultCustomInput());
+    }
 }
