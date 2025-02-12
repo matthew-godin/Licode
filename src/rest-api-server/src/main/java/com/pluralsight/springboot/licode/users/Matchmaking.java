@@ -49,7 +49,7 @@ public class Matchmaking {
             questionsInformation.add(questionInformation);
         }
         sidsQuestions.put(matchmakingUser.sid(), questionsInformation);
-        sidsQuestions.put(matches.get(matchmakingUser.sid()), questionInformation);
+        sidsQuestions.put(matches.get(matchmakingUser.sid()), questionsInformation);
     }
 
     public static MatchedUser addToQueue(Logger logger, Random rand, QuestionRepository questionRepository,
