@@ -102,7 +102,7 @@ public class Matchmaking {
         return new MatchedUser(null, null, null, null);
     };
 
-    public static void removeFromQueue(List<MatchmakingUser> queue, String sid) => {
+    public static void removeFromQueue(List<MatchmakingUser> queue, String sid) {
         for (int i = 0; i < queue.size(); ++i) {
             if (queue.get(i).sid.equals(sid)) {
                 queue.remove(i);
