@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 public class Run {
     private static void executeCode(CodeSubmission codeSubmission, QuestionInformation questionInformation) {
@@ -25,22 +26,22 @@ public class Run {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        List<String> inputLines = codeSubmission.input().split("[\\n]");
+        List<String> inputLines = Arrays.asList(codeSubmission.input().split("[\\n]"));
         String customInputContent = "";
         for (int i = 0; i < questionInformation.inputFormat().size(); ++i) {
             if (questionInformation.inputFormat().get(i).equals("n")) {
                 customInputContent += Integer.toString(Integer.parseInt(inputLines.get(i))) + "\n";
             } else if (questionInformation.inputFormat().get(i).equals("a")) {
-                List<String> inputCommaSeparatedValues = inputLines.get(i).split("\\[").get(1).split("\\]").get(0).split("[,]");
+                List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(i).split("\\[")[1].split("\\]")[0].split("[,]"));
                 customInputContent += Integer.toString(inputCommaSeparatedValues.size()) + "\n";
                 for (int i = 0; i < inputCommaSeparatedValues.size(); ++i) {
                     customInputContent += Integer.toString(Integer.parseInt(inputCommaSeparatedValues.get(i))) + "\n";
                 }
             } else if (questionInformation.inputFormat().get(i).equals("aa")) {
-                List<String> inputCommaSeparatedValues = inputLines.get(i).split("(\\[\\[)").get(1).split("(\\]\\])").get(0).split("(\\],\\[)");
+                List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(i).split("(\\[\\[)")[1].split("(\\]\\])")[0].split("(\\],\\[)"));
                 customInputContent += Integer.toString(inputCommaSeparatedValues.size()) + "\n";
                 for (int i = 0; i < inputCommaSeparatedValues.size(); ++i) {
-                    List<String> inputCommaSeparatedValues = inputLines.get(i).split("[,]");
+                    List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(i).split("[,]"));
                     customInputContent += Integer.toString(inputCommaSeparatedValues.size()) + "\n";
                     for (int j = 0; j < inputCommaSeparatedValues.size(); ++j) {
                         customInputContent += Integer.toString(Integer.parseInt(inputCommaSeparatedValues.get(i))) + "\n";
@@ -85,7 +86,7 @@ public class Run {
         String standardOutputResults = readTextFile("./sandbox/standardOutputFromPySandbox.txt");
         String standardErrorResults = readTextFile("./sandbox/standardErrorFromPySandbox.txt");
         String outputResults = readTextFile("./sandbox/outputFromPySandbox.txt");
-        List<String> outputResultsSplit = outputResults.split("[\\n]");
+        List<String> outputResultsSplit = Arrays.asList(outputResults.split("[\\n]"));
         String actualOutputResults = "";
         if (questionInformation.outputFormat().size() > 0) {
             if (questionInformation.outputFormat().get(0).equals("n")) {
