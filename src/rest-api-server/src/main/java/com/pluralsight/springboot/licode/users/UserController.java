@@ -261,7 +261,7 @@ public class UserController {
         if (!testCasesPassed.testCasesPassed().contains(false)) {
             sidsProgress.put(sid, sidsProgress.get(sid) + 1);
             if (sidsProgress.get(sid).equals(3)) {
-                win(userRepository, sids, sidsQuestions, sidsProgress, matches, sid);
+                Win.win(userRepository, sids, sidsQuestions, sidsProgress, matches, sid);
             }
         }
         return testCasesPassed;
