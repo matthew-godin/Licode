@@ -17,9 +17,9 @@ public class Win {
         User opponent = userRepository.findByUsername(sids.get(opponentSid)).orElse(null);
         user.setNumWins(user.getNumWins() + 1);
         double eloRatingVariation = 1 - 1.0 / (1 + Math.pow(10, (opponent.getEloRating() - user.getEloRating()) / 400.0));
-        user.setEloRating(user.getEloRating() + Math.round(Math.floor((user.getNumWins() + user.getNumLosses() < 30 ? (user.getEloRating() < 2300 ? 40 : 20) : (user.getHas2400RatingHistory() ? 10 : 20)) * eloRatingVariation)).intValue());
+        user.setEloRating(user.getEloRating() + (int)Math.round(Math.floor((user.getNumWins() + user.getNumLosses() < 30 ? (user.getEloRating() < 2300 ? 40 : 20) : (user.getHas2400RatingHistory() ? 10 : 20)) * eloRatingVariation)));
         opponent.setNumLosses(opponent.getNumLosses() + 1);
-        opponent.setEloRating(opponent.getEloRating() - Math.round(Math.ceil((opponent.getNumWins() + opponent.getNumLosses() < 30 ? (opponent.getEloRating() < 2300 ? 40 : 20) : (opponent.getHas2400RatingHistory() ? 10 : 20)) * eloRatingVariation)).intValue());
+        opponent.setEloRating(opponent.getEloRating() - (int)Math.round(Math.ceil((opponent.getNumWins() + opponent.getNumLosses() < 30 ? (opponent.getEloRating() < 2300 ? 40 : 20) : (opponent.getHas2400RatingHistory() ? 10 : 20)) * eloRatingVariation)));
         userRepository.save(user);
         userRepository.save(opponent);
     }
