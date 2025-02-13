@@ -1,6 +1,10 @@
 package com.licode.controllers;
 
-import com.licode.*;
+import com.licode.entities.users.*;
+import com.licode.entities.questions.*;
+import com.licode.comparators.*;
+import com.licode.repositories.*;
+import com.licode.util.*;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
