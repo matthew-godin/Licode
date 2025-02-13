@@ -1,5 +1,9 @@
 package com.licode.util;
 
+import com.licode.entities.users.*;
+import com.licode.entities.questions.*;
+import com.licode.repositories.*;
+
 import java.lang.Math;
 import java.util.List;
 import java.util.Map;

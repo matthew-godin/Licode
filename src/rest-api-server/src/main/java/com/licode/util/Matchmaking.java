@@ -1,6 +1,8 @@
 package com.licode.util;
 
-import com.licode.questions.QuestionRepository;
+import com.licode.entities.users.*;
+import com.licode.entities.questions.*;
+import com.licode.repositories.*;
 
 import java.util.Map;
 import java.util.List;

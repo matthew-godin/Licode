@@ -1,5 +1,9 @@
 package com.licode.util;
 
+import com.licode.entities.users.*;
+import com.licode.entities.questions.*;
+import com.licode.repositories.*;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.InterruptedException;
