@@ -1,6 +1,8 @@
 package com.pluralsight.springboot.licode.users;
 
 import java.lang.Math;
+import java.util.List;
+import java.util.Map;
 
 public class Win {
     public static void win(UserRepository userRepository, Map<String, String> sids, Map<String, List<QuestionInformation>> sidsQuestions, Map<String, Integer> sidsProgress, Map<String, String> matches, String sid) {
