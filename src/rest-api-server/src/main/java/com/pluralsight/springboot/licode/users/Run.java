@@ -34,8 +34,8 @@ public class Run {
             } else if (questionInformation.inputFormat().get(i).equals("a")) {
                 List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(i).split("\\[")[1].split("\\]")[0].split("[,]"));
                 customInputContent += Integer.toString(inputCommaSeparatedValues.size()) + "\n";
-                for (int i = 0; i < inputCommaSeparatedValues.size(); ++i) {
-                    customInputContent += Integer.toString(Integer.parseInt(inputCommaSeparatedValues.get(i))) + "\n";
+                for (int j = 0; j < inputCommaSeparatedValues.size(); ++j) {
+                    customInputContent += Integer.toString(Integer.parseInt(inputCommaSeparatedValues.get(j))) + "\n";
                 }
             } else if (questionInformation.inputFormat().get(i).equals("aa")) {
                 List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(i).split("(\\[\\[)")[1].split("(\\]\\])")[0].split("(\\],\\[)"));
