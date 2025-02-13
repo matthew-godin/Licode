@@ -87,7 +87,11 @@ public class Run {
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
-            br.close();
+            try {
+                br.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         return everything;
     }
