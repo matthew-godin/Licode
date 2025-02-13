@@ -254,4 +254,13 @@ public class UserController {
         Question q = questionRepository.findById(sidsQuestions.get(sid).get(sidsProgress.get(sid)).questionId()).orElse(null);
         return new MatchQuestion(q.getQuestion(), q.getFunctionSignature(), q.getDefaultCustomInput());
     }
+
+    @PostMapping(path = "/api/run")
+    public TestCasesPassed run(@CookieValue("sid") String sid, @RequestBody CodeSubmission codeSubmission) {
+        TestCasesPassed testCasesPassed = Run.runCode(codeSubmission, sidsQuestions, sidsProgress, sid);
+        if (!testCasesPassed.testCasesPassed().contains(false) && (++sidsProgress.get(sid)).equals(3)) {
+            win(userRepository, sids, sidsQuestions, sidsProgress, matches, sid);
+        }
+        return testCasesPassed;
+    }
 }
