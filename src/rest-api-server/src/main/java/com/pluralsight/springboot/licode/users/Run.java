@@ -162,8 +162,9 @@ public class Run {
         jsonResults = jsonResults.replaceAll("\\s+","");
         jsonResults = jsonResults.substring(0, jsonResults.length() - 2) + "]";
         ObjectMapper mapper = new ObjectMapper();
+        List<TestResult> testResults = null;
         try {
-            List<TestResult> testResults = mapper.readValue(jsonResults, new TypeReference<List<TestResult>>(){});
+            testResults = mapper.readValue(jsonResults, new TypeReference<List<TestResult>>(){});
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
         }
