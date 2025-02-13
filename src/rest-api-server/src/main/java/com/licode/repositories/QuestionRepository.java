@@ -1,6 +1,6 @@
 package com.licode.repositories;
 
-import co.licode.entities.questions.Question;
+import com.licode.entities.questions.Question;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
