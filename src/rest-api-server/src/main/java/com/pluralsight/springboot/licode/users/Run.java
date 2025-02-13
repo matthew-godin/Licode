@@ -40,11 +40,11 @@ public class Run {
             } else if (questionInformation.inputFormat().get(i).equals("aa")) {
                 List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(i).split("(\\[\\[)")[1].split("(\\]\\])")[0].split("(\\],\\[)"));
                 customInputContent += Integer.toString(inputCommaSeparatedValues.size()) + "\n";
-                for (int i = 0; i < inputCommaSeparatedValues.size(); ++i) {
-                    List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(i).split("[,]"));
+                for (int k = 0; k < inputCommaSeparatedValues.size(); ++k) {
+                    List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(k).split("[,]"));
                     customInputContent += Integer.toString(inputCommaSeparatedValues.size()) + "\n";
                     for (int j = 0; j < inputCommaSeparatedValues.size(); ++j) {
-                        customInputContent += Integer.toString(Integer.parseInt(inputCommaSeparatedValues.get(i))) + "\n";
+                        customInputContent += Integer.toString(Integer.parseInt(inputCommaSeparatedValues.get(k))) + "\n";
                     }
                 }
             }
