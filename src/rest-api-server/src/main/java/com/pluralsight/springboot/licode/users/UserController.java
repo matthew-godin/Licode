@@ -258,8 +258,11 @@ public class UserController {
     @PostMapping(path = "/api/run")
     public TestCasesPassed run(@CookieValue("sid") String sid, @RequestBody CodeSubmission codeSubmission) {
         TestCasesPassed testCasesPassed = Run.runCode(codeSubmission, sidsQuestions, sidsProgress, sid);
-        if (!testCasesPassed.testCasesPassed().contains(false) && (++sidsProgress.get(sid)).equals(3)) {
-            win(userRepository, sids, sidsQuestions, sidsProgress, matches, sid);
+        if (!testCasesPassed.testCasesPassed().contains(false)) {
+            sidsProgress.put(sid, sidsProgress.get(sid) + 1);
+            if (sidsProgress.get(sid).equals(3)) {
+                win(userRepository, sids, sidsQuestions, sidsProgress, matches, sid);
+            }
         }
         return testCasesPassed;
     }
