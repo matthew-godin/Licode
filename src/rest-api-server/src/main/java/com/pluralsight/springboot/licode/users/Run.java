@@ -79,7 +79,7 @@ public class Run {
     }
 
     private static TestCasesPassed processResults(QuestionInformation questionInformation) {
-        String jsonResults = await readTextFile("./sandbox/reportFromPySandbox.txt");
+        String jsonResults = readTextFile("./sandbox/reportFromPySandbox.txt");
         String standardOutputResults = readTextFile("./sandbox/standardOutputFromPySandbox.txt");
         String standardErrorResults = readTextFile("./sandbox/standardErrorFromPySandbox.txt");
         String outputResults = readTextFile("./sandbox/outputFromPySandbox.txt");
@@ -102,7 +102,7 @@ public class Run {
                     actualOutputResults += ", " + outputResultsSplit.get(i + 1);
                 }
                 if (n > 0) {
-                    actualOutputResults += "]"
+                    actualOutputResults += "]";
                 }
             } else if (questionInformation.outputFormat().get(0).equals("aa")) {
                 int n = 0;
@@ -141,7 +141,7 @@ public class Run {
             }
         }
         jsonResults = jsonResults.replaceAll("\\s+","");
-        jsonResults = jsonResults.substring(0, jsonResults.length() - 2) + "]"
+        jsonResults = jsonResults.substring(0, jsonResults.length() - 2) + "]";
         ObjectMapper mapper = new ObjectMapper();
         List<TestResult> testResults = mapper.readValue(jsonResults, new TypeReference<List<TestResult>>(){});
         Collections.sort(testResults, new TestResultComparator());
