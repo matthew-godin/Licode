@@ -1,4 +1,4 @@
-package com.licode.users;
+package com.licode.entities.users;
 
 import jakarta.persistence.*;
 
