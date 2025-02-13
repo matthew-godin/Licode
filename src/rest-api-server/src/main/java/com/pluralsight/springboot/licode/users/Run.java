@@ -59,7 +59,7 @@ public class Run {
         }
         ProcessBuilder pb = new ProcessBuilder("./makeReport.sh");
         pb.inheritIO();
-        pb.directory(new File("./sandbox/" + Integer.toString(questionInformation.questionId())));
+        pb.directory(new File("./sandbox/" + Integer.toString(questionInformation.questionId().intValue())));
         Process process = pb.start();
         process.waitFor();
     }
