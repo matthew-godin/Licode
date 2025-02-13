@@ -1,5 +1,7 @@
 package com.licode.comparators;
 
+import com.licode.entities.users.TestResult;
+
 import java.util.Comparator;
 
 public class TestResultComparator implements Comparator<TestResult> {
