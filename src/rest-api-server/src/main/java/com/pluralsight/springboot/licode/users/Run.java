@@ -3,6 +3,7 @@ package com.pluralsight.springboot.licode.users;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.InterruptedException;
+import java.io.FileNotFoundException;
 import java.lang.ProcessBuilder;
 import java.lang.Process;
 import java.io.BufferedReader;
@@ -68,7 +69,11 @@ public class Run {
 
     private static String readTextFile(String path) {
         String everything = "";
-        BufferedReader br = new BufferedReader(new FileReader(path));
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
         try {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
@@ -78,6 +83,8 @@ public class Run {
                 line = br.readLine();
             }
             everything = sb.toString();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         } finally {
             br.close();
         }
