@@ -1,7 +1,7 @@
 package com.pluralsight.springboot.licode.websocket;
 
 import org.springframework.web.bind.annotation.*;
-import com.pluralsight.springboot.licode.websocket.entities;
+import com.pluralsight.springboot.licode.websocket.entities.WildcardEndpoint;
 
 @RestController
 public class WebsocketController {
