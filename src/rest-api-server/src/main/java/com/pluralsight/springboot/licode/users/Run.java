@@ -41,10 +41,10 @@ public class Run {
                 List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(i).split("(\\[\\[)")[1].split("(\\]\\])")[0].split("(\\],\\[)"));
                 customInputContent += Integer.toString(inputCommaSeparatedValues.size()) + "\n";
                 for (int k = 0; k < inputCommaSeparatedValues.size(); ++k) {
-                    List<String> inputCommaSeparatedValues = Arrays.asList(inputLines.get(k).split("[,]"));
-                    customInputContent += Integer.toString(inputCommaSeparatedValues.size()) + "\n";
-                    for (int j = 0; j < inputCommaSeparatedValues.size(); ++j) {
-                        customInputContent += Integer.toString(Integer.parseInt(inputCommaSeparatedValues.get(k))) + "\n";
+                    List<String> inputCommaSeparatedValuesSub = Arrays.asList(inputLines.get(k).split("[,]"));
+                    customInputContent += Integer.toString(inputCommaSeparatedValuesSub.size()) + "\n";
+                    for (int j = 0; j < inputCommaSeparatedValuesSub.size(); ++j) {
+                        customInputContent += Integer.toString(Integer.parseInt(inputCommaSeparatedValuesSub.get(k))) + "\n";
                     }
                 }
             }
