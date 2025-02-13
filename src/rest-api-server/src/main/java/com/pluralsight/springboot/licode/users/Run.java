@@ -2,6 +2,7 @@ package com.pluralsight.springboot.licode.users;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.InterruptedException;
 import java.lang.ProcessBuilder;
 import java.lang.Process;
 import java.io.BufferedReader;
@@ -55,14 +56,14 @@ public class Run {
             FileWriter customInputContentWriter = new FileWriter("./sandbox/customInput.in");
             customInputContentWriter.write(customInputContent);
             customInputContentWriter.close();
-        } catch (IOException ex) {
+            ProcessBuilder pb = new ProcessBuilder("./makeReport.sh");
+            pb.inheritIO();
+            pb.directory(new File("./sandbox/" + Integer.toString(questionInformation.questionId().intValue())));
+            Process process = pb.start();
+            process.waitFor();
+        } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         }
-        ProcessBuilder pb = new ProcessBuilder("./makeReport.sh");
-        pb.inheritIO();
-        pb.directory(new File("./sandbox/" + Integer.toString(questionInformation.questionId().intValue())));
-        Process process = pb.start();
-        process.waitFor();
     }
 
     private static String readTextFile(String path) {
