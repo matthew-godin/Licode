@@ -2,7 +2,6 @@ package com.licode.controllers;
 
 import com.licode.entities.users.*;
 import com.licode.entities.questions.*;
-import com.licode.comparators.*;
 import com.licode.repositories.*;
 import com.licode.util.*;
 
