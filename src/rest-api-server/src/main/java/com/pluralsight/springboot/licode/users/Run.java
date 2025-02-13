@@ -68,9 +68,10 @@ public class Run {
     }
 
     private static String readTextFile(String path) {
+        BufferedReader br = null;
         String everything = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
+            br = new BufferedReader(new FileReader(path));
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         }
