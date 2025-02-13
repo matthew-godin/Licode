@@ -91,7 +91,7 @@ public class Run {
         String actualOutputResults = "";
         if (questionInformation.outputFormat().size() > 0) {
             if (questionInformation.outputFormat().get(0).equals("n")) {
-                if (outputResultsSplit.length > 0) {
+                if (outputResultsSplit.size() > 0) {
                     actualOutputResults += outputResultsSplit.get(0);
                 }
             } else if (questionInformation.outputFormat().get(0).equals("a")) {
