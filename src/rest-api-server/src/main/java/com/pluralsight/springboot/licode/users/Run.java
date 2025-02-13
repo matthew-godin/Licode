@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.lang.StringBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.List;
@@ -161,7 +162,11 @@ public class Run {
         jsonResults = jsonResults.replaceAll("\\s+","");
         jsonResults = jsonResults.substring(0, jsonResults.length() - 2) + "]";
         ObjectMapper mapper = new ObjectMapper();
-        List<TestResult> testResults = mapper.readValue(jsonResults, new TypeReference<List<TestResult>>(){});
+        try {
+            List<TestResult> testResults = mapper.readValue(jsonResults, new TypeReference<List<TestResult>>(){});
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
         Collections.sort(testResults, new TestResultComparator());
         List<Boolean> testResultsPassed = testResults.stream().map(TestResult::passed).collect(Collectors.toList());
         TestCasesPassed testCasesPassed = new TestCasesPassed(testResultsPassed, standardErrorResults, standardErrorResults, actualOutputResults);
